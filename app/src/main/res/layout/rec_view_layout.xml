@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--<TextView-->
+    <!--android:id="@+id/tvRecId"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_margin="2dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@android:color/holo_purple"-->
+    <!--tools:text="Id" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tvRecName"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_margin="2dp"-->
+    <!--android:layout_weight="15"-->
+    <!--android:background="@android:color/holo_green_light"-->
+    <!--tools:text="Name" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tvRecPrice"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_margin="2dp"-->
+    <!--android:layout_weight="3"-->
+    <!--android:background="@android:color/holo_green_dark"-->
+    <!--tools:text="Price" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tvRecQuantity"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_margin="2dp"-->
+    <!--android:layout_weight="2"-->
+    <!--android:background="@android:color/holo_blue_dark"-->
+    <!--tools:text="Qt" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tvRecKind"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_margin="2dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@android:color/darker_gray"-->
+    <!--tools:text="Kind" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tvRecCost"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_margin="2dp"-->
+    <!--android:layout_weight="3"-->
+    <!--android:background="@android:color/holo_red_light"-->
+    <!--tools:text="Cost" />-->
+
+</LinearLayout>
