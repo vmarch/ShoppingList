@@ -1,10 +1,13 @@
 package com.example.user.sqliteproj;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,13 +15,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String LOG_TAG = "myLogs";
+
     Button btnAdd, btnEmpty, btnRead, btnClear;
-    TextView tvNameId, tvNameName, tvNamePrice, tvNameQuantity, tvNameKind, tvNameCost,
-            tvRecId, tvRecName, tvRecPrice, tvRecQuantity, tvRecKind, tvRecCost;
+    TextView tvNameId, tvNameName, tvNamePrice, tvNameQuantity, tvNameKind, tvNameCost;
     EditText tvName, tvPrice, tvQuantity, tvKind;
     DBHelper dbHelper;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private List<Product> mDataset;
+
+    Context context;
 
 
     @Override
@@ -32,13 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvNameQuantity = (TextView) findViewById(R.id.tvNameQuantity);
         tvNameKind = (TextView) findViewById(R.id.tvNameKind);
         tvNameCost = (TextView) findViewById(R.id.tvNameCost);
-
-        tvRecId = (TextView) findViewById(R.id.tvRecId);
-        tvRecName = (TextView) findViewById(R.id.tvRecName);
-        tvRecPrice = (TextView) findViewById(R.id.tvRecPrice);
-        tvRecQuantity = (TextView) findViewById(R.id.tvRecQuantity);
-        tvRecKind = (TextView) findViewById(R.id.tvRecKind);
-        tvRecCost = (TextView) findViewById(R.id.tvRecCost);
 
         tvName = (EditText) findViewById(R.id.tvName);
         tvPrice = (EditText) findViewById(R.id.tvPrice);
@@ -57,10 +61,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnClear = (Button) findViewById(R.id.btnClear);
         btnClear.setOnClickListener(this);
 
+        mDataset = new ArrayList<>();
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.my_rec_view);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new MyAdapter(context, mDataset);
+        mRecyclerView.setAdapter(mAdapter);
+
         dbHelper = new DBHelper(this);
+
     }
 
 
+    //    for Buttons BD!!!!!!!!!!!
     @Override
     public void onClick(View view) {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
@@ -71,8 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String quantity = tvQuantity.getText().toString();
         String kind = tvKind.getText().toString();
 
-        switch (view.getId()) {
 
+        switch (view.getId()) {
             case R.id.btnAdd:
                 if (name.isEmpty() || price.isEmpty() || quantity.isEmpty()) {
                     Toast toast = Toast.makeText(getApplicationContext(),
@@ -80,13 +96,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     toast.show();
 
                 } else {
+                    cv.put(DBHelper.KEY_NAME, name);
+                    cv.put(DBHelper.KEY_PRICE, price);
+                    cv.put(DBHelper.KEY_QUANTITY, quantity);
+                    cv.put(DBHelper.KEY_KIND, kind);
 
-                    cv.put("name", name);
-                    cv.put("price", price);
-                    cv.put("quantity", quantity);
-                    cv.put("kind", kind);
-                    cv.put("cost", 0.0);
-                    database.insert("listbuy", null, cv);
+                    database.insert(DBHelper.TABLE_LISTBUY, null, cv);
+//                    fillProduct();
+//                    tvName.setText("");
+//                    tvPrice.setText("");
+//                    tvQuantity.setText("");
+//                    tvKind.setText("");
                 }
                 break;
 
@@ -98,39 +118,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btnRead:
-
-                Cursor c = database.query("listbuy", null, null, null, null, null, null);
-
-                if (c.moveToFirst()) {
-
-                    int idColIndex = c.getColumnIndex("_id");
-                    int nameColIndex = c.getColumnIndex("name");
-                    int priceColIndex = c.getColumnIndex("price");
-                    int quantityColIndex = c.getColumnIndex("quantity");
-                    int kindColIndex = c.getColumnIndex("kind");
-                    int costColIndex = c.getColumnIndex("cost");
-
-                    do {
-
-                        Log.d(LOG_TAG,
-                                "ID = " + c.getInt(idColIndex) +
-                                        ", name = " + c.getString(nameColIndex) +
-                                        ", price = " + c.getDouble(priceColIndex) +
-                                        ", quantity = " + c.getDouble(quantityColIndex) +
-                                        ", kind = " + c.getInt(kindColIndex) +
-                                        ", cost = " + c.getDouble(costColIndex));
-
-                    } while (c.moveToNext());
-                } else
-                    Log.d(LOG_TAG, "0 rows");
-                c.close();
-
+                fillProduct();
                 break;
 
             case R.id.btnClear:
-                database.delete("listbuy", null, null);
+                database.delete(DBHelper.TABLE_LISTBUY, null, null);
                 break;
 
         }
+        dbHelper.close();
+
     }
+
+    private void fillProduct() {
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+        Cursor cursor = database.query(DBHelper.TABLE_LISTBUY, null, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+
+            int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
+            int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
+            int priceIndex = cursor.getColumnIndex(DBHelper.KEY_PRICE);
+            int quantityIndex = cursor.getColumnIndex(DBHelper.KEY_QUANTITY);
+            int kindIndex = cursor.getColumnIndex(DBHelper.KEY_KIND);
+            int costIndex = cursor.getColumnIndex(DBHelper.KEY_COST);
+
+            do {
+                Product produc = new Product(
+                        cursor.getInt(idIndex),
+                        cursor.getString(nameIndex),
+                        cursor.getDouble(priceIndex),
+                        cursor.getDouble(quantityIndex),
+                        cursor.getInt(kindIndex),
+                        cursor.getDouble(costIndex));
+
+                mDataset.add(produc);
+
+                Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
+                        ", name = " + cursor.getString(nameIndex) +
+                        ", price = " + cursor.getDouble(priceIndex) +
+                        ", quantity = " + cursor.getDouble(quantityIndex) +
+                        ", kind = " + cursor.getInt(kindIndex) +
+                        ", cost = " + cursor.getDouble(costIndex));
+            } while (cursor.moveToNext());
+
+        } else Log.d("mLog", "0 rows");
+
+        cursor.close();
+        dbHelper.close();
+
+    }
+
 }
+
+
