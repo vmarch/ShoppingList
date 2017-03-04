@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Product> mDataset;
+    Product product;
 
     Context context;
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         tvNameId = (TextView) findViewById(R.id.tvNameId);
         tvNameName = (TextView) findViewById(R.id.tvNameName);
@@ -63,20 +65,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mDataset = new ArrayList<>();
 
+
         mRecyclerView = (RecyclerView) findViewById(R.id.my_rec_view);
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mAdapter = new MyAdapter(context, mDataset);
+
         mRecyclerView.setAdapter(mAdapter);
 
         dbHelper = new DBHelper(this);
 
+        fillProduct();
     }
 
 
-    //    for Buttons BD!!!!!!!!!!!
+
     @Override
     public void onClick(View view) {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
@@ -87,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String quantity = tvQuantity.getText().toString();
         String kind = tvKind.getText().toString();
 
-
         switch (view.getId()) {
             case R.id.btnAdd:
                 if (name.isEmpty() || price.isEmpty() || quantity.isEmpty()) {
@@ -96,17 +100,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     toast.show();
 
                 } else {
+
                     cv.put(DBHelper.KEY_NAME, name);
                     cv.put(DBHelper.KEY_PRICE, price);
                     cv.put(DBHelper.KEY_QUANTITY, quantity);
                     cv.put(DBHelper.KEY_KIND, kind);
 
                     database.insert(DBHelper.TABLE_LISTBUY, null, cv);
-//                    fillProduct();
 //                    tvName.setText("");
 //                    tvPrice.setText("");
 //                    tvQuantity.setText("");
 //                    tvKind.setText("");
+
                 }
                 break;
 
@@ -144,15 +149,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int costIndex = cursor.getColumnIndex(DBHelper.KEY_COST);
 
             do {
-                Product produc = new Product(
-                        cursor.getInt(idIndex),
-                        cursor.getString(nameIndex),
+                product = new Product(cursor.getInt(idIndex), cursor.getString(nameIndex),
                         cursor.getDouble(priceIndex),
                         cursor.getDouble(quantityIndex),
                         cursor.getInt(kindIndex),
                         cursor.getDouble(costIndex));
+                               mDataset.add(product);
+                mAdapter.notifyDataSetChanged();
 
-                mDataset.add(produc);
 
                 Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
                         ", name = " + cursor.getString(nameIndex) +

@@ -9,6 +9,22 @@ public class Product {
     private int kindProd;
     private double costProd;
 
+    public Product(
+            int idProd,
+            String nameProd,
+            double priceProd,
+            double qtProd,
+            int kindProd,
+            double costProd) {
+
+        this.idProd = idProd;
+        this.nameProd = nameProd;
+        this.priceProd = priceProd;
+        this.qtProd = qtProd;
+        this.kindProd = kindProd;
+        this.costProd = costProd;
+
+    }
 
     public int getIdProd() {
         return idProd;
@@ -57,25 +73,5 @@ public class Product {
     public void setCostProd(double costProd) {
         this.costProd = costProd;
     }
-
-
-    public Product(
-            int idProd,
-            String nameProd,
-            double priceProd,
-            double qtProd,
-            int kindProd,
-            double costProd) {
-
-        this.idProd = idProd;
-        this.nameProd = nameProd;
-        this.priceProd = priceProd;
-        this.qtProd = qtProd;
-        this.kindProd = kindProd;
-        this.costProd = costProd;
-
-
-    }
-
 
 }

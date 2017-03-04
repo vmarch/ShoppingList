@@ -26,15 +26,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_LISTBUY
-                + "("
-                + KEY_ID + " integer primary key autoincrement,"
+        db.execSQL("create table " + TABLE_LISTBUY + "("
+                + KEY_ID + " integer primary key,"
                 + KEY_NAME + " text,"
                 + KEY_PRICE + " double,"
                 + KEY_QUANTITY + " double,"
                 + KEY_KIND + " integer,"
-                + KEY_COST + " double"
-                + ")");
+                + KEY_COST + " double" + ")");
 
     }
 
