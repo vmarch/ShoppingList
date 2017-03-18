@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SQLiteProj</string>
+    <string name="delete_record">Удалить запись</string>
 </resources>

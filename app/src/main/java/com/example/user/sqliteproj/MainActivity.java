@@ -1,35 +1,37 @@
 package com.example.user.sqliteproj;
 
-import android.content.ContentValues;
+
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final int CM_DELETE_ID = 3;
+    ListView lv_list;
 
     Button btnAdd, btnEmpty, btnRead, btnClear;
     TextView tvNameId, tvNameName, tvNamePrice, tvNameQuantity, tvNameKind, tvNameCost;
     EditText tvName, tvPrice, tvQuantity, tvKind;
-    DBHelper dbHelper;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private List<Product> mDataset;
-    Product product;
 
+    DB db;
+    DBHelper dbHelper;
+    SimpleCursorAdapter scAdapter;
     Context context;
 
 
@@ -37,6 +39,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        db = new DB(this);
+        db.open();
+
+        // формируем столбцы сопоставления
+        String[] from = new String[]{DB.KEY_ID, DB.KEY_NAME, DB.KEY_PRICE, DB.KEY_QUANTITY, DB.KEY_KIND, DB.KEY_COST};
+        int[] to = new int[]{R.id.tvListId, R.id.tvListName, R.id.tvListPrice, R.id.tvListQuantity, R.id.tvListKind, R.id.tvListCost};
+
+        // создаем адаптер и настраиваем список
+        scAdapter = new SimpleCursorAdapter(this, R.layout.item, null, from, to, 0);
+        lv_list = (ListView) findViewById(R.id.lv_list);
+        lv_list.setAdapter(scAdapter);
+
+
+        // добавляем контекстное меню к списку
+        registerForContextMenu(lv_list);
+
+        // создаем лоадер для чтения данных
+        getSupportLoaderManager().initLoader(0, null, this);
 
 
         tvNameId = (TextView) findViewById(R.id.tvNameId);
@@ -63,30 +84,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnClear = (Button) findViewById(R.id.btnClear);
         btnClear.setOnClickListener(this);
 
-        mDataset = new ArrayList<>();
-
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_rec_view);
-
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new MyAdapter(context, mDataset);
-
-        mRecyclerView.setAdapter(mAdapter);
-
-        dbHelper = new DBHelper(this);
-
-        fillProduct();
     }
-
 
 
     @Override
     public void onClick(View view) {
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
         String name = tvName.getText().toString();
         String price = tvPrice.getText().toString();
         String quantity = tvQuantity.getText().toString();
@@ -98,20 +100,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast toast = Toast.makeText(getApplicationContext(),
                             "Fill all fields", Toast.LENGTH_SHORT);
                     toast.show();
-
                 } else {
-
-                    cv.put(DBHelper.KEY_NAME, name);
-                    cv.put(DBHelper.KEY_PRICE, price);
-                    cv.put(DBHelper.KEY_QUANTITY, quantity);
-                    cv.put(DBHelper.KEY_KIND, kind);
-
-                    database.insert(DBHelper.TABLE_LISTBUY, null, cv);
+                    db.addRec(name, price, quantity, kind);
+                    getSupportLoaderManager().getLoader(0).forceLoad();
 //                    tvName.setText("");
 //                    tvPrice.setText("");
 //                    tvQuantity.setText("");
 //                    tvKind.setText("");
-
                 }
                 break;
 
@@ -123,55 +118,72 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btnRead:
-                fillProduct();
+                getSupportLoaderManager().getLoader(0).forceLoad();
                 break;
 
             case R.id.btnClear:
-                database.delete(DBHelper.TABLE_LISTBUY, null, null);
+                db.delAllRec();
+                getSupportLoaderManager().getLoader(0).forceLoad();
                 break;
-
         }
-        dbHelper.close();
+    }
+
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, CM_DELETE_ID, 0, R.string.delete_record);
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() == CM_DELETE_ID) {
+            // получаем из пункта контекстного меню данные по пункту списка
+            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item
+                    .getMenuInfo();
+            // извлекаем id записи и удаляем соответствующую запись в БД
+            db.delRec(acmi.id);
+            // получаем новый курсор с данными
+            getSupportLoaderManager().getLoader(0).forceLoad();
+            return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        // закрываем подключение при выходе
+        db.close();
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle bndl) {
+        return new MyCursorLoader(this, db);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        scAdapter.swapCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+    }
+
+    static class MyCursorLoader extends CursorLoader {
+        DB db;
+
+        public MyCursorLoader(Context context, DB db) {
+            super(context);
+            this.db = db;
+        }
+
+        @Override
+        public Cursor loadInBackground() {
+            Cursor cursor = db.getAllData();
+            return cursor;
+        }
 
     }
 
-    private void fillProduct() {
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
-        Cursor cursor = database.query(DBHelper.TABLE_LISTBUY, null, null, null, null, null, null);
-
-        if (cursor.moveToFirst()) {
-
-            int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-            int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
-            int priceIndex = cursor.getColumnIndex(DBHelper.KEY_PRICE);
-            int quantityIndex = cursor.getColumnIndex(DBHelper.KEY_QUANTITY);
-            int kindIndex = cursor.getColumnIndex(DBHelper.KEY_KIND);
-            int costIndex = cursor.getColumnIndex(DBHelper.KEY_COST);
-
-            do {
-                product = new Product(cursor.getInt(idIndex), cursor.getString(nameIndex),
-                        cursor.getDouble(priceIndex),
-                        cursor.getDouble(quantityIndex),
-                        cursor.getInt(kindIndex),
-                        cursor.getDouble(costIndex));
-                               mDataset.add(product);
-                mAdapter.notifyDataSetChanged();
-
-
-                Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
-                        ", name = " + cursor.getString(nameIndex) +
-                        ", price = " + cursor.getDouble(priceIndex) +
-                        ", quantity = " + cursor.getDouble(quantityIndex) +
-                        ", kind = " + cursor.getInt(kindIndex) +
-                        ", cost = " + cursor.getDouble(costIndex));
-            } while (cursor.moveToNext());
-
-        } else Log.d("mLog", "0 rows");
-
-        cursor.close();
-        dbHelper.close();
-
-    }
 
 }
 

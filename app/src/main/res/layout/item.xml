@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/tvRecId"
+        android:id="@+id/tvListId"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_margin="2dp"
@@ -15,7 +15,7 @@
         tools:text="Id" />
 
     <TextView
-        android:id="@+id/tvRecName"
+        android:id="@+id/tvListName"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_margin="2dp"
@@ -24,7 +24,7 @@
         tools:text="Name" />
 
     <TextView
-        android:id="@+id/tvRecPrice"
+        android:id="@+id/tvListPrice"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_margin="2dp"
@@ -33,7 +33,7 @@
         tools:text="Price" />
 
     <TextView
-        android:id="@+id/tvRecQuantity"
+        android:id="@+id/tvListQuantity"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_margin="2dp"
@@ -42,7 +42,7 @@
         tools:text="Qt" />
 
     <TextView
-        android:id="@+id/tvRecKind"
+        android:id="@+id/tvListKind"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_margin="2dp"
@@ -51,7 +51,7 @@
         tools:text="Kind" />
 
     <TextView
-        android:id="@+id/tvRecCost"
+        android:id="@+id/tvListCost"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_margin="2dp"
