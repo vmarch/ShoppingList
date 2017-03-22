@@ -9,23 +9,26 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int CM_DELETE_ID = 3;
     ListView lv_list;
-
-    Button btnAdd, btnEmpty, btnRead, btnClear;
+    Button btnEmpty, btnAdd, btnRead, btnClear;
     TextView tvNameId, tvNameName, tvNamePrice, tvNameQuantity, tvNameKind, tvNameCost;
     EditText tvName, tvPrice, tvQuantity, tvKind;
 
@@ -34,6 +37,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SimpleCursorAdapter scAdapter;
     Context context;
 
+    String name;
+    String price;
+    String quantity;
+    String kind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +75,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvNameCost = (TextView) findViewById(R.id.tvNameCost);
 
         tvName = (EditText) findViewById(R.id.tvName);
+        tvName.setOnClickListener(this);
+
         tvPrice = (EditText) findViewById(R.id.tvPrice);
+        tvPrice.setOnClickListener(this);
+
         tvQuantity = (EditText) findViewById(R.id.tvQuantity);
+        tvQuantity.setOnClickListener(this);
+
         tvKind = (EditText) findViewById(R.id.tvKind);
+        tvKind.setOnClickListener(this);
 
         btnAdd = (Button) findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(this);
+        btnAdd.setOnTouchListener(this);
+        btnAdd.setClickable(false);
 
         btnEmpty = (Button) findViewById(R.id.btnEmpty);
         btnEmpty.setOnClickListener(this);
@@ -84,30 +100,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnClear = (Button) findViewById(R.id.btnClear);
         btnClear.setOnClickListener(this);
 
+
     }
 
 
     @Override
     public void onClick(View view) {
-        String name = tvName.getText().toString();
-        String price = tvPrice.getText().toString();
-        String quantity = tvQuantity.getText().toString();
-        String kind = tvKind.getText().toString();
+        name = tvName.getText().toString();
+        price = tvPrice.getText().toString();
+        quantity = tvQuantity.getText().toString();
+        kind = tvKind.getText().toString();
 
         switch (view.getId()) {
             case R.id.btnAdd:
-                if (name.isEmpty() || price.isEmpty() || quantity.isEmpty()) {
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "Fill all fields", Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-                    db.addRec(name, price, quantity, kind);
-                    getSupportLoaderManager().getLoader(0).forceLoad();
-//                    tvName.setText("");
-//                    tvPrice.setText("");
-//                    tvQuantity.setText("");
-//                    tvKind.setText("");
-                }
+
+                db.addRec(name, price, quantity, kind);
+                getSupportLoaderManager().getLoader(0).forceLoad();
+                tvName.setText("");
+                tvPrice.setText("");
+                tvQuantity.setText("");
+                tvKind.setText("");
+
                 break;
 
             case R.id.btnEmpty:
@@ -125,8 +138,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 db.delAllRec();
                 getSupportLoaderManager().getLoader(0).forceLoad();
                 break;
+
         }
     }
+
 
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
@@ -150,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void onDestroy() {
         super.onDestroy();
-        // закрываем подключение при выходе
+
         db.close();
     }
 
@@ -168,6 +183,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onLoaderReset(Loader<Cursor> loader) {
     }
 
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        btnAdd.setClickable(false);
+        name = tvName.getText().toString();
+        price = tvPrice.getText().toString();
+        quantity = tvQuantity.getText().toString();
+        switch (v.getId()) {
+            case R.id.btnAdd:
+                if (name.isEmpty() || price.isEmpty() || quantity.isEmpty()) {
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Fill all fields", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    btnAdd.setClickable(true);
+                }
+
+        }
+        return false;
+    }
+
     static class MyCursorLoader extends CursorLoader {
         DB db;
 
@@ -181,10 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Cursor cursor = db.getAllData();
             return cursor;
         }
-
     }
-
-
 }
 
 

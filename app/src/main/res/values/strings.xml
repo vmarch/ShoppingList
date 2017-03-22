@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">SQLiteProj</string>
     <string name="delete_record">Удалить запись</string>
+    <string name="name_cost">Cost</string>
+    <string name="name_kind">Kind</string>
+    <string name="name_qt">Qt</string>
+    <string name="name_price">Price</string>
+    <string name="name_name">Name</string>
+    <string name="name_id">Id</string>
+    <string name="clear_field"><![CDATA[<]]></string>
+    <string name="add_product">+</string>
+    <string name="field_kind">kind</string>
+    <string name="field_qt">qt</string>
+    <string name="field_price">price</string>
+    <string name="field_product">Product</string>
 </resources>
