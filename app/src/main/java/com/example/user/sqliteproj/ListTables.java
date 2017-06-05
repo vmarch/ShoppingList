@@ -1,12 +1,10 @@
 package com.example.user.sqliteproj;
 
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,15 +31,10 @@ public class ListTables extends AppCompatActivity implements
     private int pointDownY;
     private long touchedItemID;
     private int targetPoint;
-    private int pointUpY;
-    private int pointUpX;
-    private int upX;
     private View itemTouchedOnTouch;
     private int dispWidth;
     private int horizontalMinDistance;
-    private int distFromRightBorder;
-    private int distToMeet;
-    private static final String DEBUG_TAG = "Gestures";
+    //    private static final String DEBUG_TAG = "Gestures";
     private GestureDetectorCompat mDetector;
     private boolean moved = false;
 
@@ -50,7 +43,6 @@ public class ListTables extends AppCompatActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_layout);
-
 
         mDetector = new GestureDetectorCompat(this, this);
         mDetector.setOnDoubleTapListener(this);
@@ -92,7 +84,7 @@ public class ListTables extends AppCompatActivity implements
                     case MotionEvent.ACTION_UP:
                         if (onTouchedItemView != null) {
                             fact = mDetector.onTouchEvent(event);
-                            onUp(event);
+                            onUp();
                         } else {
                             fact = false;
                         }
@@ -118,62 +110,43 @@ public class ListTables extends AppCompatActivity implements
 
     @Override
     public boolean onDown(MotionEvent event) {
-
 //        Log.d(DEBUG_TAG, "onDown: " + event.toString());
 
-        switch (itemTouchedOnTouch.getId()) {
+        if (itemTouchedOnTouch.getId() == R.id.list_table) {
+//                Log.d(DEBUG_TAG, "onDown_List: " + event.toString());
 
-            case R.id.list_table:
-                Log.d(DEBUG_TAG, "onDown_List: " + event.toString());
-                if (listTablesView.getCount() > 0) {
-                    pointDownX = (int) event.getX();
-                    pointDownY = (int) event.getY();
-                    onTouchedItemView = listTablesView.getChildAt(listTablesView.pointToPosition(pointDownX, pointDownY));
-                    touchedItemID = listTablesView.pointToRowId(pointDownX, pointDownY);
-                    dispWidth = listTablesView.getWidth();
-                    horizontalMinDistance = dispWidth / 3;
+            if (listTablesView.getCount() > 0) {
+                pointDownX = (int) event.getX();
+                pointDownY = (int) event.getY();
+                onTouchedItemView = listTablesView.getChildAt(listTablesView.pointToPosition(pointDownX, pointDownY));
+                touchedItemID = listTablesView.pointToRowId(pointDownX, pointDownY);
+                dispWidth = listTablesView.getWidth();
+                horizontalMinDistance = dispWidth / 3;
 
-////                    05/06/2017
-//                    distFromRightBorder = dispWidth - pointDownX;
-//                    distToMeet = pointDownX / 10;
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Let's start new list!", Toast.LENGTH_SHORT).show();
+            }
+            return true;
 
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Let's start new list!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-            case R.id.btn_create:
-//                Log.d(DEBUG_TAG, "onDown_BTN: " + event.toString());
-                break;
-            default:
-                return false;
-        }
-
-        return true;
+        } else //                Log.d(DEBUG_TAG, "onDown_BTN: " + event.toString());
+            return itemTouchedOnTouch.getId() == R.id.btn_create;
     }
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        Log.d(DEBUG_TAG, "onScroll: " + e1.toString() + e2.toString());
+//        Log.d(DEBUG_TAG, "onScroll: " + e1.toString() + e2.toString());
 
         if (onTouchedItemView != null) {
-            Log.d(DEBUG_TAG, "onScroll_LIST_ELEM: " + e1.toString() + e2.toString());
+//            Log.d(DEBUG_TAG, "onScroll_LIST_ELEM: " + e1.toString() + e2.toString());
 
             int pointMovingX = (int) e2.getX();
             int pointMovingY = (int) e2.getY();
             int deltaX = pointDownX - pointMovingX;
             int deltaY = pointDownY - pointMovingY;
-////            05/06/2017
-//            int distGone = distFromRightBorder / distToMeet * Math.abs(deltaX);
-            if (deltaX < 0 && deltaY < 30 && deltaX < deltaY) {
+
+            if (deltaX < 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
 //                    to right
-
-
-////                    05/06/2017
-//                if (Math.abs(deltaX) < distToMeet) {
-//                    targetPoint = dispWidth - pointMovingX + pointDownX - distGone;
-//                } else {
 
                 targetPoint = pointMovingX - pointDownX;
                 if (Math.abs(deltaX) > horizontalMinDistance && dispWidth - pointMovingX < dispWidth / 5) {
@@ -181,94 +154,80 @@ public class ListTables extends AppCompatActivity implements
                 } else {
                     onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
                 }
-
-////                    05/06/2017
-//            }
-
                 anim();
-                moved = true;
-            } else if (deltaX > 0 && deltaY < 30 && deltaX < deltaY) {
-////                    05/06/2017
-//                if (Math.abs(deltaX) < distToMeet) {
-//                    targetPoint = pointMovingX - dispWidth + distFromRightBorder - distGone;
-//            } else {
 
+            } else if (deltaX > 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
 
                 targetPoint = pointMovingX - pointDownX;
                 if (Math.abs(deltaX) > horizontalMinDistance && pointMovingX < dispWidth / 5) {
                     onTouchedItemView.setBackgroundResource(R.color.deletemarker);
+                    moved = true;
+
                 } else {
+
                     onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
+                    moved = false;
                 }
-
-////                    05/06/2017
-//            }
-
-
                 anim();
-                moved = true;
+
             } else {
                 moved = false;
                 onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
                 targetPoint = 0;
                 anim();
+            }
         }
-        }
-
         return true;
     }
 
-    public void onUp(MotionEvent event) {
+    public void onUp() {
+        if (onTouchedItemView != null) {
+            if (moved) {
 
-        upX = (int) event.getRawX();
-        pointUpX = (int) event.getX();
-        pointUpY = (int) event.getY();
-        if (moved) {
-            if (upX < dispWidth / 8) {
                 db = new DB(this);
                 db.open();
                 db.deleteTable(listTablesView.getAdapter().getItem((int) touchedItemID).toString());
                 db.close();
                 updateAdapter();
-            } else {
-                onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
-                targetPoint = 0;
-                anim();
+
             }
+            onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
+            targetPoint = 0;
+            anim();
             moved = false;
         }
     }
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent event) {
+//        Log.d(DEBUG_TAG, "onSingleTapConfirmed: " + event.toString());
 
-        Log.d(DEBUG_TAG, "onSingleTapConfirmed: " + event.toString());
         Intent intent;
         switch (itemTouchedOnTouch.getId()) {
 
             case R.id.list_table:
-                Log.d(DEBUG_TAG, "onSingleTapConfirmed_LIST: " + event.toString());
+                if (onTouchedItemView != null) {
+//                    Log.d(DEBUG_TAG, "onSingleTapConfirmed_LIST: " + event.toString());
 
 //                TODO intent to tochedItem
 
+                    TextView tv = (TextView) onTouchedItemView;
+                    DB.setNameOfTable(tv.getText().toString());
 
-                TextView tv = (TextView) onTouchedItemView;
-                DB.setNameOfTable(tv.getText().toString());
-
-                intent = new Intent(this, ProdActivity.class);
-                startActivity(intent);
-
-                break;
+                    intent = new Intent(this, ProdActivity.class);
+                    startActivity(intent);
+                    return true;
+                } else {
+                    return false;
+                }
 
             case R.id.btn_create:
-                Log.d(DEBUG_TAG, "onSingleTapConfirmed_BTN: " + event.toString());
+//                Log.d(DEBUG_TAG, "onSingleTapConfirmed_BTN: " + event.toString());
                 intent = new Intent(this, CreateTable.class);
                 startActivity(intent);
-                break;
-
+                return true;
         }
-        return true;
-
+        return false;
     }
 
     public void anim() {
@@ -280,7 +239,6 @@ public class ListTables extends AppCompatActivity implements
         } else {
             itemTouchedOnTouch.clearFocus();
         }
-
     }
 
 
@@ -330,7 +288,6 @@ public class ListTables extends AppCompatActivity implements
     protected void onRestart() {
         super.onRestart();
         updateAdapter();
-
     }
 
     private void updateAdapter() {
@@ -354,6 +311,7 @@ public class ListTables extends AppCompatActivity implements
                 }
             }
         }
+        c.close();
         db.close();
     }
 }

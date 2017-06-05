@@ -38,6 +38,8 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
     private int pointDownY;
     private long touchedItemID;
     private int targetPoint;
+    private boolean moved = false;
+    private int horizontalMinDistance;
 
 
     @Override
@@ -67,7 +69,7 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
         tvNameCost = (TextView) findViewById(R.id.tv_name_cost);
 
         tvName = (EditText) findViewById(R.id.tv_name);
-        tvName.setOnClickListener(this);
+//        tvName.setOnClickListener(this);
 
         btnAdd = (Button) findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(this);
@@ -112,10 +114,7 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int dispWidth = v.getWidth();
-        int horizontalMinDistance = dispWidth / 4;
-        int distFromRightBorder = dispWidth - pointDownX;
-        int distToMeet = pointDownX / 10;
-
+        horizontalMinDistance = dispWidth / 3;
 
         switch (event.getAction()) {
 
@@ -130,71 +129,61 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
             case MotionEvent.ACTION_MOVE:
                 if (onTouchedItemView != null) {
                     int pointMovingX = (int) event.getX();
+                    int pointMovingY = (int) event.getY();
                     int deltaX = pointDownX - pointMovingX;
-                    int distGone = distFromRightBorder / distToMeet * Math.abs(deltaX);
-
-                    if (deltaX < 0) {
-//                  to right
-                        if (Math.abs(deltaX) < distToMeet) {
-                            targetPoint = dispWidth - pointMovingX + pointDownX - distGone;
+                    int deltaY = pointDownY - pointMovingY;
+                    moved = false;
+                    if (deltaX < 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
+//                       to right
+                        targetPoint = pointMovingX - pointDownX;
+                        if (Math.abs(deltaX) > horizontalMinDistance && dispWidth - pointMovingX < dispWidth / 5) {
+                            onTouchedItemView.setBackgroundResource(R.color.colorPrimaryDark);
 
                         } else {
-                            targetPoint = pointMovingX;
+                            onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
 
-//                        if (Math.abs(deltaX) > horizontalMinDistance && getDispWidth() - getPointMovingX() < getDispWidth() / 5) {
-//
-//                        TODO right swipe
-////                        }
+                        }
+                        anim();
+                        return true;
+
+                    } else if (deltaX > 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
+//                        to left
+                        targetPoint = pointMovingX - pointDownX;
+                        if (Math.abs(deltaX) > horizontalMinDistance && pointMovingX < dispWidth / 5) {
+                            onTouchedItemView.setBackgroundResource(R.color.deletemarker);
+                            moved = true;
+                        } else {
+                            onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
+                            moved = false;
                         }
                         anim();
 
+                        return true;
                     } else {
-
-                        if (Math.abs(deltaX) < distToMeet) {
-                            targetPoint = pointMovingX - dispWidth + distFromRightBorder - distGone;
-
-                        } else {
-                            targetPoint = pointMovingX - dispWidth;
-
-                            if (Math.abs(deltaX) > horizontalMinDistance && pointMovingX < dispWidth / 5) {
-                                onTouchedItemView.setBackgroundResource(R.color.deletemarker);
-
-                            } else {
-                                onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
-                            }
-                        }
-                        anim();
-                    }
-                    return true;
-                } else {
-                    lv_list.clearFocus();
-                }
-
-
-            case MotionEvent.ACTION_UP:
-                if (onTouchedItemView != null) {
-                    float upX = (int) event.getRawX();
-
-                    if (upX < dispWidth / 5) {
-
-                        db.delRec(touchedItemID);
-
-                        getSupportLoaderManager().getLoader(0).forceLoad();
                         onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
                         targetPoint = 0;
                         anim();
-                    } else {
-
-                        targetPoint = 0;
-                        anim();
+                        lv_list.clearFocus();
                     }
-                    return true;
-                } else {
-                    lv_list.clearFocus();
                 }
+                return true;
 
+
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                if (onTouchedItemView != null) {
+                    if (moved) {
+                        db.delRec(touchedItemID);
+                        getSupportLoaderManager().getLoader(0).forceLoad();
+                    }
+
+                    onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
+                    targetPoint = 0;
+                    anim();
+                    moved = false;
+                }
         }
-        return true;
+        return false;
     }
 
 
@@ -204,8 +193,6 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
                     .x(targetPoint)
                     .setDuration(0)
                     .start();
-        } else {
-            lv_list.clearFocus();
         }
     }
 

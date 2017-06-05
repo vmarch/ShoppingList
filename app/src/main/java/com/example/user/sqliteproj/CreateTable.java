@@ -1,6 +1,5 @@
 package com.example.user.sqliteproj;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,8 +16,6 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
     private EditText newList;
     DB db;
     private String nameOfNewTable;
-
-    Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +52,6 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
                                     + DB.KEY_ID + " integer primary key autoincrement,"
                                     + DB.KEY_NAME + " text,"
                                     + DB.KEY_COST + " double" + ")");
-
 
                     db.close();
 

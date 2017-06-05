@@ -13,8 +13,6 @@ class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        DB.createNewTable(DB.getNameOfTable());
-
 
         db.execSQL("create table " + DB.getNameOfTable() + "("
                 + DB.KEY_ID + " integer primary key autoincrement,"

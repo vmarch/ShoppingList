@@ -23,29 +23,29 @@
         android:id="@+id/btn_create_list"
         android:layout_width="70dp"
         android:layout_height="30dp"
+        android:layout_alignLeft="@+id/add_new_table"
+        android:layout_alignStart="@+id/add_new_table"
+        android:layout_below="@+id/add_new_table"
+        android:layout_marginTop="15dp"
         android:background="@drawable/buttonshapeadd"
         android:shadowColor="#A8A8A8"
         android:shadowRadius="7"
         android:text="@string/create_new_list"
         android:textColor="#F5F51B"
-        android:textSize="16sp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/add_new_table"
-        android:layout_alignLeft="@+id/add_new_table"
-        android:layout_alignStart="@+id/add_new_table" />
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/btn_cancel"
         android:layout_width="70dp"
         android:layout_height="30dp"
+        android:layout_alignBottom="@+id/btn_create_list"
+        android:layout_alignEnd="@+id/add_new_table"
+        android:layout_alignRight="@+id/add_new_table"
         android:background="@drawable/buttonshapedel"
         android:shadowColor="#A8A8A8"
         android:shadowRadius="7"
         android:text="@string/btn_cancel"
         android:textColor="#FF1414"
-        android:textSize="16sp"
-        android:layout_alignRight="@+id/add_new_table"
-        android:layout_alignEnd="@+id/add_new_table"
-        android:layout_alignBottom="@+id/btn_create_list" />
+        android:textSize="16sp" />
 
 </RelativeLayout>

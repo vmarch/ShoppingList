@@ -1,4 +1,5 @@
 package com.example.user.sqliteproj;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,7 +10,7 @@ class DB {
 
     private Context context;
     private static final int DATABASE_VERSION = 1;
-    private static String DATABASE_NAME = "DB1";
+    private static String DATABASE_NAME = "SHOPINGLIST";
 
     private static String nameOfTable = "Example";
 
@@ -38,17 +39,6 @@ class DB {
         database = dbHelper.getWritableDatabase();
     }
 
-//    public static void createNewTable(String tableListbuy) {
-//        nameOfTable = tableListbuy;
-//
-//        DB.database.execSQL(
-//                "create table " + nameOfTable + "("
-//                        + KEY_ID + " integer primary key autoincrement,"
-//                        + KEY_NAME + " text,"
-//                        + KEY_COST + " double" + ")");
-//    }
-
-
     Cursor getAllData() {
         return database.query(nameOfTable, null, null, null, null, null, null);
     }
@@ -62,11 +52,6 @@ class DB {
     void delRec(long id) {
         database.delete(nameOfTable, KEY_ID + " = " + id, null);
     }
-
-    void delAllRec() {
-        database.delete(nameOfTable, null, null);
-    }
-
 
     void deleteTable(String tabl) {
 
