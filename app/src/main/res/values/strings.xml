@@ -1,16 +1,21 @@
 <resources>
-    <string name="app_name">SQLiteProj</string>
+
+    <string name="app_name">Shoping List</string>
     <string name="delete_record">Удалить запись</string>
-    <string name="name_cost">Cost</string>
-    <string name="name_kind">Kind</string>
-    <string name="name_qt">Qt</string>
+
+    <string name="name_cost">$</string>
     <string name="name_price">Price</string>
     <string name="name_name">Name</string>
-    <string name="name_id">Id</string>
+    <string name="name_id">N</string>
     <string name="clear_field"><![CDATA[<]]></string>
     <string name="add_product">+</string>
-    <string name="field_kind">kind</string>
-    <string name="field_qt">qt</string>
+
     <string name="field_price">price</string>
-    <string name="field_product">Product</string>
+    <string name="field_product">Item</string>
+    <string name="main_name">Name Of List</string>
+    <string name="main_date">Created</string>
+    <string name="set_name">New List</string>
+    <string name="create_new_list">Create</string>
+    <string name="btn_cancel">Cancel</string>
+
 </resources>

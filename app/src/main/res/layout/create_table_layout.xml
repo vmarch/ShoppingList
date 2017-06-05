@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/add_new_table"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:background="@color/colorMoreLight"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/set_name"
+        tools:text="Name" />
+
+    <Button
+        android:id="@+id/btn_create_list"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:background="@drawable/buttonshapeadd"
+        android:shadowColor="#A8A8A8"
+        android:shadowRadius="7"
+        android:text="@string/create_new_list"
+        android:textColor="#F5F51B"
+        android:textSize="16sp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/add_new_table"
+        android:layout_alignLeft="@+id/add_new_table"
+        android:layout_alignStart="@+id/add_new_table" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:background="@drawable/buttonshapedel"
+        android:shadowColor="#A8A8A8"
+        android:shadowRadius="7"
+        android:text="@string/btn_cancel"
+        android:textColor="#FF1414"
+        android:textSize="16sp"
+        android:layout_alignRight="@+id/add_new_table"
+        android:layout_alignEnd="@+id/add_new_table"
+        android:layout_alignBottom="@+id/btn_create_list" />
+
+</RelativeLayout>
