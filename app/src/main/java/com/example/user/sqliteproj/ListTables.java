@@ -119,7 +119,7 @@ public class ListTables extends AppCompatActivity implements
     @Override
     public boolean onDown(MotionEvent event) {
 
-        Log.d(DEBUG_TAG, "onDown: " + event.toString());
+//        Log.d(DEBUG_TAG, "onDown: " + event.toString());
 
         switch (itemTouchedOnTouch.getId()) {
 
@@ -131,9 +131,12 @@ public class ListTables extends AppCompatActivity implements
                     onTouchedItemView = listTablesView.getChildAt(listTablesView.pointToPosition(pointDownX, pointDownY));
                     touchedItemID = listTablesView.pointToRowId(pointDownX, pointDownY);
                     dispWidth = listTablesView.getWidth();
-                    horizontalMinDistance = dispWidth / 4;
-                    distFromRightBorder = dispWidth - pointDownX;
-                    distToMeet = pointDownX / 10;
+                    horizontalMinDistance = dispWidth / 3;
+
+////                    05/06/2017
+//                    distFromRightBorder = dispWidth - pointDownX;
+//                    distToMeet = pointDownX / 10;
+
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Let's start new list!", Toast.LENGTH_SHORT).show();
@@ -141,13 +144,12 @@ public class ListTables extends AppCompatActivity implements
                 break;
 
             case R.id.btn_create:
-                Log.d(DEBUG_TAG, "onDown_BTN: " + event.toString());
+//                Log.d(DEBUG_TAG, "onDown_BTN: " + event.toString());
                 break;
             default:
                 return false;
         }
 
-//        TODO: try return false.
         return true;
     }
 
@@ -159,38 +161,58 @@ public class ListTables extends AppCompatActivity implements
             Log.d(DEBUG_TAG, "onScroll_LIST_ELEM: " + e1.toString() + e2.toString());
 
             int pointMovingX = (int) e2.getX();
+            int pointMovingY = (int) e2.getY();
             int deltaX = pointDownX - pointMovingX;
-            int distGone = distFromRightBorder / distToMeet * Math.abs(deltaX);
-            if (deltaX < 0) {
+            int deltaY = pointDownY - pointMovingY;
+////            05/06/2017
+//            int distGone = distFromRightBorder / distToMeet * Math.abs(deltaX);
+            if (deltaX < 0 && deltaY < 30 && deltaX < deltaY) {
 //                    to right
-                if (Math.abs(deltaX) < distToMeet) {
-                    targetPoint = dispWidth - pointMovingX + pointDownX - distGone;
+
+
+////                    05/06/2017
+//                if (Math.abs(deltaX) < distToMeet) {
+//                    targetPoint = dispWidth - pointMovingX + pointDownX - distGone;
+//                } else {
+
+                targetPoint = pointMovingX - pointDownX;
+                if (Math.abs(deltaX) > horizontalMinDistance && dispWidth - pointMovingX < dispWidth / 5) {
+                    onTouchedItemView.setBackgroundResource(R.color.colorPrimaryDark);
                 } else {
-                    targetPoint = pointMovingX;
-                    if (Math.abs(deltaX) > horizontalMinDistance && dispWidth - pointMovingX < dispWidth / 5) {
-                        onTouchedItemView.setBackgroundResource(R.color.colorPrimaryDark);
-                    } else {
-                        onTouchedItemView.setBackgroundResource(R.color.glass);
-                    }
+                    onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
                 }
+
+////                    05/06/2017
+//            }
+
                 anim();
                 moved = true;
-            } else if (deltaX > 0) {
-                if (Math.abs(deltaX) < distToMeet) {
-                    targetPoint = pointMovingX - dispWidth + distFromRightBorder - distGone;
+            } else if (deltaX > 0 && deltaY < 30 && deltaX < deltaY) {
+////                    05/06/2017
+//                if (Math.abs(deltaX) < distToMeet) {
+//                    targetPoint = pointMovingX - dispWidth + distFromRightBorder - distGone;
+//            } else {
+
+
+                targetPoint = pointMovingX - pointDownX;
+                if (Math.abs(deltaX) > horizontalMinDistance && pointMovingX < dispWidth / 5) {
+                    onTouchedItemView.setBackgroundResource(R.color.deletemarker);
                 } else {
-                    targetPoint = pointMovingX - dispWidth;
-                    if (Math.abs(deltaX) > horizontalMinDistance && pointMovingX < dispWidth / 5) {
-                        onTouchedItemView.setBackgroundResource(R.color.deletemarker);
-                    } else {
-                        onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
-                    }
+                    onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
                 }
+
+////                    05/06/2017
+//            }
+
+
                 anim();
                 moved = true;
             } else {
                 moved = false;
-            }
+                onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
+                targetPoint = 0;
+                anim();
+        }
         }
 
         return true;
