@@ -8,6 +8,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -18,8 +19,10 @@ import android.widget.Toast;
 
 
 public class ProdActivity extends AppCompatActivity implements View.OnClickListener,
-        View.OnTouchListener, LoaderManager.LoaderCallbacks<Cursor> {
+        View.OnTouchListener,
+        LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String DEBUG_TAG = "Gecture";
     DB db;
     DBHelper dbHelper;
     SimpleCursorAdapter scAdapter;
@@ -39,6 +42,7 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
     private int targetPoint;
     private boolean moved = false;
     private int horizontalMinDistance;
+    private boolean justscroll = false;
 
 
     @Override
@@ -71,8 +75,6 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
 
         btnAdd = (Button) findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(this);
-
-
     }
 
 
@@ -89,7 +91,6 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
     }
-
 
     @Override
     public void onClick(View view) {
@@ -117,61 +118,73 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
         switch (event.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
-
+                justscroll = true;
                 pointDownX = (int) event.getX();
                 pointDownY = (int) event.getY();
+
                 onTouchedItemView = lv_list.getChildAt(lv_list.pointToPosition(pointDownX, pointDownY));
                 touchedItemID = lv_list.pointToRowId(pointDownX, pointDownY);
+//                touchedItemID= onTouchedItemView.getId();
+
+                Log.d(DEBUG_TAG, "onDown: " + touchedItemID + ", " + onTouchedItemView);
                 return true;
 
             case MotionEvent.ACTION_MOVE:
                 if (onTouchedItemView != null) {
                     moved = false;
-                    int pointMovingX = (int) event.getX();
-                    int pointMovingY = (int) event.getY();
-                    int deltaX = pointDownX - pointMovingX;
-                    int deltaY = pointDownY - pointMovingY;
+                    Log.d(DEBUG_TAG, "onMove1: " + touchedItemID + ", " + onTouchedItemView);
+                    if (justscroll) {
+                        int pointMovingX = (int) event.getX();
+                        int pointMovingY = (int) event.getY();
+                        int deltaX = pointDownX - pointMovingX;
+                        int deltaY = pointDownY - pointMovingY;
 
-                    if (deltaX < 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
+                        if (deltaX < 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
 //                       to right
-                        targetPoint = pointMovingX - pointDownX;
-                        if (Math.abs(deltaX) > horizontalMinDistance && dispWidth - pointMovingX < dispWidth / 5) {
-                            onTouchedItemView.setBackgroundResource(R.color.colorPrimaryDark);
+                            targetPoint = pointMovingX - pointDownX;
+                            if (Math.abs(deltaX) > horizontalMinDistance && dispWidth - pointMovingX < dispWidth / 5) {
+                                onTouchedItemView.setBackgroundResource(R.color.colorPrimaryDark);
 
-                        } else {
-                            onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
+                            } else {
+                                onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
+                            }
+                            anim();
+                            return false;
 
-                        }
-                        anim();
-//                        return true;
-
-                    } else if (deltaX > 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
+                        } else if (deltaX > 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
 //                        to left
-                        targetPoint = pointMovingX - pointDownX;
-                        if (Math.abs(deltaX) > horizontalMinDistance && pointMovingX < dispWidth / 5) {
-                            onTouchedItemView.setBackgroundResource(R.color.deletemarker);
-                            moved = true;
+                            targetPoint = pointMovingX - pointDownX;
+                            if (Math.abs(deltaX) > horizontalMinDistance && pointMovingX < dispWidth / 5) {
+                                onTouchedItemView.setBackgroundResource(R.color.deletemarker);
+                                moved = true;
+                            } else {
+                                onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
+                                moved = false;
+                            }
+                            anim();
+                            return false;
                         } else {
+                            Log.d(DEBUG_TAG, "onScroll: " + touchedItemID + ", " + onTouchedItemView);
+                            v.getParent().requestDisallowInterceptTouchEvent(true);
                             onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
-                            moved = false;
+                            targetPoint = 0;
+                            anim();
+//                            lv_list.clearFocus();
+                            justscroll = false;
+
                         }
-                        anim();
-//
-//                        return true;
-                    } else {
-                        onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
-                        targetPoint = 0;
-                        anim();
-                        lv_list.clearFocus();
                     }
                 }
-                return true;
+                return false;
 
 
             case MotionEvent.ACTION_UP:
+                Log.d(DEBUG_TAG, "onUp: " + touchedItemID + ", " + onTouchedItemView);
             case MotionEvent.ACTION_CANCEL:
+                Log.d(DEBUG_TAG, "onCancel: " + touchedItemID + ", " + onTouchedItemView);
                 if (onTouchedItemView != null) {
                     if (moved) {
+                        Log.d(DEBUG_TAG, "onDel: " + touchedItemID + ", " + onTouchedItemView);
                         db.delRec(touchedItemID);
                         getSupportLoaderManager().getLoader(0).forceLoad();
                     }
@@ -182,11 +195,13 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
                     moved = false;
                 }
         }
+
         return false;
     }
 
 
     public void anim() {
+        Log.d(DEBUG_TAG, "onAnim: " + touchedItemID + ", " + onTouchedItemView);
         if (onTouchedItemView != null) {
             onTouchedItemView.animate()
                     .x(targetPoint)

@@ -14,7 +14,7 @@ class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("create table " + DB.getNameOfTable() + "("
+        db.execSQL("create table " + "\'" + DB.getNameOfTable() + "\'" + "("
                 + DB.KEY_ID + " integer primary key autoincrement,"
                 + DB.KEY_NAME + " text,"
                 + DB.KEY_COST + " double" + ")");
@@ -23,7 +23,7 @@ class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("drop table if exists " + DB.getNameOfTable());
+        db.execSQL("drop table if exists " + "\'" + DB.getNameOfTable() + "\'");
         onCreate(db);
     }
 }

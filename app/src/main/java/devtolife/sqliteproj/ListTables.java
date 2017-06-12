@@ -38,6 +38,7 @@ public class ListTables extends AppCompatActivity implements
     private static final String DEBUG_TAG = "Gestures";
     private GestureDetectorCompat mDetector;
     private boolean moved = false;
+    private boolean justscroll = false;
 
 
     @Override
@@ -63,21 +64,25 @@ public class ListTables extends AppCompatActivity implements
                 switch (event.getActionMasked()) {
 
                     case MotionEvent.ACTION_DOWN:
+                        Log.d(DEBUG_TAG, "onDown1: " + event.toString());
                         pointDownX = (int) event.getX();
                         pointDownY = (int) event.getY();
                         onTouchedItemView = listTablesView.getChildAt(listTablesView.pointToPosition(pointDownX, pointDownY));
                         touchedItemID = listTablesView.pointToRowId(pointDownX, pointDownY);
                         if (onTouchedItemView != null) {
+                            justscroll = true;
                             fact = mDetector.onTouchEvent(event);
                         } else {
                             fact = false;
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if (onTouchedItemView != null) {
-                            fact = mDetector.onTouchEvent(event);
-                        } else {
-                            fact = false;
+                        if (justscroll) {
+                            if (onTouchedItemView != null) {
+                                fact = mDetector.onTouchEvent(event);
+                            } else {
+                                fact = false;
+                            }
                         }
                         break;
 
@@ -111,7 +116,7 @@ public class ListTables extends AppCompatActivity implements
 
     @Override
     public boolean onDown(MotionEvent event) {
-        Log.d(DEBUG_TAG, "onDown: " + event.toString());
+        Log.d(DEBUG_TAG, "onDown2: " + event.toString());
 
         if (itemTouchedOnTouch.getId() == R.id.list_table) {
             Log.d(DEBUG_TAG, "onDown_List: /n" + event.toString());
@@ -148,7 +153,7 @@ public class ListTables extends AppCompatActivity implements
 
             if (deltaX < 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
                 Log.d(DEBUG_TAG, "onScroll_LIST_ELEM_to_RIGHT: " + e1.toString() + e2.toString());
-//                    to right
+//to right
 //
 //                targetPoint = pointMovingX - pointDownX;
 //                if (Math.abs(deltaX) > horizontalMinDistance && dispWidth - pointMovingX < dispWidth / 5) {
@@ -159,7 +164,7 @@ public class ListTables extends AppCompatActivity implements
 //                anim();
 
             } else if (deltaX > 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
-                //                    to left
+//to left
                 Log.d(DEBUG_TAG, "onScroll_LIST_ELEM_to_LEFT: " + e1.toString() + e2.toString());
                 targetPoint = pointMovingX - pointDownX;
                 if (Math.abs(deltaX) > horizontalMinDistance && pointMovingX < dispWidth / 5) {
@@ -167,13 +172,13 @@ public class ListTables extends AppCompatActivity implements
                     moved = true;
 
                 } else {
-
                     onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
                     moved = false;
                 }
                 anim();
 
             } else {
+                justscroll = false;
                 moved = false;
                 onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
                 targetPoint = 0;
@@ -234,15 +239,10 @@ public class ListTables extends AppCompatActivity implements
     }
 
     public void anim() {
-// 10.06
-//       if (onTouchedItemView != null) {
         onTouchedItemView.animate()
                 .x(targetPoint)
                 .setDuration(0)
                 .start();
-//        } else {
-//            itemTouchedOnTouch.clearFocus();
-//        }
     }
 
 

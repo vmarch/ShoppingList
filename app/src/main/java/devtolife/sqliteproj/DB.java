@@ -9,13 +9,13 @@ class DB {
 
 
     private Context context;
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
     private static String DATABASE_NAME = "SHOPINGLIST";
 
     private static String nameOfTable = "Example";
 
     public static String getNameOfTable() {
-        return "\'" + nameOfTable + "\'";
+        return nameOfTable;
     }
 
     public static void setNameOfTable(String nameOfTable) {
@@ -50,7 +50,7 @@ class DB {
     }
 
     void delRec(long id) {
-        database.delete(nameOfTable, KEY_ID + " = " + id, null);
+        database.delete("\'" + nameOfTable + "\'", KEY_ID + " = " + id, null);
     }
 
     void deleteTable(String tabl) {
