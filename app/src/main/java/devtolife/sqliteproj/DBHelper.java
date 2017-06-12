@@ -1,4 +1,4 @@
-package com.example.user.sqliteproj;
+package devtolife.sqliteproj;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

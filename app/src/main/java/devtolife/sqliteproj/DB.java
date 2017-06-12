@@ -1,4 +1,4 @@
-package com.example.user.sqliteproj;
+package devtolife.sqliteproj;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,13 +9,13 @@ class DB {
 
 
     private Context context;
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static String DATABASE_NAME = "SHOPINGLIST";
 
     private static String nameOfTable = "Example";
 
     public static String getNameOfTable() {
-        return nameOfTable;
+        return "\'" + nameOfTable + "\'";
     }
 
     public static void setNameOfTable(String nameOfTable) {
@@ -40,13 +40,13 @@ class DB {
     }
 
     Cursor getAllData() {
-        return database.query(nameOfTable, null, null, null, null, null, null);
+        return database.query("\'" + nameOfTable + "\'", null, null, null, null, null, null);
     }
 
     void addRec(String name) {
         ContentValues cv = new ContentValues();
         cv.put(KEY_NAME, name);
-        database.insert(nameOfTable, null, cv);
+        database.insert("\'" + nameOfTable + "\'", null, cv);
     }
 
     void delRec(long id) {
@@ -54,10 +54,7 @@ class DB {
     }
 
     void deleteTable(String tabl) {
-
-        database.execSQL("DROP TABLE " + tabl);
-
-
+        database.execSQL("DROP TABLE " + "\'" + tabl + "\'");
     }
 
     void close() {

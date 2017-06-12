@@ -1,4 +1,4 @@
-package com.example.user.sqliteproj;
+package devtolife.sqliteproj;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,9 +48,9 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
                     DB.setNameOfTable(nameOfNewTable);
 
                     DB.database.execSQL(
-                            "create table " + nameOfNewTable + "("
+                            "create table " + "\'" + nameOfNewTable + "\'" + "("
                                     + DB.KEY_ID + " integer primary key autoincrement,"
-                                    + DB.KEY_NAME + " text,"
+                                    + DB.KEY_NAME + " TEXT,"
                                     + DB.KEY_COST + " double" + ")");
 
                     db.close();

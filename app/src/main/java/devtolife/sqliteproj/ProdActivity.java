@@ -1,4 +1,4 @@
-package com.example.user.sqliteproj;
+package devtolife.sqliteproj;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -25,7 +25,6 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
     SimpleCursorAdapter scAdapter;
     Context context;
     String name;
-
 
     private View onTouchedItemView;
 
@@ -69,7 +68,6 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
         tvNameCost = (TextView) findViewById(R.id.tv_name_cost);
 
         tvName = (EditText) findViewById(R.id.tv_name);
-//        tvName.setOnClickListener(this);
 
         btnAdd = (Button) findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(this);
@@ -128,11 +126,12 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
 
             case MotionEvent.ACTION_MOVE:
                 if (onTouchedItemView != null) {
+                    moved = false;
                     int pointMovingX = (int) event.getX();
                     int pointMovingY = (int) event.getY();
                     int deltaX = pointDownX - pointMovingX;
                     int deltaY = pointDownY - pointMovingY;
-                    moved = false;
+
                     if (deltaX < 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
 //                       to right
                         targetPoint = pointMovingX - pointDownX;
@@ -144,7 +143,7 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
 
                         }
                         anim();
-                        return true;
+//                        return true;
 
                     } else if (deltaX > 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
 //                        to left
@@ -157,8 +156,8 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
                             moved = false;
                         }
                         anim();
-
-                        return true;
+//
+//                        return true;
                     } else {
                         onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
                         targetPoint = 0;
