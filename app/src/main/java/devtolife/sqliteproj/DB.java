@@ -24,7 +24,6 @@ class DB {
 
     static final String KEY_ID = "_id";
     static final String KEY_NAME = "name";
-    static final String KEY_COST = "cost";
 
     DB(Context ctx) {
         context = ctx;

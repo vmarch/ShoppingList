@@ -50,8 +50,7 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
                     DB.database.execSQL(
                             "create table " + "\'" + nameOfNewTable + "\'" + "("
                                     + DB.KEY_ID + " integer primary key autoincrement,"
-                                    + DB.KEY_NAME + " TEXT,"
-                                    + DB.KEY_COST + " double" + ")");
+                                    + DB.KEY_NAME + " TEXT" + ")");
 
                     db.close();
 

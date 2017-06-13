@@ -41,9 +41,15 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
     private long touchedItemID;
     private int targetPoint;
     private boolean moved = false;
-    private int horizontalMinDistance;
-    private boolean justscroll = false;
+    private boolean justscroll;
 
+    public boolean isJustscroll() {
+        return justscroll;
+    }
+
+    public void setJustscroll(boolean justscroll) {
+        this.justscroll = justscroll;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +61,8 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
         db = new DB(this);
         db.open();
 
-        String[] from = new String[]{DB.KEY_ID, DB.KEY_NAME, DB.KEY_COST};
-        int[] to = new int[]{R.id.tv_list_id, R.id.tv_list_name, R.id.tv_list_cost};
+        String[] from = new String[]{DB.KEY_ID, DB.KEY_NAME};
+        int[] to = new int[]{R.id.tv_list_id, R.id.tv_list_name};
 
         scAdapter = new SimpleCursorAdapter(this, R.layout.prod_item, null, from, to, 0);
 
@@ -69,14 +75,11 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
         tvNameId = (TextView) findViewById(R.id.tv_name_id);
         tvNameName = (TextView) findViewById(R.id.tv_name_name);
 
-        tvNameCost = (TextView) findViewById(R.id.tv_name_cost);
-
         tvName = (EditText) findViewById(R.id.tv_name);
 
         btnAdd = (Button) findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(this);
     }
-
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle bndl) {
@@ -113,33 +116,53 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int dispWidth = v.getWidth();
-        horizontalMinDistance = dispWidth / 3;
+        int horizontalMinDistance = dispWidth / 3;
 
         switch (event.getAction()) {
-
             case MotionEvent.ACTION_DOWN:
-                justscroll = true;
+                setJustscroll(true);
                 pointDownX = (int) event.getX();
                 pointDownY = (int) event.getY();
 
+//                onTouchedItemView = lv_list.getChildAt(lv_list.pointToPosition(pointDownX, pointDownY));
+
                 onTouchedItemView = lv_list.getChildAt(lv_list.pointToPosition(pointDownX, pointDownY));
                 touchedItemID = lv_list.pointToRowId(pointDownX, pointDownY);
-//                touchedItemID= onTouchedItemView.getId();
-
-                Log.d(DEBUG_TAG, "onDown: " + touchedItemID + ", " + onTouchedItemView);
+                Log.d(DEBUG_TAG, "onDown: "
+                        + touchedItemID + ", "
+                        + onTouchedItemView + ",  "
+                        + pointDownX + ",  "
+                        + pointDownY + ", "
+                        + isJustscroll());
                 return true;
 
             case MotionEvent.ACTION_MOVE:
                 if (onTouchedItemView != null) {
                     moved = false;
-                    Log.d(DEBUG_TAG, "onMove1: " + touchedItemID + ", " + onTouchedItemView);
-                    if (justscroll) {
+
+                    Log.d(DEBUG_TAG, "onMove1: "
+                            + touchedItemID + ", "
+                            + onTouchedItemView + ",  "
+                            + pointDownX + ",  "
+                            + pointDownY + ", "
+                            + isJustscroll());
+
+                    if (isJustscroll()) {
+
                         int pointMovingX = (int) event.getX();
                         int pointMovingY = (int) event.getY();
                         int deltaX = pointDownX - pointMovingX;
                         int deltaY = pointDownY - pointMovingY;
-
-                        if (deltaX < 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
+                        Log.d(DEBUG_TAG, "onMove2: "
+                                + touchedItemID + ", "
+                                + onTouchedItemView + ",  "
+                                + pointDownX + ",  "
+                                + pointDownY + ", deltaY: "
+                                + deltaY + ", "
+                                + isJustscroll());
+                        if (deltaX <= 0 && Math.abs(deltaY) < 20
+//                                && Math.abs(deltaX) > Math.abs(deltaY)
+                                ) {
 //                       to right
                             targetPoint = pointMovingX - pointDownX;
                             if (Math.abs(deltaX) > horizontalMinDistance && dispWidth - pointMovingX < dispWidth / 5) {
@@ -151,8 +174,17 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
                             anim();
                             return false;
 
-                        } else if (deltaX > 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
+                        } else if (deltaX > 0 && Math.abs(deltaY) < 20
+//                                && Math.abs(deltaX) > Math.abs(deltaY)
+                                ) {
 //                        to left
+                            Log.d(DEBUG_TAG, "onMoveToL: "
+                                    + touchedItemID + ", "
+//                                    + onTouchedItemView + ",  "
+                                    + pointDownX + ",  "
+                                    + pointDownY + ", "
+                                    + lv_list.pointToPosition(pointDownX, pointDownY) + ", "
+                                    + isJustscroll());
                             targetPoint = pointMovingX - pointDownX;
                             if (Math.abs(deltaX) > horizontalMinDistance && pointMovingX < dispWidth / 5) {
                                 onTouchedItemView.setBackgroundResource(R.color.deletemarker);
@@ -164,13 +196,19 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
                             anim();
                             return false;
                         } else {
-                            Log.d(DEBUG_TAG, "onScroll: " + touchedItemID + ", " + onTouchedItemView);
+                            Log.d(DEBUG_TAG, "onScroll: "
+                                    + touchedItemID + ", "
+//                                    + onTouchedItemView + ",  "
+                                    + pointDownX + ",  "
+                                    + pointDownY + ", "
+                                    + lv_list.pointToPosition(pointDownX, pointDownY) + ", "
+                                    + isJustscroll());
                             v.getParent().requestDisallowInterceptTouchEvent(true);
                             onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
                             targetPoint = 0;
                             anim();
-//                            lv_list.clearFocus();
-                            justscroll = false;
+                            lv_list.clearFocus();
+                            setJustscroll(false);
 
                         }
                     }
@@ -179,12 +217,24 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
 
 
             case MotionEvent.ACTION_UP:
-                Log.d(DEBUG_TAG, "onUp: " + touchedItemID + ", " + onTouchedItemView);
+                Log.d(DEBUG_TAG, "onUp: "
+                        + touchedItemID + ", "
+//                        + onTouchedItemView + ",  "
+                        + pointDownX + ",  "
+                        + pointDownY + ", "
+                        + lv_list.pointToPosition(pointDownX, pointDownY) + ", "
+                        + isJustscroll());
             case MotionEvent.ACTION_CANCEL:
-                Log.d(DEBUG_TAG, "onCancel: " + touchedItemID + ", " + onTouchedItemView);
+
                 if (onTouchedItemView != null) {
                     if (moved) {
-                        Log.d(DEBUG_TAG, "onDel: " + touchedItemID + ", " + onTouchedItemView);
+                        Log.d(DEBUG_TAG, "onDel: "
+                                + touchedItemID + ", "
+//                                + onTouchedItemView + ",  "
+                                + pointDownX + ",  "
+                                + pointDownY + ", "
+                                + lv_list.pointToPosition(pointDownX, pointDownY) + ", "
+                                + isJustscroll());
                         db.delRec(touchedItemID);
                         getSupportLoaderManager().getLoader(0).forceLoad();
                     }
@@ -201,7 +251,13 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void anim() {
-        Log.d(DEBUG_TAG, "onAnim: " + touchedItemID + ", " + onTouchedItemView);
+        Log.d(DEBUG_TAG, "onAnim: "
+                + touchedItemID + ", "
+//                + onTouchedItemView + ",  "
+                + pointDownX + ",  "
+                + pointDownY + ", "
+                + lv_list.pointToPosition(pointDownX, pointDownY) + ", "
+                + isJustscroll());
         if (onTouchedItemView != null) {
             onTouchedItemView.animate()
                     .x(targetPoint)

@@ -16,8 +16,7 @@ class DBHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table " + "\'" + DB.getNameOfTable() + "\'" + "("
                 + DB.KEY_ID + " integer primary key autoincrement,"
-                + DB.KEY_NAME + " text,"
-                + DB.KEY_COST + " double" + ")");
+                + DB.KEY_NAME + " text" + ")");
 
     }
 
