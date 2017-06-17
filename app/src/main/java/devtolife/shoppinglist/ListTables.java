@@ -1,12 +1,16 @@
-package devtolife.sqliteproj;
+package devtolife.shoppinglist;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -39,10 +43,15 @@ public class ListTables extends AppCompatActivity implements
     private GestureDetectorCompat mDetector;
     private boolean moved = false;
     private boolean justscroll = false;
+    private SharedPreferences mSharedPref;
+    private String MYTHEME = "mytheme";
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        mSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        setTheme(mSharedPref.getInt(MYTHEME, 0));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_layout);
 
@@ -50,7 +59,9 @@ public class ListTables extends AppCompatActivity implements
         mDetector.setOnDoubleTapListener(this);
         btn = (Button) findViewById(R.id.btn_create);
         listTablesView = (ListView) findViewById(R.id.list_table);
+
         rawQuery();
+
         adapter = new ArrayAdapter<>(this, R.layout.list_item, arrayList);
         listTablesView.setAdapter(adapter);
 
@@ -64,18 +75,20 @@ public class ListTables extends AppCompatActivity implements
                 switch (event.getActionMasked()) {
 
                     case MotionEvent.ACTION_DOWN:
-                        Log.d(DEBUG_TAG, "onDown1: " + event.toString());
-                        pointDownX = (int) event.getX();
-                        pointDownY = (int) event.getY();
-                        onTouchedItemView = listTablesView.getChildAt(listTablesView.pointToPosition(pointDownX, pointDownY));
-                        touchedItemID = listTablesView.pointToRowId(pointDownX, pointDownY);
-                        if (onTouchedItemView != null) {
+                        if (listTablesView.getCount() > 0) {
+                            pointDownX = (int) event.getX();
+                            pointDownY = (int) event.getY();
+                            onTouchedItemView = getViewByPosition(listTablesView.pointToPosition(pointDownX, pointDownY), listTablesView);
+                            touchedItemID = listTablesView.pointToRowId(pointDownX, pointDownY);
                             justscroll = true;
                             fact = mDetector.onTouchEvent(event);
                         } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "Let's start new list!", Toast.LENGTH_SHORT).show();
                             fact = false;
                         }
                         break;
+
                     case MotionEvent.ACTION_MOVE:
                         if (justscroll) {
                             if (onTouchedItemView != null) {
@@ -86,7 +99,6 @@ public class ListTables extends AppCompatActivity implements
                         }
                         break;
 
-
                     case MotionEvent.ACTION_UP:
                         if (onTouchedItemView != null) {
                             fact = mDetector.onTouchEvent(event);
@@ -96,7 +108,6 @@ public class ListTables extends AppCompatActivity implements
                         }
                         break;
                 }
-
                 return fact;
             }
         });
@@ -116,28 +127,73 @@ public class ListTables extends AppCompatActivity implements
 
     @Override
     public boolean onDown(MotionEvent event) {
-        Log.d(DEBUG_TAG, "onDown2: " + event.toString());
-
+if (itemTouchedOnTouch.getId()>0){
         if (itemTouchedOnTouch.getId() == R.id.list_table) {
-            Log.d(DEBUG_TAG, "onDown_List: /n" + event.toString());
-
-            if (listTablesView.getCount() > 0) {
-                pointDownX = (int) event.getX();
-                pointDownY = (int) event.getY();
-                onTouchedItemView = listTablesView.getChildAt(listTablesView.pointToPosition(pointDownX, pointDownY));
-                touchedItemID = listTablesView.pointToRowId(pointDownX, pointDownY);
+            if (onTouchedItemView != null) {
                 dispWidth = listTablesView.getWidth();
                 horizontalMinDistance = dispWidth / 3;
-
+                return true;
             } else {
-                Toast.makeText(getApplicationContext(),
-                        "Let's start new list!", Toast.LENGTH_SHORT).show();
+                return false;
             }
-            return true;
-
-        } else //            Log.d(DEBUG_TAG, "onDown_BTN: " + event.toString());
-            return itemTouchedOnTouch.getId() == R.id.btn_create;
+        } else return itemTouchedOnTouch.getId() == R.id.btn_create;
+}else{
+    return false;
+        }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent2;
+        mSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor ed = mSharedPref.edit();
+        int idOfItem = item.getItemId();
+
+        switch (idOfItem) {
+
+            case R.id.action_green:
+                ed.putInt("mytheme", R.style.AppThemeGreen);
+                ed.apply();
+                intent2 = getIntent();
+                finish();
+                startActivity(intent2);
+                return true;
+
+            case R.id.action_yellow:
+                ed.putInt("mytheme", R.style.AppThemeYellow);
+                ed.apply();
+                intent2 = getIntent();
+                finish();
+                startActivity(intent2);
+                return true;
+
+            case R.id.action_blue:
+                ed.putInt("mytheme", R.style.AppThemeBlue);
+                ed.apply();
+                intent2 = getIntent();
+                finish();
+                startActivity(intent2);
+                return true;
+
+
+            case R.id.action_grey:
+                ed.putInt("mytheme", R.style.AppThemeGrey);
+                ed.apply();
+                intent2 = getIntent();
+                finish();
+                startActivity(intent2);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
@@ -151,10 +207,10 @@ public class ListTables extends AppCompatActivity implements
             int deltaX = pointDownX - pointMovingX;
             int deltaY = pointDownY - pointMovingY;
 
-            if (deltaX < 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (deltaX <= 0 && Math.abs(deltaY) < 30) {
                 Log.d(DEBUG_TAG, "onScroll_LIST_ELEM_to_RIGHT: " + e1.toString() + e2.toString());
 //to right
-//
+//TODO use right swipe
 //                targetPoint = pointMovingX - pointDownX;
 //                if (Math.abs(deltaX) > horizontalMinDistance && dispWidth - pointMovingX < dispWidth / 5) {
 //                    onTouchedItemView.setBackgroundResource(R.color.colorPrimaryDark);
@@ -163,9 +219,9 @@ public class ListTables extends AppCompatActivity implements
 //                }
 //                anim();
 
-            } else if (deltaX > 0 && Math.abs(deltaY) < 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
+            } else if (deltaX > 0 && Math.abs(deltaY) < 30) {
 //to left
-                Log.d(DEBUG_TAG, "onScroll_LIST_ELEM_to_LEFT: " + e1.toString() + e2.toString());
+
                 targetPoint = pointMovingX - pointDownX;
                 if (Math.abs(deltaX) > horizontalMinDistance && pointMovingX < dispWidth / 5) {
                     onTouchedItemView.setBackgroundResource(R.color.deletemarker);
@@ -198,7 +254,6 @@ public class ListTables extends AppCompatActivity implements
                 db.deleteTable(listTablesView.getAdapter().getItem((int) touchedItemID).toString());
                 db.close();
                 updateAdapter();
-
             }
             onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
             targetPoint = 0;
@@ -209,28 +264,22 @@ public class ListTables extends AppCompatActivity implements
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent event) {
-//        Log.d(DEBUG_TAG, "onSingleTapConfirmed: " + event.toString());
 
         Intent intent;
         switch (itemTouchedOnTouch.getId()) {
 
             case R.id.list_table:
                 if (onTouchedItemView != null) {
-//                    Log.d(DEBUG_TAG, "onSingleTapConfirmed_LIST: " + event.toString());
                     TextView tv = (TextView) onTouchedItemView;
                     DB.setNameOfTable(tv.getText().toString());
-
                     intent = new Intent(this, ProdActivity.class);
                     startActivity(intent);
                     return true;
-
                 } else {
-//                    Log.d(DEBUG_TAG, "onSingleTapConfirmed_LIST_NULL:  " + event.toString());
                     return false;
                 }
 
             case R.id.btn_create:
-//                Log.d(DEBUG_TAG, "onSingleTapConfirmed_BTN: " + event.toString());
                 intent = new Intent(this, CreateTable.class);
                 startActivity(intent);
                 return true;
@@ -245,7 +294,6 @@ public class ListTables extends AppCompatActivity implements
                 .start();
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         this.mDetector.onTouchEvent(event);
@@ -253,17 +301,14 @@ public class ListTables extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
-//        Log.d(DEBUG_TAG, "onFling: " + event1.toString() + event2.toString());
-        return true;
+    public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX,
+                           float velocityY) {
+        return false;
     }
 
     @Override
     public void onLongPress(MotionEvent event) {
-//        Log.d(DEBUG_TAG, "onLongPress: " + event.toString());
-
         if (itemTouchedOnTouch.getId() == R.id.btn_create) {
-//                Log.d(DEBUG_TAG, "onLongPress_BTN: " + event.toString());
             Intent intent = new Intent(this, CreateTable.class);
             startActivity(intent);
         }
@@ -271,24 +316,20 @@ public class ListTables extends AppCompatActivity implements
 
     @Override
     public void onShowPress(MotionEvent event) {
-//        Log.d(DEBUG_TAG, "onShowPress: " + event.toString());
     }
 
     @Override
     public boolean onSingleTapUp(MotionEvent event) {
-        Log.d(DEBUG_TAG, "onSingleTapUp: " + event.toString());
         return false;
     }
 
     @Override
     public boolean onDoubleTap(MotionEvent event) {
-//        Log.d(DEBUG_TAG, "onDoubleTap: " + event.toString());
         return false;
     }
 
     @Override
     public boolean onDoubleTapEvent(MotionEvent event) {
-//        Log.d(DEBUG_TAG, "onDoubleTapEvent: " + event.toString());
         return false;
     }
 
@@ -296,6 +337,14 @@ public class ListTables extends AppCompatActivity implements
     protected void onRestart() {
         super.onRestart();
         updateAdapter();
+    }
+
+    private View getViewByPosition(int pos, ListView lv) {
+        final int firstListItemPosition = lv.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + lv.getChildCount() - 1;
+
+        final int childIndex = pos - firstListItemPosition;
+        return lv.getChildAt(childIndex);
     }
 
     private void updateAdapter() {

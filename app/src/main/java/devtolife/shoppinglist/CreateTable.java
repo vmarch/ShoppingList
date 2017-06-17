@@ -1,7 +1,10 @@
-package devtolife.sqliteproj;
+package devtolife.shoppinglist;
+
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -16,9 +19,13 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
     private EditText newList;
     DB db;
     private String nameOfNewTable;
+    SharedPreferences mSharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        setTheme(mSharedPref.getInt("mytheme", 0));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_table_layout);
 
@@ -29,7 +36,6 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
         create.setOnClickListener(this);
 
         newList = (EditText) findViewById(R.id.add_new_table);
-
     }
 
     @Override
@@ -43,7 +49,6 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
                     db = new DB(this);
                     db.open();
                     // TODO checking for isExist of table
-                    // TODO checking for Integer name
 
                     DB.setNameOfTable(nameOfNewTable);
 
@@ -51,7 +56,6 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
                             "create table " + "\'" + nameOfNewTable + "\'" + "("
                                     + DB.KEY_ID + " integer primary key autoincrement,"
                                     + DB.KEY_NAME + " TEXT" + ")");
-
                     db.close();
 
                     Intent intent = new Intent(this, ProdActivity.class);

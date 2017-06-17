@@ -1,18 +1,17 @@
 <resources>
 
-    <string name="app_name">Shoping List</string>
-    <string name="delete_record">Удалить запись</string>
-
-    <string name="name_name">Name</string>
-    <string name="name_id">N</string>
-    <string name="clear_field"><![CDATA[<]]></string>
+    <string name="app_name">Shopping List</string>
     <string name="add_product">+</string>
-
     <string name="field_product">Item</string>
-    <string name="main_name">Name Of List</string>
-    <string name="main_date">Created</string>
     <string name="set_name">New List</string>
     <string name="create_new_list">Create</string>
     <string name="btn_cancel">Cancel</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_green">Green</string>
+    <string name="action_blue">Blue</string>
+    <string name="action_yellow">Yellow</string>
+    <string name="action_grey">Grey</string>
+
 
 </resources>

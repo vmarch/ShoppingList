@@ -1,14 +1,15 @@
-package devtolife.sqliteproj;
+package devtolife.shoppinglist;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -32,8 +33,8 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
     private View onTouchedItemView;
 
     ListView lv_list;
-    Button btnEmpty, btnAdd;
-    TextView tvNameId, tvNameName, tvNameCost;
+    Button btnAdd;
+    TextView tvNameId, tvNameName;
     EditText tvName;
 
     private int pointDownX;
@@ -42,6 +43,9 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
     private int targetPoint;
     private boolean moved = false;
     private boolean justscroll;
+    private int pointMovingX;
+    private int pointMovingY;
+    SharedPreferences mSharedPref;
 
     public boolean isJustscroll() {
         return justscroll;
@@ -53,6 +57,9 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        setTheme(mSharedPref.getInt("mytheme", 0));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.prod_layout);
 
@@ -68,12 +75,9 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
 
         lv_list = (ListView) findViewById(R.id.lv_list);
         lv_list.setAdapter(scAdapter);
-
         lv_list.setOnTouchListener(this);
-        getSupportLoaderManager().initLoader(0, null, this);
 
-        tvNameId = (TextView) findViewById(R.id.tv_name_id);
-        tvNameName = (TextView) findViewById(R.id.tv_name_name);
+        getSupportLoaderManager().initLoader(0, null, this);
 
         tvName = (EditText) findViewById(R.id.tv_name);
 
@@ -119,72 +123,43 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
         int horizontalMinDistance = dispWidth / 3;
 
         switch (event.getAction()) {
+
             case MotionEvent.ACTION_DOWN:
-                setJustscroll(true);
-                pointDownX = (int) event.getX();
-                pointDownY = (int) event.getY();
-
-//                onTouchedItemView = lv_list.getChildAt(lv_list.pointToPosition(pointDownX, pointDownY));
-
-                onTouchedItemView = lv_list.getChildAt(lv_list.pointToPosition(pointDownX, pointDownY));
-                touchedItemID = lv_list.pointToRowId(pointDownX, pointDownY);
-                Log.d(DEBUG_TAG, "onDown: "
-                        + touchedItemID + ", "
-                        + onTouchedItemView + ",  "
-                        + pointDownX + ",  "
-                        + pointDownY + ", "
-                        + isJustscroll());
-                return true;
+                if (lv_list.getCount() > 0) {
+                    setJustscroll(true);
+                    pointDownX = (int) event.getX();
+                    pointDownY = (int) event.getY();
+                    touchedItemID = lv_list.pointToRowId(pointDownX, pointDownY);
+                    onTouchedItemView = getViewByPosition(lv_list.pointToPosition(pointDownX, pointDownY), lv_list);
+                    return true;
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Let's start new list!", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
 
             case MotionEvent.ACTION_MOVE:
+
                 if (onTouchedItemView != null) {
                     moved = false;
-
-                    Log.d(DEBUG_TAG, "onMove1: "
-                            + touchedItemID + ", "
-                            + onTouchedItemView + ",  "
-                            + pointDownX + ",  "
-                            + pointDownY + ", "
-                            + isJustscroll());
-
                     if (isJustscroll()) {
 
-                        int pointMovingX = (int) event.getX();
-                        int pointMovingY = (int) event.getY();
+                        pointMovingX = (int) event.getX();
+                        pointMovingY = (int) event.getY();
                         int deltaX = pointDownX - pointMovingX;
                         int deltaY = pointDownY - pointMovingY;
-                        Log.d(DEBUG_TAG, "onMove2: "
-                                + touchedItemID + ", "
-                                + onTouchedItemView + ",  "
-                                + pointDownX + ",  "
-                                + pointDownY + ", deltaY: "
-                                + deltaY + ", "
-                                + isJustscroll());
-                        if (deltaX <= 0 && Math.abs(deltaY) < 20
-//                                && Math.abs(deltaX) > Math.abs(deltaY)
-                                ) {
+                        if (deltaX < 0 && Math.abs(deltaY) < 30) {
 //                       to right
-                            targetPoint = pointMovingX - pointDownX;
-                            if (Math.abs(deltaX) > horizontalMinDistance && dispWidth - pointMovingX < dispWidth / 5) {
-                                onTouchedItemView.setBackgroundResource(R.color.colorPrimaryDark);
-
-                            } else {
-                                onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
-                            }
-                            anim();
-                            return false;
-
-                        } else if (deltaX > 0 && Math.abs(deltaY) < 20
-//                                && Math.abs(deltaX) > Math.abs(deltaY)
-                                ) {
+//TODO use right swipe
+//                            targetPoint = pointMovingX - pointDownX;
+//                            if (Math.abs(deltaX) > horizontalMinDistance && dispWidth - pointMovingX < dispWidth / 5) {
+//                                onTouchedItemView.setBackgroundResource(R.color.colorPrimaryDark);
+//                            } else {
+//                                onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
+//                            }
+//                            anim();
+                        } else if (deltaX > 0 && Math.abs(deltaY) < 30) {
 //                        to left
-                            Log.d(DEBUG_TAG, "onMoveToL: "
-                                    + touchedItemID + ", "
-//                                    + onTouchedItemView + ",  "
-                                    + pointDownX + ",  "
-                                    + pointDownY + ", "
-                                    + lv_list.pointToPosition(pointDownX, pointDownY) + ", "
-                                    + isJustscroll());
                             targetPoint = pointMovingX - pointDownX;
                             if (Math.abs(deltaX) > horizontalMinDistance && pointMovingX < dispWidth / 5) {
                                 onTouchedItemView.setBackgroundResource(R.color.deletemarker);
@@ -194,20 +169,14 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
                                 moved = false;
                             }
                             anim();
-                            return false;
+
+                        } else if (deltaX == 0 && Math.abs(deltaY) < 20) {
                         } else {
-                            Log.d(DEBUG_TAG, "onScroll: "
-                                    + touchedItemID + ", "
-//                                    + onTouchedItemView + ",  "
-                                    + pointDownX + ",  "
-                                    + pointDownY + ", "
-                                    + lv_list.pointToPosition(pointDownX, pointDownY) + ", "
-                                    + isJustscroll());
+
                             v.getParent().requestDisallowInterceptTouchEvent(true);
                             onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
                             targetPoint = 0;
                             anim();
-                            lv_list.clearFocus();
                             setJustscroll(false);
 
                         }
@@ -215,49 +184,30 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 return false;
 
-
             case MotionEvent.ACTION_UP:
-                Log.d(DEBUG_TAG, "onUp: "
-                        + touchedItemID + ", "
-//                        + onTouchedItemView + ",  "
-                        + pointDownX + ",  "
-                        + pointDownY + ", "
-                        + lv_list.pointToPosition(pointDownX, pointDownY) + ", "
-                        + isJustscroll());
             case MotionEvent.ACTION_CANCEL:
-
                 if (onTouchedItemView != null) {
                     if (moved) {
-                        Log.d(DEBUG_TAG, "onDel: "
-                                + touchedItemID + ", "
-//                                + onTouchedItemView + ",  "
-                                + pointDownX + ",  "
-                                + pointDownY + ", "
-                                + lv_list.pointToPosition(pointDownX, pointDownY) + ", "
-                                + isJustscroll());
                         db.delRec(touchedItemID);
                         getSupportLoaderManager().getLoader(0).forceLoad();
                     }
-
                     onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
                     targetPoint = 0;
                     anim();
                     moved = false;
                 }
         }
-
-        return false;
+        return true;
     }
 
+    private View getViewByPosition(int pos, ListView lv) {
+        final int firstListItemPosition = lv.getFirstVisiblePosition();
+
+        final int childIndex = pos - firstListItemPosition;
+        return lv.getChildAt(childIndex);
+    }
 
     public void anim() {
-        Log.d(DEBUG_TAG, "onAnim: "
-                + touchedItemID + ", "
-//                + onTouchedItemView + ",  "
-                + pointDownX + ",  "
-                + pointDownY + ", "
-                + lv_list.pointToPosition(pointDownX, pointDownY) + ", "
-                + isJustscroll());
         if (onTouchedItemView != null) {
             onTouchedItemView.animate()
                     .x(targetPoint)
@@ -281,8 +231,8 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected void onDestroy() {
-        super.onDestroy();
         db.close();
+        super.onDestroy();
     }
 }
 

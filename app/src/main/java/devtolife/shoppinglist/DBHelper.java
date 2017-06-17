@@ -1,4 +1,4 @@
-package devtolife.sqliteproj;
+package devtolife.shoppinglist;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,7 +17,6 @@ class DBHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + "\'" + DB.getNameOfTable() + "\'" + "("
                 + DB.KEY_ID + " integer primary key autoincrement,"
                 + DB.KEY_NAME + " text" + ")");
-
     }
 
     @Override

@@ -1,20 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
-        <item name="android:fontFamily">sans</item>
-        <item name="android:textColor">#000000</item>
-        <item name="android:shadowColor">@color/colorPrimaryDark</item>
-        <item name="android:shadowRadius">2</item>
-        <item name="android:shadowDx">2</item>
-        <item name="android:shadowDy">2</item>
+    <style name="AppThemeBlue" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryBlue</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlue</item>
+        <item name="colorAccent">@color/colorAccentBlue</item>
+        <item name="android:windowBackground">@drawable/gradientblue</item>
+        <item name="editTextBackground">@color/colorMoreLightBlue</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:fontFamily">serif-monospace</item>
+        <item name="android:textColor">@color/colorOfText</item>
+
     </style>
+
+    <style name="AppThemeGreen" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryGreen</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkGreen</item>
+        <item name="colorAccent">@color/colorAccentGreen</item>
+        <item name="android:windowBackground">@drawable/gradientgreen</item>
+        <item name="editTextBackground">@color/colorMoreLightGreen</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:fontFamily">serif-monospace</item>
+        <item name="android:textColor">@color/colorOfText</item>
+
+    </style>
+
+    <style name="AppThemeYellow" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryYellow</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkYellow</item>
+        <item name="colorAccent">@color/colorAccentYellow</item>
+        <item name="android:windowBackground">@drawable/gradientyellow</item>
+        <item name="editTextBackground">@color/colorMoreLightYellow</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:fontFamily">serif-monospace</item>
+        <item name="android:textColor">@color/colorOfText</item>
+
+    </style>
+
+    <style name="AppThemeGrey" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryGrey</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkGrey</item>
+        <item name="colorAccent">@color/colorAccentGrey</item>
+        <item name="android:windowBackground">@drawable/gradientgrey</item>
+        <item name="editTextBackground">@color/colorMoreLightGrey</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:fontFamily">serif-monospace</item>
+        <item name="android:textColor">@color/colorOfText</item>
+
+    </style>
+
 
 
 </resources>
