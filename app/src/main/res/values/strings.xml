@@ -7,8 +7,7 @@
     <string name="create_new_list">Create</string>
     <string name="btn_cancel">Cancel</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="action_green">Green</string>
+        <string name="action_green">Green</string>
     <string name="action_blue">Blue</string>
     <string name="action_yellow">Yellow</string>
     <string name="action_grey">Grey</string>
