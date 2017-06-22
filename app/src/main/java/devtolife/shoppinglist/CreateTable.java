@@ -6,9 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -29,6 +32,7 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_table_layout);
 
+
         cancel = (Button) findViewById(R.id.btn_cancel);
         cancel.setOnClickListener(this);
 
@@ -36,6 +40,25 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
         create.setOnClickListener(this);
 
         newList = (EditText) findViewById(R.id.add_new_table);
+        newList.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                nameOfNewTable = newList.getText().toString();
+                if (!nameOfNewTable.isEmpty()) {
+
+                    if (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                        createNewList();
+                        return true;
+                    } else if (actionId == EditorInfo.IME_ACTION_GO) {
+                        createNewList();
+                        return true;
+                    } else if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        createNewList();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -46,21 +69,7 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
                 nameOfNewTable = newList.getText().toString();
                 if (!nameOfNewTable.isEmpty()) {
 
-                    db = new DB(this);
-                    db.open();
-                    // TODO checking for isExist of table
-
-                    DB.setNameOfTable(nameOfNewTable);
-
-                    DB.database.execSQL(
-                            "create table " + "\'" + nameOfNewTable + "\'" + "("
-                                    + DB.KEY_ID + " integer primary key autoincrement,"
-                                    + DB.KEY_NAME + " TEXT" + ")");
-                    db.close();
-
-                    Intent intent = new Intent(this, ProdActivity.class);
-                    startActivity(intent);
-                    finish();
+                    createNewList();
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Enter the name of new table", Toast.LENGTH_SHORT).show();
@@ -71,5 +80,23 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
                 finish();
                 break;
         }
+    }
+
+    private void createNewList() {
+        db = new DB(this);
+        db.open();
+        // TODO checking for isExist of table
+
+        DB.setNameOfTable(nameOfNewTable);
+
+        DB.database.execSQL(
+                "create table " + "\'" + nameOfNewTable + "\'" + "("
+                        + DB.KEY_ID + " integer primary key autoincrement,"
+                        + DB.KEY_NAME + " TEXT" + ")");
+        db.close();
+
+        Intent intent = new Intent(this, ProdActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

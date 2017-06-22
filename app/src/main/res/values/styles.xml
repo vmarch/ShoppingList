@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppThemeBlue" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeBlue" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryBlue</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkBlue</item>
         <item name="colorAccent">@color/colorAccentBlue</item>
@@ -11,10 +11,9 @@
         <item name="android:textSize">25sp</item>
         <item name="android:fontFamily">serif-monospace</item>
         <item name="android:textColor">@color/colorOfText</item>
-
     </style>
 
-    <style name="AppThemeGreen" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeGreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryGreen</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkGreen</item>
         <item name="colorAccent">@color/colorAccentGreen</item>
@@ -24,10 +23,9 @@
         <item name="android:textSize">25sp</item>
         <item name="android:fontFamily">serif-monospace</item>
         <item name="android:textColor">@color/colorOfText</item>
-
     </style>
 
-    <style name="AppThemeYellow" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeYellow" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryYellow</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkYellow</item>
         <item name="colorAccent">@color/colorAccentYellow</item>
@@ -37,10 +35,9 @@
         <item name="android:textSize">25sp</item>
         <item name="android:fontFamily">serif-monospace</item>
         <item name="android:textColor">@color/colorOfText</item>
-
     </style>
 
-    <style name="AppThemeGrey" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeGrey" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryGrey</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkGrey</item>
         <item name="colorAccent">@color/colorAccentGrey</item>
@@ -50,9 +47,12 @@
         <item name="android:textSize">25sp</item>
         <item name="android:fontFamily">serif-monospace</item>
         <item name="android:textColor">@color/colorOfText</item>
-
     </style>
 
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>

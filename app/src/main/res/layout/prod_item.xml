@@ -8,18 +8,6 @@
     android:background="@color/colorOfItem"
     android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tv_list_id"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingLeft="4dp"
-        tools:text="Id" />
-
-    <TextView
-        android:id="@+id/tv_list_point"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="." />
 
     <TextView
         android:id="@+id/tv_list_name"

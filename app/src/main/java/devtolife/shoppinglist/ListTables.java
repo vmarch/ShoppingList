@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +28,7 @@ public class ListTables extends AppCompatActivity implements
 
     private DB db;
     private ListView listTablesView;
-    private Button btn;
+    private Button tab;
     private List<String> arrayList = new ArrayList<>();
     private ArrayAdapter<String> adapter;
     private View onTouchedItemView;
@@ -47,6 +47,7 @@ public class ListTables extends AppCompatActivity implements
     private String MYTHEME = "mytheme";
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -55,10 +56,14 @@ public class ListTables extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_layout);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         mDetector = new GestureDetectorCompat(this, this);
         mDetector.setOnDoubleTapListener(this);
-        btn = (Button) findViewById(R.id.btn_create);
+        tab = (Button) findViewById(R.id.btn_create);
         listTablesView = (ListView) findViewById(R.id.list_table);
+
 
         rawQuery();
 
@@ -112,7 +117,7 @@ public class ListTables extends AppCompatActivity implements
             }
         });
 
-        btn.setOnTouchListener(new View.OnTouchListener() {
+        tab.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getActionMasked() != MotionEvent.ACTION_MOVE) {
@@ -127,18 +132,18 @@ public class ListTables extends AppCompatActivity implements
 
     @Override
     public boolean onDown(MotionEvent event) {
-if (itemTouchedOnTouch.getId()>0){
-        if (itemTouchedOnTouch.getId() == R.id.list_table) {
-            if (onTouchedItemView != null) {
-                dispWidth = listTablesView.getWidth();
-                horizontalMinDistance = dispWidth / 3;
-                return true;
-            } else {
-                return false;
-            }
-        } else return itemTouchedOnTouch.getId() == R.id.btn_create;
-}else{
-    return false;
+        if (itemTouchedOnTouch.getId()>0){
+            if (itemTouchedOnTouch.getId() == R.id.list_table) {
+                if (onTouchedItemView != null) {
+                    dispWidth = listTablesView.getWidth();
+                    horizontalMinDistance = dispWidth / 3;
+                    return true;
+                } else {
+                    return false;
+                }
+            } else return itemTouchedOnTouch.getId() == R.id.btn_create;
+        }else{
+            return false;
         }
     }
 
@@ -197,10 +202,11 @@ if (itemTouchedOnTouch.getId()>0){
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        Log.d(DEBUG_TAG, "onScroll: " + e1.toString() + e2.toString());
-
+//        Log.d(DEBUG_TAG, "onScroll: " + e1.toString() + e2.toString());
+//
+//        Log.d(DEBUG_TAG, "height: " + listTablesView.getHeight());
         if (onTouchedItemView != null) {
-            Log.d(DEBUG_TAG, "onScroll_LIST_ELEM: " + e1.toString() + e2.toString());
+//            Log.d(DEBUG_TAG, "onScroll_LIST_ELEM: " + e1.toString() + e2.toString());
 
             int pointMovingX = (int) e2.getX();
             int pointMovingY = (int) e2.getY();
@@ -208,7 +214,7 @@ if (itemTouchedOnTouch.getId()>0){
             int deltaY = pointDownY - pointMovingY;
 
             if (deltaX <= 0 && Math.abs(deltaY) < 30) {
-                Log.d(DEBUG_TAG, "onScroll_LIST_ELEM_to_RIGHT: " + e1.toString() + e2.toString());
+//                Log.d(DEBUG_TAG, "onScroll_LIST_ELEM_to_RIGHT: " + e1.toString() + e2.toString());
 //to right
 //TODO use right swipe
 //                targetPoint = pointMovingX - pointDownX;
@@ -245,7 +251,7 @@ if (itemTouchedOnTouch.getId()>0){
     }
 
     public void onUp() {
-        Log.d(DEBUG_TAG, "onUP " + moved);
+//        Log.d(DEBUG_TAG, "onUP " + moved);
         if (onTouchedItemView != null) {
             if (moved) {
 

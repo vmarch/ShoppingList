@@ -10,8 +10,11 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -34,7 +37,6 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
 
     ListView lv_list;
     Button btnAdd;
-    TextView tvNameId, tvNameName;
     EditText tvName;
 
     private int pointDownX;
@@ -62,14 +64,20 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.prod_layout);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("" + DB.getNameOfTable());
+        try {
+            getSupportActionBar().setTitle("" + DB.getNameOfTable());
+        } catch (Exception e) {
+        }
+
 
         db = new DB(this);
         db.open();
 
-        String[] from = new String[]{DB.KEY_ID, DB.KEY_NAME};
-        int[] to = new int[]{R.id.tv_list_id, R.id.tv_list_name};
+        String[] from = new String[]{DB.KEY_NAME};
+        int[] to = new int[]{R.id.tv_list_name};
 
         scAdapter = new SimpleCursorAdapter(this, R.layout.prod_item, null, from, to, 0);
 
@@ -80,6 +88,23 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
         getSupportLoaderManager().initLoader(0, null, this);
 
         tvName = (EditText) findViewById(R.id.tv_name);
+
+        tvName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    createNewItem();
+                    return true;
+                } else if (actionId == EditorInfo.IME_ACTION_GO) {
+                    createNewItem();
+                    return true;
+                } else if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    createNewItem();
+                    return true;
+                }
+
+                return false;
+            }
+        });
 
         btnAdd = (Button) findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(this);
@@ -101,20 +126,7 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        name = tvName.getText().toString();
-
-        switch (view.getId()) {
-            case R.id.btn_add:
-                if (name.isEmpty()) {
-                    Toast.makeText(getApplicationContext(),
-                            "Fill all fields", Toast.LENGTH_SHORT).show();
-                } else {
-                    db.addRec(name);
-                    getSupportLoaderManager().getLoader(0).forceLoad();
-                    tvName.setText("");
-                }
-                break;
-        }
+        createNewItem();
     }
 
     @Override
@@ -233,6 +245,18 @@ public class ProdActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         db.close();
         super.onDestroy();
+    }
+
+    private void createNewItem() {
+        name = tvName.getText().toString();
+        if (name.isEmpty()) {
+            Toast.makeText(getApplicationContext(),
+                    "Fill all fields", Toast.LENGTH_SHORT).show();
+        } else {
+            db.addRec(name);
+            getSupportLoaderManager().getLoader(0).forceLoad();
+            tvName.setText("");
+        }
     }
 }
 
