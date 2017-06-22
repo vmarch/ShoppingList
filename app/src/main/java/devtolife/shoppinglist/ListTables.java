@@ -47,7 +47,6 @@ public class ListTables extends AppCompatActivity implements
     private String MYTHEME = "mytheme";
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -132,7 +131,7 @@ public class ListTables extends AppCompatActivity implements
 
     @Override
     public boolean onDown(MotionEvent event) {
-        if (itemTouchedOnTouch.getId()>0){
+        if (itemTouchedOnTouch.getId() > 0) {
             if (itemTouchedOnTouch.getId() == R.id.list_table) {
                 if (onTouchedItemView != null) {
                     dispWidth = listTablesView.getWidth();
@@ -142,7 +141,7 @@ public class ListTables extends AppCompatActivity implements
                     return false;
                 }
             } else return itemTouchedOnTouch.getId() == R.id.btn_create;
-        }else{
+        } else {
             return false;
         }
     }

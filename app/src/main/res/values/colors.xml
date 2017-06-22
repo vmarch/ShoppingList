@@ -11,14 +11,11 @@
     <color name="colorLightGreen">#A5D6A7</color>
     <color name="colorMoreLightGreen">#B9F6CA</color>
 
-
     <color name="colorAccentBlue">#5e85c7</color>
     <color name="colorPrimaryDarkBlue">#131771</color>
     <color name="colorPrimaryBlue">#48b3e4</color>
     <color name="colorLightBlue">#84bdff</color>
     <color name="colorMoreLightBlue">#a5e4e2</color>
-
-
 
     <color name="colorAccentYellow">#FFC400</color>
     <color name="colorPrimaryDarkYellow">#fccf83</color>
