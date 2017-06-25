@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_list_name"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_weight="20"
     android:background="@color/colorOfItem"
-    android:inputType="textMultiLine"
+    android:maxLines="2"
     android:minHeight="40dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
 
 
-    <TextView
-        android:id="@+id/tv_list_name"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="20"
-        android:maxLines="2"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        tools:text="Name" />
-
-
-</LinearLayout>
+</TextView>

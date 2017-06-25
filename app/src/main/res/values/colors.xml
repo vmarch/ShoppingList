@@ -27,4 +27,6 @@
     <color name="colorPrimaryGrey">#bcafb1</color>
     <color name="colorMoreLightGrey">#f4ece9</color>
 
+    <color name="colorCheckedView">#6c000000</color>
+    <color name="colorCheckedText">#ffffff</color>
 </resources>

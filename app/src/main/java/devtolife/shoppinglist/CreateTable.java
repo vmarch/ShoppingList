@@ -92,7 +92,12 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
         DB.database.execSQL(
                 "create table " + "\'" + nameOfNewTable + "\'" + "("
                         + DB.KEY_ID + " integer primary key autoincrement,"
-                        + DB.KEY_NAME + " TEXT" + ")");
+                        + DB.KEY_NAME + " TEXT,"
+                        + DB.KEY_CHECKED + " integer,"
+                        + DB.KEY_PRICE + " double,"
+                        + DB.KEY_QUANTITY + " integer,"
+                        + DB.KEY_IMPORTANT + " integer"
+                        + ")");
         db.close();
 
         Intent intent = new Intent(this, ProdActivity.class);

@@ -5,26 +5,23 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.GestureDetector;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListTables extends AppCompatActivity implements
-        GestureDetector.OnGestureListener,
-        GestureDetector.OnDoubleTapListener {
+public class ListTables extends AppCompatActivity {
 
     private DB db;
     private ListView listTablesView;
@@ -32,20 +29,17 @@ public class ListTables extends AppCompatActivity implements
     private List<String> arrayList = new ArrayList<>();
     private ArrayAdapter<String> adapter;
     private View onTouchedItemView;
-    private int pointDownX;
-    private int pointDownY;
-    private long touchedItemID;
-    private int targetPoint;
-    private View itemTouchedOnTouch;
-    private int dispWidth;
-    private int horizontalMinDistance;
     private static final String DEBUG_TAG = "Gestures";
-    private GestureDetectorCompat mDetector;
-    private boolean moved = false;
-    private boolean justscroll = false;
     private SharedPreferences mSharedPref;
     private String MYTHEME = "mytheme";
-
+    private Intent intent;
+//    private String newTableName;
+//    public String getNewTableName() {
+//        return newTableName;
+//    }
+//    public void setNewTableName(String newTableName) {
+//        this.newTableName = newTableName;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,91 +52,111 @@ public class ListTables extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mDetector = new GestureDetectorCompat(this, this);
-        mDetector.setOnDoubleTapListener(this);
         tab = (Button) findViewById(R.id.btn_create);
+        tab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(ListTables.this, CreateTable.class);
+                startActivity(intent);
+            }
+        });
         listTablesView = (ListView) findViewById(R.id.list_table);
-
+        registerForContextMenu(listTablesView);
 
         rawQuery();
 
         adapter = new ArrayAdapter<>(this, R.layout.list_item, arrayList);
         listTablesView.setAdapter(adapter);
-
-        listTablesView.setOnTouchListener(new View.OnTouchListener() {
-
+        listTablesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                boolean fact = false;
-                itemTouchedOnTouch = v;
-
-                switch (event.getActionMasked()) {
-
-                    case MotionEvent.ACTION_DOWN:
-                        if (listTablesView.getCount() > 0) {
-                            pointDownX = (int) event.getX();
-                            pointDownY = (int) event.getY();
-                            onTouchedItemView = getViewByPosition(listTablesView.pointToPosition(pointDownX, pointDownY), listTablesView);
-                            touchedItemID = listTablesView.pointToRowId(pointDownX, pointDownY);
-                            justscroll = true;
-                            fact = mDetector.onTouchEvent(event);
-                        } else {
-                            Toast.makeText(getApplicationContext(),
-                                    "Let's start new list!", Toast.LENGTH_SHORT).show();
-                            fact = false;
-                        }
-                        break;
-
-                    case MotionEvent.ACTION_MOVE:
-                        if (justscroll) {
-                            if (onTouchedItemView != null) {
-                                fact = mDetector.onTouchEvent(event);
-                            } else {
-                                fact = false;
-                            }
-                        }
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        if (onTouchedItemView != null) {
-                            fact = mDetector.onTouchEvent(event);
-                            onUp();
-                        } else {
-                            fact = false;
-                        }
-                        break;
-                }
-                return fact;
-            }
-        });
-
-        tab.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getActionMasked() != MotionEvent.ACTION_MOVE) {
-                    itemTouchedOnTouch = v;
-                    return mDetector.onTouchEvent(event);
-                } else {
-                    return false;
-                }
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                onTouchedItemView = v;
+                TextView tv = (TextView) onTouchedItemView;
+                DB.setNameOfTable(tv.getText().toString());
+                intent = new Intent(ListTables.this, ProdActivity.class);
+                startActivity(intent);
             }
         });
     }
 
     @Override
-    public boolean onDown(MotionEvent event) {
-        if (itemTouchedOnTouch.getId() > 0) {
-            if (itemTouchedOnTouch.getId() == R.id.list_table) {
-                if (onTouchedItemView != null) {
-                    dispWidth = listTablesView.getWidth();
-                    horizontalMinDistance = dispWidth / 3;
-                    return true;
-                } else {
-                    return false;
-                }
-            } else return itemTouchedOnTouch.getId() == R.id.btn_create;
-        } else {
-            return false;
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.list_context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        DB.setNameOfTable(adapter.getItem(info.position));
+
+        switch (item.getItemId()) {
+
+            case R.id.delete_list:
+                db = new DB(this);
+                db.open();
+                db.deleteTable(DB.getNameOfTable());
+                db.close();
+                updateAdapter();
+                return true;
+
+//            case R.id.copy_list:
+//                TODO Copy of LIST with changing of Name
+//                db = new DB(this);
+//                db.open();
+//
+//                String oldTableName = DB.getNameOfTable();
+//
+//                Cursor cTable = DB.database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+//
+//                if (cTable.moveToFirst()) {
+//
+//                    while (!cTable.isAfterLast()) {
+//                        cTable.getString(0);
+////TODO check for exist
+//                        if (!cTable.getString(0).equals(getNewTableName() + "(copy)")) {
+//                            setNewTableName(DB.getNameOfTable() + "(copy)");
+//
+//                        } else if (cTable.getString(0).equals(getNewTableName() + "(copy)")) {
+//
+//                            cTable.close();
+//                            db.close();
+//                            DB.setNameOfTable(oldTableName);
+//                            updateAdapter();
+//                            return super.onContextItemSelected(item);
+//
+//                        } else {
+//                            break;
+//                        }
+//                        cTable.moveToNext();
+//                    }
+//                }
+//                cTable.close();
+//                DB.setNameOfTable(getNewTableName());
+//
+//                DB.database.execSQL("create table " + "\'" + DB.getNameOfTable() + "\'" + "("
+//                        + DB.KEY_ID + " integer primary key autoincrement,"
+//                        + DB.KEY_NAME + " TEXT" + ")");
+//
+//                Cursor cList = DB.database.query("\'" + oldTableName + "\'", null, null, null, null, null, null);
+//
+//                if (cList.moveToFirst()) {
+//                    while (!cList.isAfterLast()) {
+//                        cList.getString(1);
+//                        db.addRec(cList.getString(1),0,0.0,1,1);
+//                        cList.moveToNext();
+//                    }
+//                }
+//                cList.close();
+//                db.close();
+//
+//                Intent intent = new Intent(this, ProdActivity.class);
+//                startActivity(intent);
+//                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
     }
 
@@ -198,159 +212,18 @@ public class ListTables extends AppCompatActivity implements
         }
     }
 
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-//        Log.d(DEBUG_TAG, "onScroll: " + e1.toString() + e2.toString());
-//
-//        Log.d(DEBUG_TAG, "height: " + listTablesView.getHeight());
-        if (onTouchedItemView != null) {
-//            Log.d(DEBUG_TAG, "onScroll_LIST_ELEM: " + e1.toString() + e2.toString());
-
-            int pointMovingX = (int) e2.getX();
-            int pointMovingY = (int) e2.getY();
-            int deltaX = pointDownX - pointMovingX;
-            int deltaY = pointDownY - pointMovingY;
-
-            if (deltaX <= 0 && Math.abs(deltaY) < 30) {
-//                Log.d(DEBUG_TAG, "onScroll_LIST_ELEM_to_RIGHT: " + e1.toString() + e2.toString());
-//to right
-//TODO use right swipe
-//                targetPoint = pointMovingX - pointDownX;
-//                if (Math.abs(deltaX) > horizontalMinDistance && dispWidth - pointMovingX < dispWidth / 5) {
-//                    onTouchedItemView.setBackgroundResource(R.color.colorPrimaryDark);
-//                } else {
-//                    onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
-//                }
-//                anim();
-
-            } else if (deltaX > 0 && Math.abs(deltaY) < 30) {
-//to left
-
-                targetPoint = pointMovingX - pointDownX;
-                if (Math.abs(deltaX) > horizontalMinDistance && pointMovingX < dispWidth / 5) {
-                    onTouchedItemView.setBackgroundResource(R.color.deletemarker);
-                    moved = true;
-
-                } else {
-                    onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
-                    moved = false;
-                }
-                anim();
-
-            } else {
-                justscroll = false;
-                moved = false;
-                onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
-                targetPoint = 0;
-                anim();
-            }
-        }
-        return true;
-    }
-
-    public void onUp() {
-//        Log.d(DEBUG_TAG, "onUP " + moved);
-        if (onTouchedItemView != null) {
-            if (moved) {
-
-                db = new DB(this);
-                db.open();
-                db.deleteTable(listTablesView.getAdapter().getItem((int) touchedItemID).toString());
-                db.close();
-                updateAdapter();
-            }
-            onTouchedItemView.setBackgroundResource(R.color.colorOfItem);
-            targetPoint = 0;
-            anim();
-            moved = false;
-        }
-    }
-
-    @Override
-    public boolean onSingleTapConfirmed(MotionEvent event) {
-
-        Intent intent;
-        switch (itemTouchedOnTouch.getId()) {
-
-            case R.id.list_table:
-                if (onTouchedItemView != null) {
-                    TextView tv = (TextView) onTouchedItemView;
-                    DB.setNameOfTable(tv.getText().toString());
-                    intent = new Intent(this, ProdActivity.class);
-                    startActivity(intent);
-                    return true;
-                } else {
-                    return false;
-                }
-
-            case R.id.btn_create:
-                intent = new Intent(this, CreateTable.class);
-                startActivity(intent);
-                return true;
-        }
-        return false;
-    }
-
-    public void anim() {
-        onTouchedItemView.animate()
-                .x(targetPoint)
-                .setDuration(0)
-                .start();
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        this.mDetector.onTouchEvent(event);
-        return super.onTouchEvent(event);
-    }
-
-    @Override
-    public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX,
-                           float velocityY) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent event) {
-        if (itemTouchedOnTouch.getId() == R.id.btn_create) {
-            Intent intent = new Intent(this, CreateTable.class);
-            startActivity(intent);
-        }
-    }
-
-    @Override
-    public void onShowPress(MotionEvent event) {
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent event) {
-        return false;
-    }
-
-    @Override
-    public boolean onDoubleTap(MotionEvent event) {
-        return false;
-    }
-
-    @Override
-    public boolean onDoubleTapEvent(MotionEvent event) {
-        return false;
-    }
-
     @Override
     protected void onRestart() {
         super.onRestart();
         updateAdapter();
     }
-
-    private View getViewByPosition(int pos, ListView lv) {
-        final int firstListItemPosition = lv.getFirstVisiblePosition();
-        final int lastListItemPosition = firstListItemPosition + lv.getChildCount() - 1;
-
-        final int childIndex = pos - firstListItemPosition;
-        return lv.getChildAt(childIndex);
-    }
+//    private View getViewByPosition(int pos, ListView lv) {
+//        final int firstListItemPosition = lv.getFirstVisiblePosition();
+//        final int lastListItemPosition = firstListItemPosition + lv.getChildCount() - 1;
+//
+//        final int childIndex = pos - firstListItemPosition;
+//        return lv.getChildAt(childIndex);
+//    }
 
     private void updateAdapter() {
         adapter.clear();

@@ -6,9 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 class DB {
-
+    DB db;
     private Context context;
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static String DATABASE_NAME = "SHOPINGLIST";
     private static String nameOfTable = "Example";
 
@@ -22,6 +22,11 @@ class DB {
 
     static final String KEY_ID = "_id";
     static final String KEY_NAME = "name";
+    static final String KEY_CHECKED = "checked";
+    static final String KEY_PRICE = "price";
+    static final String KEY_QUANTITY = "quantity";
+    static final String KEY_IMPORTANT = "important";
+
 
     DB(Context ctx) {
         context = ctx;
@@ -35,13 +40,28 @@ class DB {
         database = dbHelper.getWritableDatabase();
     }
 
-    Cursor getAllData() {
-        return database.query("\'" + getNameOfTable() + "\'", null, null, null, null, null, null);
-    }
-
-    void addRec(String name) {
+    void upDateRec(String name, int checked, double price, int quantity, int important) {
         ContentValues cv = new ContentValues();
         cv.put(KEY_NAME, name);
+        cv.put(KEY_CHECKED, checked);
+        cv.put(KEY_PRICE, price);
+        cv.put(KEY_QUANTITY, quantity);
+        cv.put(KEY_IMPORTANT, important);
+    }
+
+    Cursor getAllData() {
+        return database.query("\'" + getNameOfTable() + "\'", null, null, null, null, null, null);
+
+    }
+
+    protected void addRec(String name, int checked, double price, int quantity, int important) {
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_NAME, name);
+        cv.put(KEY_CHECKED, checked);
+        cv.put(KEY_PRICE, price);
+        cv.put(KEY_QUANTITY, quantity);
+        cv.put(KEY_IMPORTANT, important);
+
         database.insert("\'" + getNameOfTable() + "\'", null, cv);
     }
 

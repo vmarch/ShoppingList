@@ -12,5 +12,13 @@
     <string name="action_yellow">Yellow</string>
     <string name="action_grey">Grey</string>
 
+    <string name="delete_list">Delete</string>
+    <!--<string name="copy_list">Copy</string>-->
+
+    <string name="delete_prod">Remove</string>
+    <!--<string name="copy_to_favor">Copy</string>-->
+    <!--<string name="edit_prod">Edit</string>-->
+
+
 
 </resources>
