@@ -51,6 +51,7 @@ public class ListTables extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
 
         tab = (Button) findViewById(R.id.btn_create);
         tab.setOnClickListener(new View.OnClickListener() {

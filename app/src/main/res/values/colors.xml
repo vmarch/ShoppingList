@@ -2,7 +2,7 @@
 <resources>
 
     <color name="deletemarker">#9aff000a</color>
-    <color name="colorOfItem">#16f5f5f5</color>
+    <color name="colorOfItem">#37f5f5f5</color>
     <color name="colorOfText">#0b0526</color>
 
     <color name="colorAccentGreen">#6de94e</color>
@@ -27,6 +27,6 @@
     <color name="colorPrimaryGrey">#bcafb1</color>
     <color name="colorMoreLightGrey">#f4ece9</color>
 
-    <color name="colorCheckedView">#6c000000</color>
-    <color name="colorCheckedText">#ffffff</color>
-</resources>
+    <color name="colorCheckedItem">#6caeaeae</color>
+    <color name="colorCheckedText">#414540</color>
+   </resources>

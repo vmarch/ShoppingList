@@ -40,13 +40,10 @@ class DB {
         database = dbHelper.getWritableDatabase();
     }
 
-    void upDateRec(String name, int checked, double price, int quantity, int important) {
+    void upDateCheck(long id,int checked) {
         ContentValues cv = new ContentValues();
-        cv.put(KEY_NAME, name);
         cv.put(KEY_CHECKED, checked);
-        cv.put(KEY_PRICE, price);
-        cv.put(KEY_QUANTITY, quantity);
-        cv.put(KEY_IMPORTANT, important);
+        database.update("\'" + getNameOfTable() + "\'",cv,"_id = " + id, null);
     }
 
     Cursor getAllData() {
@@ -67,6 +64,9 @@ class DB {
 
     void delRec(long id) {
         database.delete("\'" + getNameOfTable() + "\'", KEY_ID + " = " + id, null);
+    }
+   Cursor toGetCheckedItem(long id) {
+        return database.rawQuery("SELECT checked FROM " + "\'" + DB.getNameOfTable() + "\'" + " WHERE _id = " + id, null);
     }
 
     void deleteTable(String tabl) {

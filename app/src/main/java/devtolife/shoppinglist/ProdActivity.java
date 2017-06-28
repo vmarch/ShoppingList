@@ -27,9 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class ProdActivity extends AppCompatActivity implements
-//        View.OnClickListener,
-        LoaderManager.LoaderCallbacks<Cursor> {
+public class ProdActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String DEBUG_TAG = "Gecture";
     DB db;
@@ -47,20 +45,6 @@ public class ProdActivity extends AppCompatActivity implements
     private int pointDownX;
     private int pointDownY;
     private Intent intent;
-//    private long touchedItemID;
-//    private int targetPoint;
-//    private boolean moved = false;
-//    private boolean justscroll;
-//    private int pointMovingX;
-//    private int pointMovingY;
-//
-//    public boolean isJustscroll() {
-//        return justscroll;
-//    }
-//
-//    public void setJustscroll(boolean justscroll) {
-//        this.justscroll = justscroll;
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,42 +62,44 @@ public class ProdActivity extends AppCompatActivity implements
         } catch (Exception e) {
         }
 
-
         db = new DB(this);
         db.open();
 
         String[] from = new String[]{DB.KEY_NAME};
         int[] to = new int[]{R.id.tv_list_name};
 
-        scAdapter = new SimpleCursorAdapter(this, R.layout.prod_item, null, from, to, 0);
+        scAdapter = new MySCA(this, R.layout.prod_item, null, from, to, 0);
 
         lv_list = (ListView) findViewById(R.id.lv_list);
         lv_list.setAdapter(scAdapter);
+
         lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                onTouchedItemView = v;
-                TextView txt = (TextView) onTouchedItemView;
-                txt.setTextColor(getResources().getColor(R.color.colorCheckedText));
-                onTouchedItemView.setBackgroundColor(getResources().getColor(R.color.colorCheckedView));
 
-//                db.open();
-//                DB.database.query("SELECT quantity FROM " + "\'" + DB.getNameOfTable() + "\'" + " WHERE _id = " + id,);
+                TextView txt = (TextView) v;
+
+                Cursor c = db.toGetCheckedItem(id);
+                c.moveToFirst();
+
+                int checked = c.getInt(c.getColumnIndex("checked"));
+
+                Toast.makeText(getApplicationContext(),
+                        "checked:  " + checked, Toast.LENGTH_SHORT).show();
+
+                toCheckProd(id, v, txt, checked);
 
 
-                txt.setPaintFlags(txt.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 //                TODO revert strike
-////                and for remove you can use this
-//
-//                txt.setPaintFlags(txt.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+
             }
         });
+
         registerForContextMenu(lv_list);
 
         getSupportLoaderManager().initLoader(0, null, this);
 
         tvName = (EditText) findViewById(R.id.tv_name);
-
         tvName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
@@ -139,7 +125,86 @@ public class ProdActivity extends AppCompatActivity implements
                 createNewItem();
             }
         });
+        db.close();
+    }
 
+    public class MySCA extends SimpleCursorAdapter {
+
+        public MySCA(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+            super(context, layout, c, from, to, flags);
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+
+            int listCursor = cursor.getInt(cursor.getColumnIndex("checked"));
+
+            TextView tv = (TextView) view;
+
+            cursor.moveToFirst();
+
+            Toast.makeText(getApplicationContext(),
+                    "c2: " + listCursor, Toast.LENGTH_SHORT).show();
+
+            if (cursor.getInt(cursor.getColumnIndex("checked")) == 1) {
+//                tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//                tv.setTextColor(getResources().getColor(R.color.colorCheckedText));
+//                view.setBackgroundColor(getResources().getColor(R.color.colorCheckedItem));
+
+            } else {
+                tv.setPaintFlags(tv.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                tv.setTextColor(getResources().getColor(R.color.colorOfText));
+                view.setBackgroundColor(getResources().getColor(R.color.colorOfItem));
+
+            }
+        }
+
+    }
+//        @Override
+//        public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+//
+//            TextView tv = (TextView) view;
+//
+//            cursor.moveToFirst();
+//
+//            Toast.makeText(getApplicationContext(),
+//                    "c2: " + cursor.getInt(cursor.getColumnIndex("checked")), Toast.LENGTH_SHORT).show();
+//
+//            if (cursor.getInt(cursor.getColumnIndex("checked")) == 1) {
+////                tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+////                tv.setTextColor(getResources().getColor(R.color.colorCheckedText));
+//                view.setBackgroundColor(getResources().getColor(R.color.colorCheckedItem));
+//                return true;
+//
+//            } else if (cursor.getInt(cursor.getColumnIndex("checked")) == 0) {
+//                tv.setPaintFlags(tv.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+//                tv.setTextColor(getResources().getColor(R.color.colorOfText));
+//                view.setBackgroundColor(getResources().getColor(R.color.colorOfItem));
+//                return true;
+//
+//            } else {
+//                return false;
+//            }
+//
+//        }
+//    }
+
+    public void toCheckProd(long id, View v, TextView tv, int check) {
+
+        if (check == 0) {
+
+            tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            tv.setTextColor(getResources().getColor(R.color.colorCheckedText));
+            v.setBackgroundColor(getResources().getColor(R.color.colorCheckedItem));
+            db.upDateCheck(id, 1);
+
+        } else if (check == 1) {
+
+            tv.setPaintFlags(tv.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            tv.setTextColor(getResources().getColor(R.color.colorOfText));
+            v.setBackgroundColor(getResources().getColor(R.color.colorOfItem));
+            db.upDateCheck(id, 0);
+        }
     }
 
     @Override
@@ -239,7 +304,6 @@ public class ProdActivity extends AppCompatActivity implements
         }
     }
 
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle bndl) {
         return new MyCursorLoader(this, db);
@@ -301,6 +365,7 @@ public class ProdActivity extends AppCompatActivity implements
         }
 
     }
+
 
     protected void onDestroy() {
         db.close();
