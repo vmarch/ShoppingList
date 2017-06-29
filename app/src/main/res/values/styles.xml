@@ -50,7 +50,6 @@
     </style>
 
 
-
     <!--<item name="colorEdgeEffect">@color/colorEdgeEffectYellow</item>-->
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

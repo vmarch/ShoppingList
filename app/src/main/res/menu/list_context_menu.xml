@@ -5,6 +5,6 @@
         android:id="@+id/delete_list"
         android:title="@string/delete_list" />
     <!--<item-->
-        <!--android:id="@+id/copy_list"-->
-        <!--android:title="@string/copy_list" />-->
+    <!--android:id="@+id/copy_list"-->
+    <!--android:title="@string/copy_list" />-->
 </menu>

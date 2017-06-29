@@ -6,11 +6,24 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 class DB {
-    DB db;
-    private Context context;
+    static final String KEY_ID = "_id";
+    static final String KEY_NAME = "name";
+    static final String KEY_CHECKED = "checked";
+    static final String KEY_PRICE = "price";
+    static final String KEY_QUANTITY = "quantity";
+    static final String KEY_IMPORTANT = "important";
     private static final int DATABASE_VERSION = 3;
+    public static SQLiteDatabase database;
     private static String DATABASE_NAME = "SHOPINGLIST";
     private static String nameOfTable = "Example";
+    DB db;
+    private Context context;
+    private DBHelper dbHelper;
+
+
+    DB(Context ctx) {
+        context = ctx;
+    }
 
     public static String getNameOfTable() {
         return nameOfTable;
@@ -20,30 +33,15 @@ class DB {
         DB.nameOfTable = nameOfTable;
     }
 
-    static final String KEY_ID = "_id";
-    static final String KEY_NAME = "name";
-    static final String KEY_CHECKED = "checked";
-    static final String KEY_PRICE = "price";
-    static final String KEY_QUANTITY = "quantity";
-    static final String KEY_IMPORTANT = "important";
-
-
-    DB(Context ctx) {
-        context = ctx;
-    }
-
-    private DBHelper dbHelper;
-    public static SQLiteDatabase database;
-
     public void open() {
         dbHelper = new DBHelper(context, DATABASE_NAME, null, DATABASE_VERSION);
         database = dbHelper.getWritableDatabase();
     }
 
-    void upDateCheck(long id,int checked) {
+    void upDateCheck(long id, int checked) {
         ContentValues cv = new ContentValues();
         cv.put(KEY_CHECKED, checked);
-        database.update("\'" + getNameOfTable() + "\'",cv,"_id = " + id, null);
+        database.update("\'" + getNameOfTable() + "\'", cv, "_id = " + id, null);
     }
 
     Cursor getAllData() {
@@ -65,7 +63,8 @@ class DB {
     void delRec(long id) {
         database.delete("\'" + getNameOfTable() + "\'", KEY_ID + " = " + id, null);
     }
-   Cursor toGetCheckedItem(long id) {
+
+    Cursor toGetCheckedItem(long id) {
         return database.rawQuery("SELECT checked FROM " + "\'" + DB.getNameOfTable() + "\'" + " WHERE _id = " + id, null);
     }
 

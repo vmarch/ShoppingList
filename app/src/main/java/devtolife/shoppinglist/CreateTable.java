@@ -17,12 +17,12 @@ import android.widget.Toast;
 
 public class CreateTable extends AppCompatActivity implements View.OnClickListener {
 
+    DB db;
+    SharedPreferences mSharedPref;
     private Button create;
     private Button cancel;
     private EditText newList;
-    DB db;
     private String nameOfNewTable;
-    SharedPreferences mSharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

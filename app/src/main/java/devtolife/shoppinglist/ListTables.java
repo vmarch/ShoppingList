@@ -23,13 +23,13 @@ import java.util.List;
 
 public class ListTables extends AppCompatActivity {
 
+    private static final String DEBUG_TAG = "Gestures";
     private DB db;
     private ListView listTablesView;
     private Button tab;
     private List<String> arrayList = new ArrayList<>();
     private ArrayAdapter<String> adapter;
     private View onTouchedItemView;
-    private static final String DEBUG_TAG = "Gestures";
     private SharedPreferences mSharedPref;
     private String MYTHEME = "mytheme";
     private Intent intent;

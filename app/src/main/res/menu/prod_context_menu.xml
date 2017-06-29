@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<item-->
+    <!--android:id="@+id/edit_prod"-->
+    <!--android:title="@string/edit_prod" />-->
+
+    <!--<item-->
+    <!--android:id="@+id/to_favorite"-->
+    <!--android:title="@string/copy_to_favor" />-->
+
+    <item
+        android:id="@+id/delete_prod"
+        android:title="@string/delete_prod" />
+
+
+</menu>

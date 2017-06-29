@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="deletemarker">#9aff000a</color>
     <color name="colorOfItem">#37f5f5f5</color>
     <color name="colorOfText">#0b0526</color>
 
@@ -29,4 +28,4 @@
 
     <color name="colorCheckedItem">#6caeaeae</color>
     <color name="colorCheckedText">#414540</color>
-   </resources>
+</resources>

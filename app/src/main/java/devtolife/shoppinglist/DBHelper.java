@@ -31,7 +31,7 @@ class DBHelper extends SQLiteOpenHelper {
         if (oldVersion == 1 && newVersion == 2) {
             db.beginTransaction();
             try {
-                db.execSQL("alter table "+ "\'" + DB.getNameOfTable() + "\'" +" add column "
+                db.execSQL("alter table " + "\'" + DB.getNameOfTable() + "\'" + " add column "
                         + DB.KEY_CHECKED + " integer,"
                         + DB.KEY_PRICE + " double,"
                         + DB.KEY_QUANTITY + " integer,"
@@ -44,7 +44,6 @@ class DBHelper extends SQLiteOpenHelper {
         }
         onCreate(db);
     }
-
 
 
 }
