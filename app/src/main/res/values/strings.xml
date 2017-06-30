@@ -1,21 +1,22 @@
 <resources>
 
-    <string name="app_name">Shopping List</string>
+    <string name="app_name">Список покупок</string>
     <string name="add_product">+</string>
-    <string name="field_product">Item</string>
-    <string name="set_name">New List</string>
-    <string name="create_new_list">Create</string>
-    <string name="btn_cancel">Cancel</string>
+    <string name="field_product">Пункт списку</string>
+    <string name="set_name">Новий список</string>
+    <string name="create_new_list">Створити</string>
+    <string name="btn_cancel">Відміна</string>
 
-    <string name="action_green">Green</string>
-    <string name="action_blue">Blue</string>
-    <string name="action_yellow">Yellow</string>
-    <string name="action_grey">Grey</string>
+    <string name="action_pink">Рожевий</string>
+    <string name="action_green">Зелений</string>
+    <string name="action_blue">Синій</string>
+    <string name="action_yellow">Жовтий</string>
+    <string name="action_grey">Сірий</string>
 
-    <string name="delete_list">Delete</string>
+    <string name="delete_list">Видалити</string>
     <!--<string name="copy_list">Copy</string>-->
 
-    <string name="delete_prod">Remove</string>
+    <string name="delete_prod">Видалити</string>
     <!--<string name="copy_to_favor">Copy</string>-->
     <!--<string name="edit_prod">Edit</string>-->
 

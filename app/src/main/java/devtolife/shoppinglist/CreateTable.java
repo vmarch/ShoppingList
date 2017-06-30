@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 public class CreateTable extends AppCompatActivity implements View.OnClickListener {
 
     DB db;
@@ -31,7 +30,6 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_table_layout);
-
 
         cancel = (Button) findViewById(R.id.btn_cancel);
         cancel.setOnClickListener(this);

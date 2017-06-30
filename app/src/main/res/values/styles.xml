@@ -8,9 +8,7 @@
         <item name="android:windowBackground">@drawable/gradientblue</item>
         <item name="editTextBackground">@color/colorMoreLightBlue</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">25sp</item>
-        <item name="android:fontFamily">serif-monospace</item>
-        <item name="android:textColor">@color/colorOfText</item>
+        <item name="android:textViewStyle">@style/TextStyle</item>
     </style>
 
     <style name="AppThemeGreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
@@ -20,9 +18,7 @@
         <item name="android:windowBackground">@drawable/gradientgreen</item>
         <item name="editTextBackground">@color/colorMoreLightGreen</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">25sp</item>
-        <item name="android:fontFamily">serif-monospace</item>
-        <item name="android:textColor">@color/colorOfText</item>
+        <item name="android:textViewStyle">@style/TextStyle</item>
     </style>
 
     <style name="AppThemeYellow" parent="@style/Theme.AppCompat.Light.NoActionBar">
@@ -32,9 +28,7 @@
         <item name="android:windowBackground">@drawable/gradientyellow</item>
         <item name="editTextBackground">@color/colorMoreLightYellow</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">25sp</item>
-        <item name="android:fontFamily">serif-monospace</item>
-        <item name="android:textColor">@color/colorOfText</item>
+        <item name="android:textViewStyle">@style/TextStyle</item>
     </style>
 
     <style name="AppThemeGrey" parent="@style/Theme.AppCompat.Light.NoActionBar">
@@ -44,11 +38,27 @@
         <item name="android:windowBackground">@drawable/gradientgrey</item>
         <item name="editTextBackground">@color/colorMoreLightGrey</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:textViewStyle">@style/TextStyle</item>
+
+    </style>
+
+    <style name="AppThemePink" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryPink</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkPink</item>
+        <item name="colorAccent">@color/colorAccentPink</item>
+        <item name="android:windowBackground">@drawable/gradientpink</item>
+        <item name="editTextBackground">@color/colorMoreLightPink</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textViewStyle">@style/TextStyle</item>
+        <item name="android:icon">@mipmap/ic_launcher</item>
+
+    </style>
+
+    <style name="TextStyle">
         <item name="android:textSize">25sp</item>
         <item name="android:fontFamily">serif-monospace</item>
         <item name="android:textColor">@color/colorOfText</item>
     </style>
-
 
     <!--<item name="colorEdgeEffect">@color/colorEdgeEffectYellow</item>-->
 

@@ -8,7 +8,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-                android:theme="@style/AppThemeGrey">
+        android:theme="@style/AppThemeGrey">
         <activity android:name="devtolife.shoppinglist.ListTables">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,7 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="devtolife.shoppinglist.ProdActivity"
+        <activity
+            android:name="devtolife.shoppinglist.ProdActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.list" />
@@ -25,7 +26,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="devtolife.shoppinglist.CreateTable"
+        <activity
+            android:name="devtolife.shoppinglist.CreateTable"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.create" />

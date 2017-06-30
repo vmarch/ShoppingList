@@ -208,6 +208,15 @@ public class ListTables extends AppCompatActivity {
                 finish();
                 startActivity(intent2);
                 return true;
+
+            case R.id.action_pink:
+                ed.putInt("mytheme", R.style.AppThemePink);
+                ed.apply();
+                intent2 = getIntent();
+                finish();
+                startActivity(intent2);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -46,7 +46,6 @@ class DB {
 
     Cursor getAllData() {
         return database.query("\'" + getNameOfTable() + "\'", null, null, null, null, null, null);
-
     }
 
     protected void addRec(String name, int checked, double price, int quantity, int important) {

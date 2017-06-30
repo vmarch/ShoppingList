@@ -27,4 +27,10 @@
         android:title="@string/action_grey"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_pink"
+        android:orderInCategory="100"
+        android:title="@string/action_pink"
+        app:showAsAction="never" />
+
 </menu>

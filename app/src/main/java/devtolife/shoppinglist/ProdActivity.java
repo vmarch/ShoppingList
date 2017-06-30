@@ -25,7 +25,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 public class ProdActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String DEBUG_TAG = "Gecture";
@@ -87,6 +86,7 @@ public class ProdActivity extends AppCompatActivity implements LoaderManager.Loa
 
         tvName = (EditText) findViewById(R.id.tv_name);
         tvName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     createNewItem();
@@ -130,38 +130,8 @@ public class ProdActivity extends AppCompatActivity implements LoaderManager.Loa
             v.setBackgroundColor(getResources().getColor(R.color.colorOfItem));
             db.upDateCheck(id, 0);
         }
-
-
     }
 
-//        @Override
-//        public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
-//
-//            TextView tv = (TextView) view;
-//
-//            cursor.moveToFirst();
-//
-//            Toast.makeText(getApplicationContext(),
-//                    "c2: " + cursor.getInt(cursor.getColumnIndex("checked")), Toast.LENGTH_SHORT).show();
-//
-//            if (cursor.getInt(cursor.getColumnIndex("checked")) == 1) {
-////                tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-////                tv.setTextColor(getResources().getColor(R.color.colorCheckedText));
-//                view.setBackgroundColor(getResources().getColor(R.color.colorCheckedItem));
-//                return true;
-//
-//            } else if (cursor.getInt(cursor.getColumnIndex("checked")) == 0) {
-//                tv.setPaintFlags(tv.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-//                tv.setTextColor(getResources().getColor(R.color.colorOfText));
-//                view.setBackgroundColor(getResources().getColor(R.color.colorOfItem));
-//                return true;
-//
-//            } else {
-//                return false;
-//            }
-//
-//        }
-//    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -182,7 +152,7 @@ public class ProdActivity extends AppCompatActivity implements LoaderManager.Loa
                 db = new DB(this);
                 db.open();
                 db.delRec(itemIdInContextMenu);
-                getSupportLoaderManager().initLoader(0, null, ProdActivity.this);
+                getSupportLoaderManager().getLoader(0).forceLoad();
                 db.close();
                 return true;
 
@@ -346,7 +316,6 @@ public class ProdActivity extends AppCompatActivity implements LoaderManager.Loa
                     tv.setTextColor(getResources().getColor(R.color.colorOfText));
                     view.setBackgroundColor(getResources().getColor(R.color.colorOfItem));
                     return false;
-
             }
             return false;
 
