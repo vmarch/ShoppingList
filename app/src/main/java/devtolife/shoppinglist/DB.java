@@ -16,7 +16,6 @@ class DB {
     public static SQLiteDatabase database;
     private static String DATABASE_NAME = "SHOPINGLIST";
     private static String nameOfTable = "Example";
-    DB db;
     private Context context;
     private DBHelper dbHelper;
 
@@ -41,6 +40,18 @@ class DB {
     void upDateCheck(long id, int checked) {
         ContentValues cv = new ContentValues();
         cv.put(KEY_CHECKED, checked);
+        database.update("\'" + getNameOfTable() + "\'", cv, "_id = " + id, null);
+    }
+
+    void upDateRec(long id, String name, double price, int quantity, int important) {
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_NAME, name);
+        database.update("\'" + getNameOfTable() + "\'", cv, "_id = " + id, null);
+    }
+
+    void upDateName(long id, String name) {
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_NAME, name);
         database.update("\'" + getNameOfTable() + "\'", cv, "_id = " + id, null);
     }
 

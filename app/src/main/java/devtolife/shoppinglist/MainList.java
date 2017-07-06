@@ -21,10 +21,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListTables extends AppCompatActivity {
+public class MainList extends AppCompatActivity {
 
-    private static final String DEBUG_TAG = "Gestures";
-    private DB db;
+    private DB dbML;
     private ListView listTablesView;
     private Button tab;
     private List<String> arrayList = new ArrayList<>();
@@ -33,13 +32,7 @@ public class ListTables extends AppCompatActivity {
     private SharedPreferences mSharedPref;
     private String MYTHEME = "mytheme";
     private Intent intent;
-//    private String newTableName;
-//    public String getNewTableName() {
-//        return newTableName;
-//    }
-//    public void setNewTableName(String newTableName) {
-//        this.newTableName = newTableName;
-//    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,17 +40,16 @@ public class ListTables extends AppCompatActivity {
         setTheme(mSharedPref.getInt(MYTHEME, 0));
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_layout);
+        setContentView(R.layout.main_layout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
 
         tab = (Button) findViewById(R.id.btn_create);
         tab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(ListTables.this, CreateTable.class);
+                intent = new Intent(MainList.this, CreateTable.class);
                 startActivity(intent);
             }
         });
@@ -66,7 +58,7 @@ public class ListTables extends AppCompatActivity {
 
         rawQuery();
 
-        adapter = new ArrayAdapter<>(this, R.layout.list_item, arrayList);
+        adapter = new ArrayAdapter<>(this, R.layout.main_item, arrayList);
         listTablesView.setAdapter(adapter);
         listTablesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -74,7 +66,7 @@ public class ListTables extends AppCompatActivity {
                 onTouchedItemView = v;
                 TextView tv = (TextView) onTouchedItemView;
                 DB.setNameOfTable(tv.getText().toString());
-                intent = new Intent(ListTables.this, ProdActivity.class);
+                intent = new Intent(MainList.this, ProdList.class);
                 startActivity(intent);
             }
         });
@@ -96,17 +88,17 @@ public class ListTables extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.delete_list:
-                db = new DB(this);
-                db.open();
-                db.deleteTable(DB.getNameOfTable());
-                db.close();
+                dbML = new DB(this);
+                dbML.open();
+                dbML.deleteTable(DB.getNameOfTable());
+                dbML.close();
                 updateAdapter();
                 return true;
 
 //            case R.id.copy_list:
 //                TODO Copy of LIST with changing of Name
-//                db = new DB(this);
-//                db.open();
+//                dbML = new DB(this);
+//                dbML.open();
 //
 //                String oldTableName = DB.getNameOfTable();
 //
@@ -123,7 +115,7 @@ public class ListTables extends AppCompatActivity {
 //                        } else if (cTable.getString(0).equals(getNewTableName() + "(copy)")) {
 //
 //                            cTable.close();
-//                            db.close();
+//                            dbML.close();
 //                            DB.setNameOfTable(oldTableName);
 //                            updateAdapter();
 //                            return super.onContextItemSelected(item);
@@ -146,14 +138,14 @@ public class ListTables extends AppCompatActivity {
 //                if (cList.moveToFirst()) {
 //                    while (!cList.isAfterLast()) {
 //                        cList.getString(1);
-//                        db.addRec(cList.getString(1),0,0.0,1,1);
+//                        dbML.addRec(cList.getString(1),0,0.0,1,1);
 //                        cList.moveToNext();
 //                    }
 //                }
 //                cList.close();
-//                db.close();
+//                dbML.close();
 //
-//                Intent intent = new Intent(this, ProdActivity.class);
+//                Intent intent = new Intent(this, ProdList.class);
 //                startActivity(intent);
 //                return true;
             default:
@@ -200,7 +192,6 @@ public class ListTables extends AppCompatActivity {
                 startActivity(intent2);
                 return true;
 
-
             case R.id.action_grey:
                 ed.putInt("mytheme", R.style.AppThemeGrey);
                 ed.apply();
@@ -227,24 +218,17 @@ public class ListTables extends AppCompatActivity {
         super.onRestart();
         updateAdapter();
     }
-//    private View getViewByPosition(int pos, ListView lv) {
-//        final int firstListItemPosition = lv.getFirstVisiblePosition();
-//        final int lastListItemPosition = firstListItemPosition + lv.getChildCount() - 1;
-//
-//        final int childIndex = pos - firstListItemPosition;
-//        return lv.getChildAt(childIndex);
-//    }
 
     private void updateAdapter() {
         adapter.clear();
         rawQuery();
-        adapter = new ArrayAdapter<>(this, R.layout.list_item, arrayList);
+        adapter = new ArrayAdapter<>(this, R.layout.main_item, arrayList);
         listTablesView.setAdapter(adapter);
     }
 
     private void rawQuery() {
-        db = new DB(this);
-        db.open();
+        dbML = new DB(this);
+        dbML.open();
         Cursor c = DB.database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
         if (c.moveToFirst()) {
             while (!c.isAfterLast()) {
@@ -257,6 +241,6 @@ public class ListTables extends AppCompatActivity {
             }
         }
         c.close();
-        db.close();
+        dbML.close();
     }
 }

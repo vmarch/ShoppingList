@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/add_new_table"
+            android:id="@+id/edit_of_item"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical|center_horizontal|center"
@@ -38,7 +38,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_create_list"
+            android:id="@+id/ok_new_text"
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:layout_gravity="top|center_vertical|center_horizontal|center"
@@ -47,12 +47,12 @@
             android:layout_marginTop="30dp"
             android:layout_weight="1"
             android:background="@drawable/buttonshapeadd"
-            android:text="@string/create_new_list"
+            android:text="@string/ok_new_name"
             android:textSize="16sp"
             tools:ignore="ButtonStyle,NestedWeights" />
 
         <Button
-            android:id="@+id/btn_cancel"
+            android:id="@+id/cancel_new_text"
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:layout_gravity="top|center_vertical|center_horizontal|center"
@@ -61,7 +61,7 @@
             android:layout_marginTop="30dp"
             android:layout_weight="1"
             android:background="@drawable/buttonshapedel"
-            android:text="@string/btn_cancel"
+            android:text="@string/btn_cancel_edit"
             android:textColor="#3b0505"
             android:textSize="16sp"
             tools:ignore="ButtonStyle" />

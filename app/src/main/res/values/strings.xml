@@ -2,7 +2,7 @@
 
     <string name="app_name">Список покупок</string>
     <string name="add_product">+</string>
-    <string name="field_product">Пункт списку</string>
+    <string name="field_product">Завдання</string>
     <string name="set_name">Новий список</string>
     <string name="create_new_list">Створити</string>
     <string name="btn_cancel">Відміна</string>
@@ -18,7 +18,9 @@
 
     <string name="delete_prod">Видалити</string>
     <!--<string name="copy_to_favor">Copy</string>-->
-    <!--<string name="edit_prod">Edit</string>-->
+    <string name="edit_prod">Редагувати</string>
+    <string name="ok_new_name">Готово</string>
+    <string name="btn_cancel_edit">Відміна</string>
 
 
 </resources>

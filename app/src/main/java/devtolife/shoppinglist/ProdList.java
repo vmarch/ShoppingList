@@ -1,6 +1,7 @@
 package devtolife.shoppinglist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Paint;
@@ -25,16 +26,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ProdActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ProdList extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final String DEBUG_TAG = "Gecture";
-    DB db;
+    DB dbPL;
     SimpleCursorAdapter scAdapter;
     String name;
     private ListView lv_list;
     private Button btnAdd;
     private EditText tvName;
     private SharedPreferences mSharedPref;
+    private static long itemIdInContextMenu;
+
+    public static long getItemIdInContextMenu() {
+        return itemIdInContextMenu;
+    }
+
+    public static void setItemIdInContextMenu(long itemIdInContextMenu) {
+        ProdList.itemIdInContextMenu = itemIdInContextMenu;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +61,8 @@ public class ProdActivity extends AppCompatActivity implements LoaderManager.Loa
         } catch (Exception e) {
         }
 
-        db = new DB(this);
-        db.open();
+        dbPL = new DB(this);
+        dbPL.open();
 
         String[] from = new String[]{DB.KEY_NAME};
         int[] to = new int[]{R.id.tv_list_name};
@@ -70,7 +79,7 @@ public class ProdActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 TextView txt = (TextView) v;
 
-                Cursor c = db.toGetCheckedItem(id);
+                Cursor c = dbPL.toGetCheckedItem(id);
                 c.moveToFirst();
 
                 int checked = c.getInt(c.getColumnIndex("checked"));
@@ -111,7 +120,8 @@ public class ProdActivity extends AppCompatActivity implements LoaderManager.Loa
                 createNewItem();
             }
         });
-        db.close();
+
+        dbPL.close();
     }
 
     public void toCheckProd(long id, View v, TextView tv, int check) {
@@ -121,14 +131,14 @@ public class ProdActivity extends AppCompatActivity implements LoaderManager.Loa
             tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             tv.setTextColor(getResources().getColor(R.color.colorCheckedText));
             v.setBackgroundColor(getResources().getColor(R.color.colorCheckedItem));
-            db.upDateCheck(id, 1);
+            dbPL.upDateCheck(id, 1);
 
         } else if (check == 1) {
 
             tv.setPaintFlags(tv.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             tv.setTextColor(getResources().getColor(R.color.colorOfText));
             v.setBackgroundColor(getResources().getColor(R.color.colorOfItem));
-            db.upDateCheck(id, 0);
+            dbPL.upDateCheck(id, 0);
         }
     }
 
@@ -144,95 +154,33 @@ public class ProdActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        long itemIdInContextMenu = scAdapter.getItemId(info.position);
+        setItemIdInContextMenu(scAdapter.getItemId(info.position));
 
         switch (item.getItemId()) {
 
             case R.id.delete_prod:
-                db = new DB(this);
-                db.open();
-                db.delRec(itemIdInContextMenu);
+                dbPL = new DB(this);
+                dbPL.open();
+                dbPL.delRec(getItemIdInContextMenu());
                 getSupportLoaderManager().getLoader(0).forceLoad();
-                db.close();
+                dbPL.close();
                 return true;
 
-//            case R.id.edit_prod:
-////               TODO edit-menu
-//                String edName = "kkk";
-//                int edChecked = 0;
-//                double edPrice = 0.0;
-//                int edQuantity = 1;
-//                int edImportant = 1;
-//
-//                db = new DB(this);
-//                db.open();
-//                db.upDateRec(edName, edChecked, edPrice, edQuantity, edImportant);
-//                db.close();
-//                getSupportLoaderManager().initLoader(0, null, this);
-//                return true;
-//
-//            case R.id.to_favorite:
-////                TODO add to favorite
-////                db = new DB(this);
-////                db.open();
-////
-////                String oldTableName = DB.getNameOfTable();
-////
-////                Cursor cTable = DB.database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-////
-////                if (cTable.moveToFirst()) {
-////
-////                    while (!cTable.isAfterLast()) {
-////                        cTable.getString(0);
-//////TODO check for exist
-////                        if (!cTable.getString(0).equals(getNewTableName() + "(copy)")) {
-////                            setNewTableName(DB.getNameOfTable() + "(copy)");
-////
-////                        } else if (cTable.getString(0).equals(getNewTableName() + "(copy)")) {
-////
-////                            cTable.close();
-////                            db.close();
-////                            DB.setNameOfTable(oldTableName);
-////                            updateAdapter();
-////                            return super.onContextItemSelected(item);
-////
-////                        } else {
-////                            break;
-////                        }
-////                        cTable.moveToNext();
-////                    }
-////                }
-////                DB.setNameOfTable(getNewTableName());
-////
-////                DB.database.execSQL("create table " + "\'" + DB.getNameOfTable() + "\'" + "("
-////                        + DB.KEY_ID + " integer primary key autoincrement,"
-////                        + DB.KEY_NAME + " TEXT" + ")");
-////
-////                Cursor cList = DB.database.query("\'" + oldTableName + "\'", null, null, null, null, null, null);
-////
-////                if (cList.moveToFirst()) {
-////                    while (!cList.isAfterLast()) {
-////                        cList.getString(1);
-////                        db.addRec(cList.getString(1));
-////                        cList.moveToNext();
-////                    }
-////                }
-////                cList.close();
-////                db.close();
-////
-////                Intent intent = new Intent(this, ProdActivity.class);
-////                startActivity(intent);
-////
-////                return true;
-//                return true;
+            case R.id.edit_prod:
+                String edName = ((TextView) info.targetView).getText().toString();
+                EditItem.setOldText(edName);
+                Intent intent = new Intent(this, EditItem.class);
+                startActivity(intent);
+                return true;
             default:
                 return super.onContextItemSelected(item);
         }
     }
 
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle bndl) {
-        return new MyCursorLoader(this, db);
+        return new MyCursorLoader(this, dbPL);
     }
 
     @Override
@@ -254,27 +202,25 @@ public class ProdActivity extends AppCompatActivity implements LoaderManager.Loa
 
         if (name.isEmpty()) {
             Toast.makeText(getApplicationContext(),
-                    "Fill all fields", Toast.LENGTH_SHORT).show();
+                    "Введіть завдання!", Toast.LENGTH_SHORT).show();
         } else {
-            db = new DB(this);
-            db.open();
-            db.addRec(name, checked, price, quantity, important);
+            dbPL = new DB(this);
+            dbPL.open();
+            dbPL.addRec(name, checked, price, quantity, important);
             getSupportLoaderManager().getLoader(0).forceLoad();
-            db.close();
+            dbPL.close();
             tvName.setText("");
         }
-
     }
 
-//    private View getViewByPosition(int pos, ListView lv) {
-//        final int firstListItemPosition = lv.getFirstVisiblePosition();
-//
-//        final int childIndex = pos - firstListItemPosition;
-//        return lv.getChildAt(childIndex);
-//    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getSupportLoaderManager().getLoader(0).forceLoad();
+    }
 
     protected void onDestroy() {
-        db.close();
+        dbPL.close();
         super.onDestroy();
     }
 
@@ -291,11 +237,11 @@ public class ProdActivity extends AppCompatActivity implements LoaderManager.Loa
             db = new DB(getContext());
             db.open();
             return db.getAllData();
-
         }
     }
 
     private class MySCA implements SimpleCursorAdapter.ViewBinder {
+
 
         @Override
         public boolean setViewValue(View view, Cursor cursor, int columnIndex) {

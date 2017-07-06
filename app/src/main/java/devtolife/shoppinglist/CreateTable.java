@@ -1,6 +1,5 @@
 package devtolife.shoppinglist;
 
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,7 +15,7 @@ import android.widget.Toast;
 
 public class CreateTable extends AppCompatActivity implements View.OnClickListener {
 
-    DB db;
+    DB dbCT;
     SharedPreferences mSharedPref;
     private Button create;
     private Button cancel;
@@ -70,7 +69,7 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
                     createNewList();
                 } else {
                     Toast.makeText(getApplicationContext(),
-                            "Enter the name of new table", Toast.LENGTH_SHORT).show();
+                            "Введіть назву списку!", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -81,8 +80,8 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
     }
 
     private void createNewList() {
-        db = new DB(this);
-        db.open();
+        dbCT = new DB(this);
+        dbCT.open();
         // TODO checking for isExist of table
 
         DB.setNameOfTable(nameOfNewTable);
@@ -96,9 +95,9 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
                         + DB.KEY_QUANTITY + " integer,"
                         + DB.KEY_IMPORTANT + " integer"
                         + ")");
-        db.close();
+        dbCT.close();
 
-        Intent intent = new Intent(this, ProdActivity.class);
+        Intent intent = new Intent(this, ProdList.class);
         startActivity(intent);
         finish();
     }

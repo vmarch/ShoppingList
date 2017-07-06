@@ -5,11 +5,10 @@
     <application
         android:allowBackup="true"
         android:clearTaskOnLaunch="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppThemeGrey">
-        <activity android:name="devtolife.shoppinglist.ListTables">
+        <activity android:name="devtolife.shoppinglist.MainList">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="devtolife.shoppinglist.ProdActivity"
+            android:name="devtolife.shoppinglist.ProdList"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.list" />
@@ -28,6 +27,15 @@
 
         <activity
             android:name="devtolife.shoppinglist.CreateTable"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.create" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="devtolife.shoppinglist.EditItem"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.create" />
