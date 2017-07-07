@@ -232,7 +232,9 @@ public class MainList extends AppCompatActivity {
         Cursor c = DB.database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
         if (c.moveToFirst()) {
             while (!c.isAfterLast()) {
-                if (c.getString(0).equals("android_metadata") || c.getString(0).equals("sqlite_sequence")) {
+                if (c.getString(0).equals("android_metadata")
+                        || c.getString(0).equals("sqlite_sequence")
+                        || c.getString(0).equals("Example")) {
                     c.moveToNext();
                 } else {
                     arrayList.add(c.getString(0));

@@ -132,6 +132,7 @@ public class ProdList extends AppCompatActivity implements LoaderManager.LoaderC
             tv.setTextColor(getResources().getColor(R.color.colorCheckedText));
             v.setBackgroundColor(getResources().getColor(R.color.colorCheckedItem));
             dbPL.upDateCheck(id, 1);
+            getSupportLoaderManager().getLoader(0).forceLoad();
 
         } else if (check == 1) {
 
@@ -139,6 +140,7 @@ public class ProdList extends AppCompatActivity implements LoaderManager.LoaderC
             tv.setTextColor(getResources().getColor(R.color.colorOfText));
             v.setBackgroundColor(getResources().getColor(R.color.colorOfItem));
             dbPL.upDateCheck(id, 0);
+            getSupportLoaderManager().getLoader(0).forceLoad();
         }
     }
 
