@@ -5,9 +5,11 @@
     <application
         android:allowBackup="true"
         android:clearTaskOnLaunch="true"
+        android:icon="@drawable/ima512"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeGrey">
+        android:theme="@style/AppThemeGrey"
+        android:fullBackupContent="@xml/backup_descriptor">
         <activity android:name="devtolife.shoppinglist.MainList">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
