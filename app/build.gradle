@@ -7,8 +7,8 @@ android {
         applicationId "devtolife.shoppinglist"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 5
-        versionName "2.2"
+        versionCode 6
+        versionName "3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
