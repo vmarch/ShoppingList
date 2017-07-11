@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.regex.Pattern;
+
 public class CreateTable extends AppCompatActivity implements View.OnClickListener {
 
     DB dbCT;
@@ -64,12 +66,20 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
 
             case R.id.btn_create_list:
                 nameOfNewTable = newList.getText().toString();
-                if (!nameOfNewTable.isEmpty()) {
 
-                    createNewList();
-                } else {
+                if (nameOfNewTable.isEmpty()) {
                     Toast.makeText(getApplicationContext(),
                             "Введіть назву списку!", Toast.LENGTH_SHORT).show();
+
+                } else if (!nameOfNewTable.isEmpty() && Pattern.matches("(\\s)*", nameOfNewTable + "")) {
+
+                    Toast.makeText(getApplicationContext(),
+                            "Пуста назва. \nВведіть знову!", Toast.LENGTH_SHORT).show();
+                    newList.setText("");
+
+                } else {
+
+                    createNewList();
                 }
                 break;
 

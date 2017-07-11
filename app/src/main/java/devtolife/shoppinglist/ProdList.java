@@ -26,6 +26,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.regex.Pattern;
+
 public class ProdList extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     DB dbPL;
@@ -197,15 +199,24 @@ public class ProdList extends AppCompatActivity implements LoaderManager.LoaderC
     private void createNewItem() {
         //        TODO filling of items
         name = tvName.getText().toString();
-        int checked = 0;
-        double price = 0.0;
-        int quantity = 1;
-        int important = 1;
 
         if (name.isEmpty()) {
+
             Toast.makeText(getApplicationContext(),
                     "Введіть завдання!", Toast.LENGTH_SHORT).show();
+
+        } else if (!name.isEmpty() && Pattern.matches("(\\s)*", name + "")) {
+            Toast.makeText(getApplicationContext(),
+                    "Пуста назва. \nВведіть знову!", Toast.LENGTH_SHORT).show();
+            tvName.setText("");
+
         } else {
+
+            int checked = 0;
+            double price = 0.0;
+            int quantity = 1;
+            int important = 1;
+
             dbPL = new DB(this);
             dbPL.open();
             dbPL.addRec(name, checked, price, quantity, important);
