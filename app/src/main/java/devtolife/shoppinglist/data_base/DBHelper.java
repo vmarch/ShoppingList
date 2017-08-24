@@ -1,4 +1,4 @@
-package devtolife.shoppinglist;
+package devtolife.shoppinglist.data_base;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import devtolife.shoppinglist.data_base.DB;
+
 public class EditItem extends Activity implements View.OnClickListener {
     DB dbEd;
     private EditText editOldText;

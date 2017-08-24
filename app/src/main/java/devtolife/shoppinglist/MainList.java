@@ -21,6 +21,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import devtolife.shoppinglist.data_base.DB;
+
 public class MainList extends AppCompatActivity {
 
     private DB dbML;
@@ -32,6 +34,9 @@ public class MainList extends AppCompatActivity {
     private SharedPreferences mSharedPref;
     private String MYTHEME = "mytheme";
     private Intent intent;
+    private int numItemOfList = 0;
+    private String nameItemOfList = "name";
+    private String itemOfList;
 
 
     @Override
@@ -94,6 +99,13 @@ public class MainList extends AppCompatActivity {
                 dbML.close();
                 updateAdapter();
                 return true;
+            case R.id.share_list:
+                dbML = new DB(this);
+                dbML.open();
+                tableOfList();
+                shareOfList();
+                dbML.close();
+                return true;
 
 //            case R.id.copy_list:
 //                TODO Copy of LIST with changing of Name
@@ -151,6 +163,35 @@ public class MainList extends AppCompatActivity {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    public void shareOfList() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "" + DB.getNameOfTable() + "\n" + itemOfList);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+    }
+
+    private void tableOfList() {
+        int i = 1;
+        itemOfList = "";
+
+        Cursor c = dbML.getAllItemForShare();
+        if (c.moveToFirst()) {
+            while (!c.isAfterLast()) {
+                if (c.getString(0) == null && c.getString(0).isEmpty()) {
+                    c.moveToNext();
+                } else {
+                    numItemOfList = i;
+                    nameItemOfList = c.getString(1);
+                    itemOfList = itemOfList + "\n" + numItemOfList + ". " + nameItemOfList + ";";
+                    c.moveToNext();
+                    i++;
+                }
+            }
+        }
+        c.close();
     }
 
     @Override
@@ -245,4 +286,6 @@ public class MainList extends AppCompatActivity {
         c.close();
         dbML.close();
     }
+
+
 }
