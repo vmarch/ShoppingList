@@ -1,17 +1,17 @@
-package devtolife.shoppinglist;
+package devtolife.shoppinglist.data_base;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-class DB {
-    static final String KEY_ID = "_id";
-    static final String KEY_NAME = "name";
-    static final String KEY_CHECKED = "checked";
-    static final String KEY_PRICE = "price";
-    static final String KEY_QUANTITY = "quantity";
-    static final String KEY_IMPORTANT = "important";
+public class DB {
+    public static final String KEY_ID = "_id";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_CHECKED = "checked";
+    public static final String KEY_PRICE = "price";
+    public static final String KEY_QUANTITY = "quantity";
+    public static final String KEY_IMPORTANT = "important";
     private static final int DATABASE_VERSION = 3;
     public static SQLiteDatabase database;
     private static String DATABASE_NAME = "SHOPINGLIST";
@@ -20,7 +20,7 @@ class DB {
     private DBHelper dbHelper;
 
 
-    DB(Context ctx) {
+    public DB(Context ctx) {
         context = ctx;
     }
 
@@ -37,7 +37,7 @@ class DB {
         database = dbHelper.getWritableDatabase();
     }
 
-    void upDateCheck(long id, int checked) {
+    public void upDateCheck(long id, int checked) {
         ContentValues cv = new ContentValues();
         cv.put(KEY_CHECKED, checked);
         database.update("\'" + getNameOfTable() + "\'", cv, "_id = " + id, null);
@@ -49,17 +49,20 @@ class DB {
         database.update("\'" + getNameOfTable() + "\'", cv, "_id = " + id, null);
     }
 
-    void upDateName(long id, String name) {
+    public void upDateName(long id, String name) {
         ContentValues cv = new ContentValues();
         cv.put(KEY_NAME, name);
         database.update("\'" + getNameOfTable() + "\'", cv, "_id = " + id, null);
     }
 
-    Cursor getAllData() {
+    public Cursor getAllData() {
         return database.query("\'" + getNameOfTable() + "\'", null, null, null, null, null, "checked");
     }
+    public Cursor getAllItemForShare() {
+        return database.query("\'" + getNameOfTable() + "\'", null, null, null, null, null, null);
+    }
 
-    protected void addRec(String name, int checked, double price, int quantity, int important) {
+    public void addRec(String name, int checked, double price, int quantity, int important) {
         ContentValues cv = new ContentValues();
         cv.put(KEY_NAME, name);
         cv.put(KEY_CHECKED, checked);
@@ -70,19 +73,19 @@ class DB {
         database.insert("\'" + getNameOfTable() + "\'", null, cv);
     }
 
-    void delRec(long id) {
+    public void delRec(long id) {
         database.delete("\'" + getNameOfTable() + "\'", KEY_ID + " = " + id, null);
     }
 
-    Cursor toGetCheckedItem(long id) {
+    public Cursor toGetCheckedItem(long id) {
         return database.rawQuery("SELECT checked FROM " + "\'" + DB.getNameOfTable() + "\'" + " WHERE _id = " + id, null);
     }
 
-    void deleteTable(String tabl) {
+    public void deleteTable(String tabl) {
         database.execSQL("DROP TABLE " + "\'" + tabl + "\'");
     }
 
-    void close() {
+    public void close() {
         if (dbHelper != null) dbHelper.close();
     }
 }

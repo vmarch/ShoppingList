@@ -28,9 +28,11 @@ import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
+import devtolife.shoppinglist.data_base.DB;
+
 public class ProdList extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    DB dbPL;
+    protected DB dbPL;
     SimpleCursorAdapter scAdapter;
     String name;
     private ListView lv_list;
@@ -70,7 +72,7 @@ public class ProdList extends AppCompatActivity implements LoaderManager.LoaderC
         int[] to = new int[]{R.id.tv_list_name};
 
         scAdapter = new SimpleCursorAdapter(this, R.layout.prod_item, null, from, to, 0);
-        scAdapter.setViewBinder(new MySCA());
+        scAdapter.setViewBinder(new MySimpleCursorAdapter());
 
         lv_list = (ListView) findViewById(R.id.lv_list);
         lv_list.setAdapter(scAdapter);
@@ -127,7 +129,7 @@ public class ProdList extends AppCompatActivity implements LoaderManager.LoaderC
     }
 
     public void toCheckProd(long id, View v, TextView tv, int check) {
-
+//Changing of color of checked item while click;
         if (check == 0) {
 
             tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -253,8 +255,8 @@ public class ProdList extends AppCompatActivity implements LoaderManager.LoaderC
         }
     }
 
-    private class MySCA implements SimpleCursorAdapter.ViewBinder {
-
+    private class MySimpleCursorAdapter implements SimpleCursorAdapter.ViewBinder {
+//Marked items if it was checked earlie;
 
         @Override
         public boolean setViewValue(View view, Cursor cursor, int columnIndex) {

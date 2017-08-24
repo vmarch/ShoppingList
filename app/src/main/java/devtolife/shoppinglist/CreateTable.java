@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
+import devtolife.shoppinglist.data_base.DB;
+
 public class CreateTable extends AppCompatActivity implements View.OnClickListener {
 
     DB dbCT;
