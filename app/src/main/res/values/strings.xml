@@ -14,13 +14,16 @@
     <string name="action_grey">Сірий</string>
 
     <string name="delete_list">Видалити</string>
-    <!--<string name="copy_list">Copy</string>-->
 
     <string name="delete_prod">Видалити</string>
-    <!--<string name="copy_to_favor">Copy</string>-->
     <string name="edit_prod">Редагувати</string>
     <string name="ok_new_name">Готово</string>
     <string name="btn_cancel_edit">Відміна</string>
     <string name="share_list">Поділитися</string>
+    <string name="action_star">Оцініть додаток</string>
+    <string name="action_policy">Правила</string>
+    <string name="action_theme">Тема</string>
+    <string name="open_privacy">Політика конфіденційності</string>
+    <string name="privacy_shot">Користуючись даним додатком Ви погоджуєтесь з Політикою конфіденційності</string>
 
 </resources>

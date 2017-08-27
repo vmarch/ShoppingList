@@ -39,7 +39,15 @@
             android:name="devtolife.shoppinglist.EditItem"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="android.intent.action.create" />
+                <action android:name="android.intent.action.edit" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="devtolife.shoppinglist.privacy_policy.PrivacyPolicy"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.policy" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

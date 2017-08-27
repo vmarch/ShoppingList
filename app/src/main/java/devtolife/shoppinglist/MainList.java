@@ -3,6 +3,7 @@ package devtolife.shoppinglist;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devtolife.shoppinglist.data_base.DB;
+import devtolife.shoppinglist.privacy_policy.PrivacyPolicy;
 
 public class MainList extends AppCompatActivity {
 
@@ -249,6 +251,16 @@ public class MainList extends AppCompatActivity {
                 startActivity(intent2);
                 return true;
 
+            case R.id.action_star:
+                intent2 = new Intent(Intent.ACTION_VIEW);
+                intent2.setData(Uri.parse("https://play.google.com/store/apps/details?id=devtolife.shoppinglist"));
+                startActivity(intent2);
+                return true;
+
+            case R.id.action_policy:
+                intent2 = new Intent(this, PrivacyPolicy.class);
+                startActivity(intent2);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
