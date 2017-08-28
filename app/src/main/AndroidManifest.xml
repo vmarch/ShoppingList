@@ -6,16 +6,19 @@
         android:allowBackup="true"
         android:clearTaskOnLaunch="true"
         android:fullBackupContent="@xml/backup_descriptor"
-        android:icon="@drawable/ima512"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_round_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppThemeGrey">
         <activity android:name="devtolife.shoppinglist.MainList">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <data android:mimeType="text/plain" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -39,7 +42,7 @@
             android:name="devtolife.shoppinglist.EditItem"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="android.intent.action.edit" />
+                <action android:name="android.intent.action.create" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
