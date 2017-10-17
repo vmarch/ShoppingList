@@ -26,7 +26,8 @@
             android:hint="@string/set_name"
             android:imeOptions="actionDone"
             android:inputType="textCapSentences"
-            android:maxLength="22"
+            android:maxLines="2"
+            android:maxLength="50"
             tools:ignore="NestedWeights"
             tools:text="Name" />
     </LinearLayout>
