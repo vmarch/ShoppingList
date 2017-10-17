@@ -6,6 +6,7 @@
     android:layout_weight="20"
     android:background="@color/colorOfItem"
     android:maxLines="2"
+    android:maxLength="50"
     android:minHeight="40dp"
     android:orientation="horizontal"
     android:paddingLeft="5dp"
