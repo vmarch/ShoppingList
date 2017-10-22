@@ -3,9 +3,13 @@ package devtolife.shoppinglist;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
@@ -23,10 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devtolife.shoppinglist.data_base.DB;
-import devtolife.shoppinglist.privacy_policy.PrivacyPolicy;
 
 public class MainList extends AppCompatActivity {
 
+    private DrawerLayout mDrawerLayout;
     private DB dbML;
     private ListView listTablesView;
     private Button tab;
@@ -49,17 +53,55 @@ public class MainList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
 
+        // Create Navigation drawer and inflate layout
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+
+// Adding menu icon to Toolbar
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+//TODO change "R.mipmap.ic_launcher"
+            supportActionBar.setHomeAsUpIndicator(R.mipmap.ic_launcher);
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+// Set behavior of Navigation drawer
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    // This method will trigger on item Click of navigation menu
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // Set item in checked state
+                        menuItem.setChecked(true);
+                        // TODO: handle navigation
+                        // Closing drawer on item click
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        tab = (Button) findViewById(R.id.btn_create);
-        tab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(MainList.this, CreateTable.class);
                 startActivity(intent);
             }
         });
+
+
+//        tab = (Button) findViewById(R.id.btn_create);
+//        tab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                intent = new Intent(MainList.this, CreateTable.class);
+//                startActivity(intent);
+//            }
+//        });
         listTablesView = (ListView) findViewById(R.id.list_table);
         registerForContextMenu(listTablesView);
 
@@ -77,6 +119,22 @@ public class MainList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        } else if (id == android.R.id.home) {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -202,69 +260,69 @@ public class MainList extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent2;
-        mSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor ed = mSharedPref.edit();
-        int idOfItem = item.getItemId();
-
-        switch (idOfItem) {
-
-            case R.id.action_green:
-                ed.putInt("mytheme", R.style.AppThemeGreen);
-                ed.apply();
-                intent2 = getIntent();
-                finish();
-                startActivity(intent2);
-                return true;
-
-            case R.id.action_yellow:
-                ed.putInt("mytheme", R.style.AppThemeYellow);
-                ed.apply();
-                intent2 = getIntent();
-                finish();
-                startActivity(intent2);
-                return true;
-
-            case R.id.action_blue:
-                ed.putInt("mytheme", R.style.AppThemeBlue);
-                ed.apply();
-                intent2 = getIntent();
-                finish();
-                startActivity(intent2);
-                return true;
-
-            case R.id.action_grey:
-                ed.putInt("mytheme", R.style.AppThemeGrey);
-                ed.apply();
-                intent2 = getIntent();
-                finish();
-                startActivity(intent2);
-                return true;
-
-            case R.id.action_pink:
-                ed.putInt("mytheme", R.style.AppThemePink);
-                ed.apply();
-                intent2 = getIntent();
-                finish();
-                startActivity(intent2);
-                return true;
-
-            case R.id.action_star:
-                intent2 = new Intent(Intent.ACTION_VIEW);
-                intent2.setData(Uri.parse("https://play.google.com/store/apps/details?id=devtolife.shoppinglist"));
-                startActivity(intent2);
-                return true;
-
-            case R.id.action_policy:
-                intent2 = new Intent(this, PrivacyPolicy.class);
-                startActivity(intent2);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        Intent intent2;
+//        mSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+//        SharedPreferences.Editor ed = mSharedPref.edit();
+//        int idOfItem = item.getItemId();
+//
+//        switch (idOfItem) {
+//
+//            case R.id.action_green:
+//                ed.putInt("mytheme", R.style.AppThemeGreen);
+//                ed.apply();
+//                intent2 = getIntent();
+//                finish();
+//                startActivity(intent2);
+//                return true;
+//
+//            case R.id.action_yellow:
+//                ed.putInt("mytheme", R.style.AppThemeYellow);
+//                ed.apply();
+//                intent2 = getIntent();
+//                finish();
+//                startActivity(intent2);
+//                return true;
+//
+//            case R.id.action_blue:
+//                ed.putInt("mytheme", R.style.AppThemeBlue);
+//                ed.apply();
+//                intent2 = getIntent();
+//                finish();
+//                startActivity(intent2);
+//                return true;
+//
+//            case R.id.action_grey:
+//                ed.putInt("mytheme", R.style.AppThemeGrey);
+//                ed.apply();
+//                intent2 = getIntent();
+//                finish();
+//                startActivity(intent2);
+//                return true;
+//
+//            case R.id.action_pink:
+//                ed.putInt("mytheme", R.style.AppThemePink);
+//                ed.apply();
+//                intent2 = getIntent();
+//                finish();
+//                startActivity(intent2);
+//                return true;
+//
+//            case R.id.action_star:
+//                intent2 = new Intent(Intent.ACTION_VIEW);
+//                intent2.setData(Uri.parse("https://play.google.com/store/apps/details?id=devtolife.shoppinglist"));
+//                startActivity(intent2);
+//                return true;
+//
+//            case R.id.action_policy:
+//                intent2 = new Intent(this, PrivacyPolicy.class);
+//                startActivity(intent2);
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     @Override
     protected void onRestart() {
@@ -298,6 +356,5 @@ public class MainList extends AppCompatActivity {
         c.close();
         dbML.close();
     }
-
 
 }

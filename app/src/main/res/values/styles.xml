@@ -39,8 +39,7 @@
         <item name="editTextBackground">@color/colorMoreLightGrey</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textViewStyle">@style/TextStyle</item>
-
-    </style>
+           </style>
 
     <style name="AppThemePink" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryPink</item>
@@ -50,17 +49,21 @@
         <item name="editTextBackground">@color/colorMoreLightPink</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textViewStyle">@style/TextStyle</item>
+
     </style>
 
     <style name="TextStyle">
         <item name="android:textSize">25sp</item>
-        <item name="android:fontFamily">serif-monospace</item>
-        <item name="android:textColor">@color/colorOfText</item>
+               <item name="android:textColor">@color/colorOfText</item>
     </style>
 
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
+
 
 </resources>
