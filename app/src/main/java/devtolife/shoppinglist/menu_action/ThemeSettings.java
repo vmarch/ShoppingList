@@ -37,7 +37,7 @@ public class ThemeSettings extends AppCompatActivity implements View.OnClickList
         btnBlue.setOnClickListener(this);
         btnGrey.setOnClickListener(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_setting_about);
+        Toolbar toolbar = findViewById(R.id.toolbar_setting_themes);
         setSupportActionBar(toolbar);
 
 
