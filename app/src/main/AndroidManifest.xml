@@ -51,7 +51,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".privacy_policy.PrivacyPolicy"
+            android:name=".menu_action.PrivacyPolicy"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.policy" />
@@ -59,8 +59,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".menu_action.ThemeSettings" ></activity>
-        <activity android:name=".menu_action.SettingAboutAppActivity"></activity>
+        <activity android:name=".menu_action.ThemeSettings">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".menu_action.SettingAboutAppActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

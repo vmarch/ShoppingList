@@ -59,6 +59,13 @@ public class ProdList extends AppCompatActivity implements LoaderManager.LoaderC
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.mipmap.ic_action_arrow_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         try {
             getSupportActionBar().setTitle("" + DB.getNameOfTable());

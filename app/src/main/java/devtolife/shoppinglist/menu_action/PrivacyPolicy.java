@@ -1,4 +1,4 @@
-package devtolife.shoppinglist.privacy_policy;
+package devtolife.shoppinglist.menu_action;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,12 +24,26 @@ public class PrivacyPolicy extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.privacy);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_setting_policy);
         setSupportActionBar(toolbar);
 
-        TextView privacyText = (TextView) findViewById(R.id.textViewPrivacy);
 
-        Button btn_open = (Button) findViewById(R.id.btn_privacy);
+        toolbar.setNavigationIcon(R.mipmap.ic_action_arrow_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        try {
+            getSupportActionBar().setTitle("Політика конфіденційності");
+        } catch (Exception e) {
+        }
+
+        TextView privacyText = findViewById(R.id.textViewPrivacy);
+
+        Button btn_open = findViewById(R.id.btn_privacy);
         btn_open.setOnClickListener(this);
     }
 

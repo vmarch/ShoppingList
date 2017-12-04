@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="vertical"
+    tools:context="devtolife.shoppinglist.menu_action.ThemeSettings">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_setting_about"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:alpha="100"
+        android:orientation="vertical"
+        tools:context="devtolife.shoppinglist.menu_action.ThemeSettings">
+
+        <Button
+            android:id="@+id/btn_pink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="5dp"
+            android:background="@drawable/gradientpink"
+            android:gravity="center_vertical|center_horizontal|center"
+            android:padding="15dp"
+            android:text="@string/use_pink" />
+
+        <Button
+            android:id="@+id/btn_yellow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="5dp"
+            android:background="@drawable/gradientyellow"
+            android:padding="15dp"
+            android:text="@string/use_yellow" />
+
+        <Button
+            android:id="@+id/btn_green"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="5dp"
+            android:background="@drawable/gradientgreen"
+            android:padding="15dp"
+            android:text="@string/use_green" />
+
+        <Button
+            android:id="@+id/btn_blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal|center"
+            android:layout_margin="5dp"
+            android:background="@drawable/gradientblue"
+            android:padding="15dp"
+            android:text="@string/use_blue" />
+
+        <Button
+            android:id="@+id/btn_grey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal|center"
+            android:layout_margin="5dp"
+            android:background="@drawable/gradientgrey"
+            android:padding="15dp"
+            android:text="@string/use_grey" />
+
+    </LinearLayout>
+</LinearLayout>

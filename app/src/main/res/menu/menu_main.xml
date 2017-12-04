@@ -4,60 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainList">
 
-
         <item
             android:id="@+id/action_settings"
             android:title="@string/action_settings"
             android:orderInCategory="100"
             app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_theme"
-        android:orderInCategory="100"
-        android:title="@string/action_theme"
-        app:showAsAction="never">
-        <menu>
+    <!--<item-->
+        <!--android:id="@+id/action_theme"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_theme"-->
+        <!--app:showAsAction="never">-->
+        <!--<menu>-->
 
-            <item
-                android:id="@+id/action_green"
-                android:orderInCategory="100"
-                android:title="@string/action_green"
-                app:showAsAction="never" />
-            <item
-                android:id="@+id/action_yellow"
-                android:orderInCategory="100"
-                android:title="@string/action_yellow"
-                app:showAsAction="never" />
+            <!--<item-->
+                <!--android:id="@+id/action_green"-->
+                <!--android:orderInCategory="100"-->
+                <!--android:title="@string/action_green"-->
+                <!--app:showAsAction="never" />-->
+            <!--<item-->
+                <!--android:id="@+id/action_yellow"-->
+                <!--android:orderInCategory="100"-->
+                <!--android:title="@string/action_yellow"-->
+                <!--app:showAsAction="never" />-->
 
-            <item
-                android:id="@+id/action_blue"
-                android:orderInCategory="100"
-                android:title="@string/action_blue"
-                app:showAsAction="never" />
+            <!--<item-->
+                <!--android:id="@+id/action_blue"-->
+                <!--android:orderInCategory="100"-->
+                <!--android:title="@string/action_blue"-->
+                <!--app:showAsAction="never" />-->
 
-            <item
-                android:id="@+id/action_grey"
-                android:orderInCategory="100"
-                android:title="@string/action_grey"
-                app:showAsAction="never" />
+            <!--<item-->
+                <!--android:id="@+id/action_grey"-->
+                <!--android:orderInCategory="100"-->
+                <!--android:title="@string/action_grey"-->
+                <!--app:showAsAction="never" />-->
 
-            <item
-                android:id="@+id/action_pink"
-                android:orderInCategory="100"
-                android:title="@string/action_pink"
-                app:showAsAction="never" />
-        </menu>
-    </item>
-    <item
-        android:id="@+id/action_star"
-        android:orderInCategory="100"
-        android:title="@string/action_star"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_policy"
-        android:orderInCategory="100"
-        android:title="action_policy"
-        app:showAsAction="never" />
+            <!--<item-->
+                <!--android:id="@+id/action_pink"-->
+                <!--android:orderInCategory="100"-->
+                <!--android:title="@string/action_pink"-->
+                <!--app:showAsAction="never" />-->
+        <!--</menu>-->
+    <!--</item>-->
+    <!--<item-->
+        <!--android:id="@+id/action_star"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_star"-->
+        <!--app:showAsAction="never" />-->
+    <!--<item-->
+        <!--android:id="@+id/action_policy"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="action_policy"-->
+        <!--app:showAsAction="never" />-->
 
 
 </menu>

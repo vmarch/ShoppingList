@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="top"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:weightSum="1"
+    tools:context="devtolife.shoppinglist.EditItem">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_edit_item"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="148dp"
         android:layout_gravity="top"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:context="devtolife.shoppinglist.EditItem">
 
         <EditText
             android:id="@+id/edit_of_item"
@@ -26,8 +43,8 @@
             android:hint="@string/set_name"
             android:imeOptions="actionDone"
             android:inputType="textCapSentences"
-            android:maxLines="2"
             android:maxLength="50"
+            android:maxLines="2"
             tools:ignore="NestedWeights"
             tools:text="Name" />
     </LinearLayout>
@@ -48,7 +65,7 @@
             android:layout_marginTop="30dp"
             android:layout_weight="1"
             android:background="@drawable/buttonshapeadd"
-            android:text="@string/ok_new_name"
+            android:text="@string/btn_edit_ok"
             android:textSize="16sp"
             tools:ignore="ButtonStyle,NestedWeights" />
 
@@ -62,7 +79,7 @@
             android:layout_marginTop="30dp"
             android:layout_weight="1"
             android:background="@drawable/buttonshapedel"
-            android:text="@string/btn_cancel_edit"
+            android:text="@string/btn_edit_cancel"
             android:textColor="#3b0505"
             android:textSize="16sp"
             tools:ignore="ButtonStyle" />

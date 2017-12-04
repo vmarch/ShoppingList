@@ -1,47 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-
-        <!--<item-->
-            <!--android:id="@+id/action_home"-->
-            <!--android:icon="@drawable/ic_home_black_24dp"-->
-            <!--android:tint="@color/button_grey"-->
-            <!--android:title="One" />-->
-                <item
-            android:id="@+id/action_theme"
-            android:icon="@drawable/ic_color_lens_black_24dp"
-            android:tint="@color/button_grey"
-            android:title="@string/action_theme" />
-        <item
-            android:id="@+id/action_font"
-            android:icon="@drawable/ic_format_size_black_24dp"
-            android:tint="@color/button_grey"
-            android:title="@string/change_font" />
-    </group>
-    <item android:title="Communicate">
+    <item android:title="@string/action_settings">
         <menu>
-
             <item
-                android:id="@+id/action_share"
-                android:icon="@drawable/ic_share_black_24dp"
-                android:title="Share" />
-
+                android:id="@+id/action_theme"
+                android:icon="@drawable/ic_color_lens_black_24dp"
+                android:title="@string/action_theme" />
             <item
                 android:id="@+id/action_rate"
-                android:icon="@drawable/ic_favorite_black_24dp"
-                android:tint="@color/button_grey"
-                android:title="Two" />
+                android:icon="@drawable/ic_rate_24dp"
+                android:title="@string/action_star" />
 
-            <!--<item-->
-                <!--android:id="@+id/nav_send"-->
-                <!--android:icon="@drawable/ic_favorite_black_24dp"-->
-                <!--android:title="Send" />-->
+            <item
+                android:id="@+id/action_policy"
+                android:icon="@drawable/ic_privacy_policy_24"
+                android:title="@string/action_privacy" />
 
             <item
                 android:id="@+id/action_about_app"
                 android:icon="@drawable/ic_info_black_24dp"
-                android:title="@string/about_app" />
+                android:title="@string/action_about_app" />
 
         </menu>
     </item>

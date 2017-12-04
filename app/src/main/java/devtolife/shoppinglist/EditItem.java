@@ -1,9 +1,10 @@
 package devtolife.shoppinglist;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -14,26 +15,22 @@ import android.widget.Toast;
 
 import devtolife.shoppinglist.data_base.DB;
 
-public class EditItem extends Activity implements View.OnClickListener {
+public class EditItem extends AppCompatActivity implements View.OnClickListener {
     DB dbEd;
     private EditText editOldText;
     private Button btnOk, btnNo;
     private static String oldText;
     private static String newText;
     private SharedPreferences mSharedPref;
-
     public static String getOldText() {
         return oldText;
     }
-
     public static void setOldText(String oldText) {
         EditItem.oldText = oldText;
     }
-
     public static String getNewText() {
         return newText;
     }
-
     public static void setNewText(String newText) {
         EditItem.newText = newText;
     }
@@ -45,6 +42,22 @@ public class EditItem extends Activity implements View.OnClickListener {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_item_layout);
+
+        Toolbar toolbar = findViewById(R.id.toolbar_edit_item);
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationIcon(R.mipmap.ic_action_arrow_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        try {
+            getSupportActionBar().setTitle("Змінити завдання");
+        } catch (Exception e) {
+        }
 
         btnOk = findViewById(R.id.ok_new_text);
         btnOk.setOnClickListener(this);
@@ -104,14 +117,9 @@ public class EditItem extends Activity implements View.OnClickListener {
 
     private void changeTextOfItem() {
         // TODO checking for isExist of table
-
         dbEd = new DB(this);
         dbEd.open();
-
         dbEd.upDateName(ProdList.getItemIdInContextMenu(), getNewText());
-
-//        Intent intent = new Intent(this, ProdList.class);
-//        startActivity(intent);
         dbEd.close();
         finish();
     }

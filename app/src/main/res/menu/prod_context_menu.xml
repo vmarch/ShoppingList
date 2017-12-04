@@ -2,16 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-    android:id="@+id/edit_prod"
-    android:title="@string/edit_prod" />
-
-    <!--<item-->
-    <!--android:id="@+id/to_favorite"-->
-    <!--android:title="@string/copy_to_favor" />-->
+        android:id="@+id/edit_prod"
+        android:title="@string/prod_edit" />
 
     <item
         android:id="@+id/delete_prod"
-        android:title="@string/delete_prod" />
-
+        android:title="@string/prod_delete" />
 
 </menu>

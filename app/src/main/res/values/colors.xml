@@ -41,4 +41,5 @@
     <color name="medium_grey">#9E9E9E</color>
 
     <color name="button_grey">#757575</color>
+    <color name="colorOff">#00000000</color>
 </resources>

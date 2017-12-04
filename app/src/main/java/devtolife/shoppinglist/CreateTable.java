@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -34,13 +35,29 @@ public class CreateTable extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_table_layout);
 
-        cancel = (Button) findViewById(R.id.btn_cancel);
+        Toolbar toolbar = findViewById(R.id.toolbar_create_table);
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationIcon(R.mipmap.ic_action_arrow_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        try {
+            getSupportActionBar().setTitle("Створити список");
+        } catch (Exception e) {
+        }
+
+        cancel = findViewById(R.id.btn_cancel);
         cancel.setOnClickListener(this);
 
-        create = (Button) findViewById(R.id.btn_create_list);
+        create = findViewById(R.id.btn_create_list);
         create.setOnClickListener(this);
 
-        newList = (EditText) findViewById(R.id.add_new_table);
+        newList = findViewById(R.id.add_new_table);
         newList.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 nameOfNewTable = newList.getText().toString();

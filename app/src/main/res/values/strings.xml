@@ -7,28 +7,35 @@
     <string name="create_new_list">Створити</string>
     <string name="btn_cancel">Відміна</string>
 
-    <string name="action_pink">Рожевий</string>
-    <string name="action_green">Зелений</string>
-    <string name="action_blue">Синій</string>
-    <string name="action_yellow">Жовтий</string>
-    <string name="action_grey">Сірий</string>
+    <string name="use_pink">Рожевий</string>
+    <string name="use_green">Зелений</string>
+    <string name="use_blue">Синій</string>
+    <string name="use_yellow">Жовтий</string>
+    <string name="use_grey">Сірий</string>
 
-    <string name="delete_list">Видалити</string>
+    <string name="list_delete">Видалити</string>
+    <string name="list_share">Поділитися</string>
 
-    <string name="delete_prod">Видалити</string>
-    <string name="edit_prod">Редагувати</string>
-    <string name="ok_new_name">Готово</string>
-    <string name="btn_cancel_edit">Відміна</string>
-    <string name="share_list">Поділитися</string>
-    <string name="action_star">Оцініть додаток</string>
-    <string name="about_app">Про програму</string>
+    <string name="prod_delete">Видалити</string>
+    <string name="prod_edit">Редагувати</string>
+
+    <string name="btn_edit_ok">Готово</string>
+    <string name="btn_edit_cancel">Відміна</string>
+
+    <string name="privacy_short">Користуючись даним додатком Ви погоджуєтесь з Політикою конфіденційності</string>
+
+    <string name="action_settings">Налаштування</string>
     <string name="action_theme">Тема</string>
-    <string name="open_privacy">Політика конфіденційності</string>
-    <string name="privacy_shot">Користуючись даним додатком Ви погоджуєтесь з Політикою конфіденційності</string>
-    <string name="send_letter">Лист автору</string>
-    <string name="change_font">Розмір шрифту</string>
+    <string name="action_star">Оцініть додаток</string>
+    <string name="action_privacy">Політика конфіденційності</string>
+    <string name="action_about_app">Про програму</string>
 
+    <string name="about_row_name">Name: ShoppingList</string>
+    <string name="about_row_autor">Developer: V.March</string>
+    <string name="about_row_company">Company: dev_to_life</string>
+    <string name="about_row_version">Version of APP: 4.4</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 </resources>

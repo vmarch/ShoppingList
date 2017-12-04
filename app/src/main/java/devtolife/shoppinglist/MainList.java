@@ -2,6 +2,7 @@ package devtolife.shoppinglist;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,16 +12,15 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devtolife.shoppinglist.data_base.DB;
+import devtolife.shoppinglist.menu_action.PrivacyPolicy;
 import devtolife.shoppinglist.menu_action.SettingAboutAppActivity;
 import devtolife.shoppinglist.menu_action.ThemeSettings;
 
@@ -36,7 +37,6 @@ public class MainList extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private DB dbML;
     private ListView listTablesView;
-    private Button tab;
     private List<String> arrayList = new ArrayList<>();
     private ArrayAdapter<String> adapter;
     private View onTouchedItemView;
@@ -46,7 +46,7 @@ public class MainList extends AppCompatActivity {
     private int numItemOfList = 0;
     private String nameItemOfList = "name";
     private String itemOfList;
-
+    private ActionBarDrawerToggle toggle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,10 +56,22 @@ public class MainList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        // Create Navigation drawer and inflate layout
         NavigationView navigationView = findViewById(R.id.nav_view);
         mDrawerLayout = findViewById(R.id.drawer);
+
+
+        toggle = new ActionBarDrawerToggle(
+                this,
+                mDrawerLayout,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+        toggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.setDrawerListener(toggle);
+
+
 
 // Adding menu icon to Toolbar
         ActionBar supportActionBar = getSupportActionBar();
@@ -71,14 +83,9 @@ public class MainList extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
-                    // This method will trigger on item Click of navigation menu
+
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // Set item in checked state
-//                        menuItem.setChecked(true);
-                        // TODO: handle navigation
-                        // Closing drawer on item click
-
 
                         int id = menuItem.getItemId();
 
@@ -87,14 +94,16 @@ public class MainList extends AppCompatActivity {
                             startActivity(intent);
                             finish();
 
-                        } else if (id == R.id.action_font) {
-                            int i = 0;
-//                        } else if (id == R.id.action_share) {
-//
                         } else if (id == R.id.action_rate) {
                             intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=devtolife.shoppinglist"));
+                            intent.setData(Uri.parse
+                                    ("https://play.google.com/store/apps/details?id=devtolife.shoppinglist"));
                             startActivity(intent);
+
+                        } else if (id == R.id.action_policy) {
+                            intent = new Intent(MainList.this, PrivacyPolicy.class);
+                            startActivity(intent);
+
                         } else if (id == R.id.action_about_app) {
                             intent = new Intent(MainList.this, SettingAboutAppActivity.class);
                             startActivity(intent);
@@ -105,11 +114,8 @@ public class MainList extends AppCompatActivity {
                     }
                 });
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,15 +125,8 @@ public class MainList extends AppCompatActivity {
         });
 
 
-//        tab = (Button) findViewById(R.id.btn_create);
-//        tab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                intent = new Intent(MainList.this, CreateTable.class);
-//                startActivity(intent);
-//            }
-//        });
         listTablesView = findViewById(R.id.list_table);
+
         registerForContextMenu(listTablesView);
 
         rawQuery();
@@ -148,6 +147,25 @@ public class MainList extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (toggle.onOptionsItemSelected(item))
+            return true;
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        toggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        toggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -157,18 +175,18 @@ public class MainList extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == android.R.id.home) {
-            mDrawerLayout.openDrawer(GravityCompat.START);
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        int id = item.getItemId();
+//
+//        if (id == R.id.action_settings) {
+//            return true;
+//        } else if (id == android.R.id.home) {
+//            mDrawerLayout.openDrawer(GravityCompat.START);
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -287,11 +305,11 @@ public class MainList extends AppCompatActivity {
         c.close();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
 
     @Override
     protected void onRestart() {
