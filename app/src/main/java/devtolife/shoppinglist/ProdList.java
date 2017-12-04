@@ -57,7 +57,7 @@ public class ProdList extends AppCompatActivity implements LoaderManager.LoaderC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.prod_layout);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         try {
@@ -74,7 +74,7 @@ public class ProdList extends AppCompatActivity implements LoaderManager.LoaderC
         scAdapter = new SimpleCursorAdapter(this, R.layout.prod_item, null, from, to, 0);
         scAdapter.setViewBinder(new MySimpleCursorAdapter());
 
-        lv_list = (ListView) findViewById(R.id.lv_list);
+        lv_list = findViewById(R.id.lv_list);
         lv_list.setAdapter(scAdapter);
 
         lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,7 +97,7 @@ public class ProdList extends AppCompatActivity implements LoaderManager.LoaderC
 
         getSupportLoaderManager().initLoader(0, null, this);
 
-        tvName = (EditText) findViewById(R.id.tv_name);
+        tvName = findViewById(R.id.tv_name);
         tvName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -117,7 +117,7 @@ public class ProdList extends AppCompatActivity implements LoaderManager.LoaderC
             }
         });
 
-        btnAdd = (Button) findViewById(R.id.btn_add);
+        btnAdd = findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

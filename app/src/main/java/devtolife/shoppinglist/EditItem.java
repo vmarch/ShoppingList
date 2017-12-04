@@ -46,15 +46,14 @@ public class EditItem extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_item_layout);
 
-        btnOk = (Button) findViewById(R.id.ok_new_text);
+        btnOk = findViewById(R.id.ok_new_text);
         btnOk.setOnClickListener(this);
 
-        btnNo = (Button) findViewById(R.id.cancel_new_text);
+        btnNo = findViewById(R.id.cancel_new_text);
         btnNo.setOnClickListener(this);
 
-        editOldText = (EditText) findViewById(R.id.edit_of_item);
+        editOldText = findViewById(R.id.edit_of_item);
         editOldText.setText(getOldText());
-
 
         editOldText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

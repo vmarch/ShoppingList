@@ -21,10 +21,12 @@
     <string name="btn_cancel_edit">Відміна</string>
     <string name="share_list">Поділитися</string>
     <string name="action_star">Оцініть додаток</string>
-    <string name="action_policy">Правила</string>
+    <string name="about_app">Про програму</string>
     <string name="action_theme">Тема</string>
     <string name="open_privacy">Політика конфіденційності</string>
     <string name="privacy_shot">Користуючись даним додатком Ви погоджуєтесь з Політикою конфіденційності</string>
+    <string name="send_letter">Лист автору</string>
+    <string name="change_font">Розмір шрифту</string>
 
 
     <string name="action_settings">Settings</string>

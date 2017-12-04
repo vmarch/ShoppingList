@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextStyle">
+        <item name="android:textSize">25sp</item>
+        <item name="android:fontFamily">serif-monospace</item>
+        <item name="android:textColor">@color/colorOfText</item>
+    </style>
+</resources>
