@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.14"
         android:orientation="horizontal">
-
+        <!--TODO normal buttons-->
         <Button
             android:id="@+id/ok_new_text"
             android:layout_width="50dp"
@@ -64,25 +64,19 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="30dp"
             android:layout_weight="1"
-            android:background="@drawable/buttonshapeadd"
             android:text="@string/btn_edit_ok"
-            android:textSize="16sp"
-            tools:ignore="ButtonStyle,NestedWeights" />
+            />
 
-        <Button
-            android:id="@+id/cancel_new_text"
-            android:layout_width="50dp"
-            android:layout_height="40dp"
-            android:layout_gravity="top|center_vertical|center_horizontal|center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="30dp"
-            android:layout_weight="1"
-            android:background="@drawable/buttonshapedel"
-            android:text="@string/btn_edit_cancel"
-            android:textColor="#3b0505"
-            android:textSize="16sp"
-            tools:ignore="ButtonStyle" />
+        <Button android:id="@+id/cancel_new_text"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_gravity="top|center_vertical|center_horizontal|center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_weight="1"
+        android:text="@string/btn_edit_cancel"
+         />
 
     </LinearLayout>
 

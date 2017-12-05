@@ -2,28 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/navheader_height"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/side_nav_bar"
     android:orientation="vertical"
     android:padding="3dp">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        app:srcCompat="@drawable/ic_home_black_24dp" />
-
+    <!--TODO name-->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="73dp"
+        android:layout_gravity="top"
         android:paddingTop="10dp"
-        android:text="Android Studio"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:text='"Хороший план сегодня лучше безупречного завтра."'
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="android.studio@android.com" />
+        android:layout_gravity="right"
+        android:text="(Закон Паттона)"
+        android:textStyle="italic" />
 </LinearLayout>
