@@ -1,65 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+    <resources>
 
-    <style name="AppThemeBlue" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimaryBlue</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlue</item>
-        <item name="colorAccent">@color/colorAccentBlue</item>
-        <item name="android:windowBackground">@drawable/gradientblue</item>
-        <item name="editTextBackground">@color/colorMoreLightBlue</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:textViewStyle">@style/TextStyle</item>
-    </style>
+        <style name="AppThemeBlue" parent="@style/Theme.AppCompat.Light.NoActionBar">
+            <item name="colorPrimary">@color/colorPrimaryBlue</item>
+            <item name="colorPrimaryDark">@color/colorPrimaryDarkBlue</item>
+            <item name="colorAccent">@color/colorAccentBlue</item>
+            <item name="android:windowBackground">@drawable/gradientblue</item>
+            <item name="editTextBackground">@color/colorMoreLightBlue</item>
+            <item name="android:gravity">center_vertical</item>
+            <item name="android:textViewStyle">@style/TextStyle</item>
+        </style>
 
-    <style name="AppThemeGreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimaryGreen</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkGreen</item>
-        <item name="colorAccent">@color/colorAccentGreen</item>
-        <item name="android:windowBackground">@drawable/gradientgreen</item>
-        <item name="editTextBackground">@color/colorMoreLightGreen</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:textViewStyle">@style/TextStyle</item>
-    </style>
+        <style name="AppThemeGreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
+            <item name="colorPrimary">@color/colorPrimaryGreen</item>
+            <item name="colorPrimaryDark">@color/colorPrimaryDarkGreen</item>
+            <item name="colorAccent">@color/colorAccentGreen</item>
+            <item name="android:windowBackground">@drawable/gradientgreen</item>
+            <item name="editTextBackground">@color/colorMoreLightGreen</item>
+            <item name="android:gravity">center_vertical</item>
+            <item name="android:textViewStyle">@style/TextStyle</item>
+        </style>
 
-    <style name="AppThemeYellow" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimaryYellow</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkYellow</item>
-        <item name="colorAccent">@color/colorAccentYellow</item>
-        <item name="android:windowBackground">@drawable/gradientyellow</item>
-        <item name="editTextBackground">@color/colorMoreLightYellow</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:textViewStyle">@style/TextStyle</item>
-    </style>
+        <style name="AppThemeYellow" parent="@style/Theme.AppCompat.Light.NoActionBar">
+            <item name="colorPrimary">@color/colorPrimaryYellow</item>
+            <item name="colorPrimaryDark">@color/colorPrimaryDarkYellow</item>
+            <item name="colorAccent">@color/colorAccentYellow</item>
+            <item name="android:windowBackground">@drawable/gradientyellow</item>
+            <item name="editTextBackground">@color/colorMoreLightYellow</item>
+            <item name="android:gravity">center_vertical</item>
+            <item name="android:textViewStyle">@style/TextStyle</item>
+        </style>
 
-    <style name="AppThemeGrey" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimaryGrey</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkGrey</item>
-        <item name="colorAccent">@color/colorAccentGrey</item>
-        <item name="android:windowBackground">@drawable/gradientgrey</item>
-        <item name="editTextBackground">@color/colorMoreLightGrey</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:textViewStyle">@style/TextStyle</item>
-    </style>
+        <style name="AppThemeGrey" parent="@style/Theme.AppCompat.Light.NoActionBar">
+            <item name="colorPrimary">@color/colorPrimaryGrey</item>
+            <item name="colorPrimaryDark">@color/colorPrimaryDarkGrey</item>
+            <item name="colorAccent">@color/colorAccentGrey</item>
+            <item name="android:windowBackground">@drawable/gradientgrey</item>
+            <item name="editTextBackground">@color/colorMoreLightGrey</item>
+            <item name="android:gravity">center_vertical</item>
+            <item name="android:textViewStyle">@style/TextStyle</item>
+        </style>
 
-    <style name="AppThemePink" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimaryPink</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkPink</item>
-        <item name="colorAccent">@color/colorAccentPink</item>
-        <item name="android:windowBackground">@drawable/gradientpink</item>
-        <item name="editTextBackground">@color/colorMoreLightPink</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:textViewStyle">@style/TextStyle</item>
+        <style name="AppThemePink" parent="@style/Theme.AppCompat.Light.NoActionBar">
+            <item name="colorPrimary">@color/colorPrimaryPink</item>
+            <item name="colorPrimaryDark">@color/colorPrimaryDarkPink</item>
+            <item name="colorAccent">@color/colorAccentPink</item>
+            <item name="android:windowBackground">@drawable/gradientpink</item>
+            <item name="editTextBackground">@color/colorMoreLightPink</item>
+            <item name="android:gravity">center_vertical</item>
+            <item name="android:textViewStyle">@style/TextStyle</item>
 
-    </style>
+        </style>
 
-    <style name="TextStyle">
-        <item name="android:textColor">@color/colorOfText</item>
-    </style>
-
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+        <style name="TextStyle">
+            <item name="android:textColor">@color/colorOfText</item>
+        </style>
 
 
-</resources>
+        <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+        <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    </resources>

@@ -34,8 +34,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1000"
+            android:padding="10dp"
             android:scrollbarStyle="outsideInset"
-            android:text="" />
+            android:text=""
+            android:textSize="18sp"/>
 
     </LinearLayout>
 </LinearLayout>
