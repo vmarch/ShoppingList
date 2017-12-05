@@ -1,20 +1,21 @@
 package devtolife.shoppinglist.menu_action;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import devtolife.shoppinglist.R;
 
-
 public class PrivacyPolicy extends AppCompatActivity implements View.OnClickListener {
+    private TextView privacy;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,8 +27,6 @@ public class PrivacyPolicy extends AppCompatActivity implements View.OnClickList
 
         Toolbar toolbar = findViewById(R.id.toolbar_setting_policy);
         setSupportActionBar(toolbar);
-
-
         toolbar.setNavigationIcon(R.mipmap.ic_action_arrow_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,16 +40,40 @@ public class PrivacyPolicy extends AppCompatActivity implements View.OnClickList
         } catch (Exception e) {
         }
 
-        TextView privacyText = findViewById(R.id.textViewPrivacy);
+        privacy = findViewById(R.id.textViewPrivacyFull);
+        privacy.setText(Html.fromHtml(getString(R.string.privacy_full_ukr)));
+        privacy.setMovementMethod(LinkMovementMethod.getInstance());
+    }
 
-        Button btn_open = findViewById(R.id.btn_privacy);
-        btn_open.setOnClickListener(this);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // TODO Auto-generated method stub
+        getMenuInflater().inflate(R.menu.policy_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_eng: {
+                privacy.setText(Html.fromHtml(getString(R.string.privacy_full_eng)));
+
+                break;
+            }
+            case R.id.menu_ukr: {
+                privacy.setText(Html.fromHtml(getString(R.string.privacy_full_ukr)));
+                break;
+            }
+            case R.id.menu_rus: {
+                privacy.setText(Html.fromHtml(getString(R.string.privacy_full_rus)));
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://vmarch.github.io/privacy_policy.html"));
-        startActivity(intent);
     }
 }
+

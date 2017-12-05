@@ -21,7 +21,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
     <LinearLayout
 
         android:layout_width="match_parent"
@@ -31,26 +30,12 @@
         tools:context="devtolife.shoppinglist.menu_action.PrivacyPolicy">
 
         <TextView
-            android:id="@+id/textViewPrivacy"
+            android:id="@+id/textViewPrivacyFull"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/privacy_short"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/btn_privacy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/buttonshapeadd"
-            android:gravity="center"
-            android:shadowColor="#361414"
-            android:shadowDx="3"
-            android:shadowDy="3"
-            android:shadowRadius="3"
-            android:text="@string/action_privacy"
-            android:textColor="#ffffff"
-            android:textSize="18sp" />
+            android:maxLines="1000"
+            android:scrollbarStyle="outsideInset"
+            android:text="" />
 
     </LinearLayout>
 </LinearLayout>

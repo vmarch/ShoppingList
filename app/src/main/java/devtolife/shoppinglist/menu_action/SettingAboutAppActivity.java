@@ -13,8 +13,7 @@ import devtolife.shoppinglist.R;
 
 public class SettingAboutAppActivity extends AppCompatActivity {
     SharedPreferences mSharedPref;
-    TextView  tv_version;
-
+    TextView tv_version;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +43,6 @@ public class SettingAboutAppActivity extends AppCompatActivity {
 
         tv_version = findViewById(R.id.version_of_app);
         tv_version.setText("Version of APP: " + versionName);
-
-
 
     }
 }

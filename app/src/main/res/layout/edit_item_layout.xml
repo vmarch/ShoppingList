@@ -64,19 +64,18 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="30dp"
             android:layout_weight="1"
-            android:text="@string/btn_edit_ok"
-            />
+            android:text="@string/btn_edit_ok" />
 
-        <Button android:id="@+id/cancel_new_text"
-        android:layout_width="50dp"
-        android:layout_height="40dp"
-        android:layout_gravity="top|center_vertical|center_horizontal|center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_weight="1"
-        android:text="@string/btn_edit_cancel"
-         />
+        <Button
+            android:id="@+id/cancel_new_text"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|center_vertical|center_horizontal|center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:text="@string/btn_edit_cancel" />
 
     </LinearLayout>
 

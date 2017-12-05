@@ -62,7 +62,6 @@ public class MainList extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         mDrawerLayout = findViewById(R.id.drawer);
 
-
         toggle = new ActionBarDrawerToggle(
                 this,
                 mDrawerLayout,
@@ -71,9 +70,6 @@ public class MainList extends AppCompatActivity {
         toggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(toggle);
 
-
-
-// Adding menu icon to Toolbar
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
 //TODO change "R.mipmap.ic_launcher"
@@ -114,7 +110,6 @@ public class MainList extends AppCompatActivity {
                     }
                 });
 
-
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +118,6 @@ public class MainList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
         listTablesView = findViewById(R.id.list_table);
 
@@ -210,6 +204,7 @@ public class MainList extends AppCompatActivity {
                 dbML.close();
                 updateAdapter();
                 return true;
+
             case R.id.share_list:
                 dbML = new DB(this);
                 dbML.open();
@@ -343,5 +338,4 @@ public class MainList extends AppCompatActivity {
         c.close();
         dbML.close();
     }
-
 }

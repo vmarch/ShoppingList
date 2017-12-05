@@ -16,7 +16,6 @@ public class ThemeSettings extends AppCompatActivity implements View.OnClickList
     SharedPreferences mSharedPref;
     private Button btnPink, btnYellow, btnGreen, btnBlue, btnGrey;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -40,7 +39,6 @@ public class ThemeSettings extends AppCompatActivity implements View.OnClickList
         Toolbar toolbar = findViewById(R.id.toolbar_setting_themes);
         setSupportActionBar(toolbar);
 
-
         toolbar.setNavigationIcon(R.mipmap.ic_action_arrow_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,9 +53,7 @@ public class ThemeSettings extends AppCompatActivity implements View.OnClickList
             getSupportActionBar().setTitle("Теми");
         } catch (Exception e) {
         }
-
     }
-
 
     @Override
     public void onClick(View v) {
@@ -74,8 +70,8 @@ public class ThemeSettings extends AppCompatActivity implements View.OnClickList
                 intent2 = getIntent();
                 startActivity(intent2);
                 finish();
-
                 break;
+
             case R.id.btn_yellow:
                 ed.putInt("mytheme", R.style.AppThemeYellow);
                 ed.apply();
@@ -91,6 +87,7 @@ public class ThemeSettings extends AppCompatActivity implements View.OnClickList
                 startActivity(intent2);
                 finish();
                 break;
+
             case R.id.btn_grey:
                 ed.putInt("mytheme", R.style.AppThemeGrey);
                 ed.apply();
@@ -114,6 +111,5 @@ public class ThemeSettings extends AppCompatActivity implements View.OnClickList
         Intent intent1 = new Intent(this, MainList.class);
         startActivity(intent1);
         finish();
-
     }
 }

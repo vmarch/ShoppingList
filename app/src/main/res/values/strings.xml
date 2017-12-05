@@ -21,12 +21,66 @@
 
     <string name="btn_edit_ok">Готово</string>
     <string name="btn_edit_cancel">Відміна</string>
+    <string name="privacy_full_eng"><![CDATA[
+
+        <p align="justify"><b>Welcome to the <a
+        href="https://play.google.com/store/apps/details?id=devtolife.shoppinglist">“Shopping
+        List”</a> Privacy Policy</b><br>
+		<br>
+    Last modified: December 03, 2017.<br>
+	<br>
+    We do not collect any confidential information.<br>
+	<br>
+	You can use “Shopping List” at your own discretion to communicate with other people or to create new content.<br>
+	<br>
+	The “Shopping List” let you share information with others. Remember that when you share information publicly, it may be indexable by search engines.<br>
+	<br>
+    Our Privacy Policy may change from time to time. We will not reduce your rights under this Privacy Policy without your explicit consent. We will post any privacy policy changes on this
+    page.</p><br>]]></string>
+
+    <string name="privacy_full_ukr"><![CDATA[
+
+        <p align="justify"><b>Ласкаво просимо в Політику конфіденційності мобільного додатка <a
+        href="https://play.google.com/store/apps/details?id=devtolife.shoppinglist">“Список
+        Покупок”</a></b><br>
+        <br>
+	Остання зміна політики конфіденційності: 03 грудня 2017 р.<br>
+	<br>
+	Ми не збираємо жодної конфіденційної інформації.<br>
+	<br>
+	Ви можете використовувати додаток на власній розсуд, в тому числі для спілкування з іншими людьми або для створення нового вмісту.<br>
+	<br>
+	“Список Покупок” дозволяє поділитися інформацією з іншими. Пам`ятайте, що коли ви обмінюєтеся інформацією публічно, це може індексуватися пошуковими системами.<br>
+	<br>
+	Наша Політика конфіденційності може змінюватися час від часу. Ми не зменшимо ваші права згідно з цією Політикою конфіденційності без вашої явної згоди. Ми публікуємо всі зміни політики конфіденційності на цій сторінці.</p><br>
+
+]]></string>
+
+    <string name="privacy_full_rus"><![CDATA[
+
+
+    <p align="justify"><b>Добро пожаловать в Политику конфиденциальности мобильного приложения <a
+    href="https://play.google.com/store/apps/details?id=devtolife.shoppinglist">“Список
+        Покупок”</a></b><br>
+		<br>
+       Последнее изменение политики конфиденциальности: 03 декабря 2017.<br>
+	   <br>
+Мы не собираем никакой конфиденциальной информации.<br>
+<br>
+Вы можете использовать приложение на ваше усмотрение. В том числе для общения с другими людьми или для создания нового содержания.<br>
+<br>
+“Список Покупок” позволяет поделиться информацией с другими. Помните, что когда вы обмениваетесь информацией публично, это может индексироваться поисковыми системами. <br>
+<br>
+Наша Политика конфиденциальности может меняться время от времени. Мы не уменьшим ваши права в соответствии с настоящей Политикой конфиденциальности без вашего явного согласия. Мы публикуем все изменения политики конфиденциальности на этой странице.<br>
+]]></string>
+
 
     <string name="privacy_short">Користуючись даним додатком Ви погоджуєтесь з Політикою конфіденційності</string>
 
     <string name="action_settings">Налаштування</string>
     <string name="action_theme">Тема</string>
     <string name="action_star">Оцініть додаток</string>
+    <string name="open_privacy">Переглянути: "https://vmarch.github.io/privacy_policy.html"</string>
     <string name="action_privacy">Політика конфіденційності</string>
     <string name="action_about_app">Про програму</string>
 
@@ -37,5 +91,10 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="header_caption">(Закон Паттона)</string>
+    <string name="header_aphorism">Хороший план сегодня лучше безупречного завтра.</string>
+    <string name="string_menu_eng">ENG</string>
+    <string name="string_menu_ukr">UKR</string>
+    <string name="string_menu_rus">RUS</string>
 
 </resources>

@@ -22,15 +22,19 @@ public class EditItem extends AppCompatActivity implements View.OnClickListener 
     private static String oldText;
     private static String newText;
     private SharedPreferences mSharedPref;
+
     public static String getOldText() {
         return oldText;
     }
+
     public static void setOldText(String oldText) {
         EditItem.oldText = oldText;
     }
+
     public static String getNewText() {
         return newText;
     }
+
     public static void setNewText(String newText) {
         EditItem.newText = newText;
     }
@@ -113,7 +117,6 @@ public class EditItem extends AppCompatActivity implements View.OnClickListener 
                 break;
         }
     }
-
 
     private void changeTextOfItem() {
         // TODO checking for isExist of table

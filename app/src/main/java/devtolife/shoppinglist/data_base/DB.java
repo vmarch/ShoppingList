@@ -58,6 +58,7 @@ public class DB {
     public Cursor getAllData() {
         return database.query("\'" + getNameOfTable() + "\'", null, null, null, null, null, "checked");
     }
+
     public Cursor getAllItemForShare() {
         return database.query("\'" + getNameOfTable() + "\'", null, null, null, null, null, null);
     }
