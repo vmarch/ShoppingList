@@ -57,7 +57,6 @@ public class PrivacyPolicy extends AppCompatActivity implements View.OnClickList
         switch (item.getItemId()) {
             case R.id.menu_eng: {
                 privacy.setText(Html.fromHtml(getString(R.string.privacy_full_eng)));
-
                 break;
             }
             case R.id.menu_ukr: {

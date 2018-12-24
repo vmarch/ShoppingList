@@ -9,6 +9,7 @@
             <item name="editTextBackground">@color/colorMoreLightBlue</item>
             <item name="android:gravity">center_vertical</item>
             <item name="android:textViewStyle">@style/TextStyle</item>
+            <item name="colorButtonNormal">@color/colorPrimaryBlue</item>
         </style>
 
         <style name="AppThemeGreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
@@ -19,6 +20,7 @@
             <item name="editTextBackground">@color/colorMoreLightGreen</item>
             <item name="android:gravity">center_vertical</item>
             <item name="android:textViewStyle">@style/TextStyle</item>
+            <item name="colorButtonNormal">@color/colorPrimaryGreen</item>
         </style>
 
         <style name="AppThemeYellow" parent="@style/Theme.AppCompat.Light.NoActionBar">
@@ -29,6 +31,7 @@
             <item name="editTextBackground">@color/colorMoreLightYellow</item>
             <item name="android:gravity">center_vertical</item>
             <item name="android:textViewStyle">@style/TextStyle</item>
+            <item name="colorButtonNormal">@color/colorPrimaryYellow</item>
         </style>
 
         <style name="AppThemeGrey" parent="@style/Theme.AppCompat.Light.NoActionBar">
@@ -39,6 +42,7 @@
             <item name="editTextBackground">@color/colorMoreLightGrey</item>
             <item name="android:gravity">center_vertical</item>
             <item name="android:textViewStyle">@style/TextStyle</item>
+            <item name="colorButtonNormal">@color/colorPrimaryGrey</item>
         </style>
 
         <style name="AppThemePink" parent="@style/Theme.AppCompat.Light.NoActionBar">
@@ -49,6 +53,7 @@
             <item name="editTextBackground">@color/colorMoreLightPink</item>
             <item name="android:gravity">center_vertical</item>
             <item name="android:textViewStyle">@style/TextStyle</item>
+            <item name="colorButtonNormal">@color/colorPrimaryPink</item>
 
         </style>
 

@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/navheader_height"
-android:background="@color/colorOfHeaderDark"
+    android:background="@color/colorOfHeaderDark"
     android:gravity="center_vertical|center_horizontal"
     android:orientation="vertical"
-    android:padding="3dp"
-    >
+    android:padding="3dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -15,8 +14,7 @@ android:background="@color/colorOfHeaderDark"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:paddingTop="5dp"
-        android:text="@string/header_aphorism"
-      />
+        android:text="@string/header_aphorism" />
 
     <TextView
         android:id="@+id/textView"
@@ -26,6 +24,5 @@ android:background="@color/colorOfHeaderDark"
         android:paddingRight="5dp"
         android:paddingTop="5dp"
         android:text="@string/header_caption"
-        android:textStyle="italic"
-        />
+        android:textStyle="italic" />
 </LinearLayout>
